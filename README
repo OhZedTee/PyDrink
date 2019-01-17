@@ -117,3 +117,18 @@ Use event-driven programming to create a usable, effective graphical user interf
 	- My GUI currently uses lambda functions in PyDrink.py (i.e. line 189) to call event handlers in PyDrink_support.py
 	  which will handle specific events like changing tabs, clicking buttons, selecting elements in the TreeViews and
 	  and double clicking on the elements too.
+	  
+	  
+**********************************************************************************************
+
+**********************************************************************************************
+User Stories Yet to be Implemented:
+
+The user can access the Inventory of all LCBO products
+The user can select LCBO products and at it to their 'fridge'
+
+
+
+
+
+**********************************************************************************************
