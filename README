@@ -1,0 +1,119 @@
+************************
+Program Description:
+
+An Drink Manager that monitors the
+drinks you have and helps you find
+cocktails you can make with it.
+NOTE: For this assignment all data is
+mocked, Inventory is disabled,
+will be introduced in A2, will allow
+you to add drinks your fridge based
+on what is available at LCBO.
+All is performed in a GUI:
+
+Fridge Tab:
+Single click on a drink - shows description
+Double click on a drink - Selects the drink
+Pressing 'Add to Glass' button - Adds all selected
+								drinks to glass tab
+
+Glass Tab:
+Shows all drinks you've selected
+Single click on any cocktail - shows whats required for
+							making the cocktail choosen
+**************************
+
+*************************************
+User Guide - !!REQUIRES Python 3.7! Check which version you have
+with the following command 'python --version' or 'python3 --version' if you don't have it
+please install: https://www.python.org/downloads/release/python-372/!
+
+Which ever --version command gives you 3.7 (python or python3, please use that
+command for the rest of the setup instructions)
+
+1. This software requires TKinter. If the program doesn't start correctly
+   with below step please visit https://www.activestate.com/products/activetcl/downloads/
+   to install ActiveTcl which adds Tkinter to Python distribution (make sure you install 8.5+,
+   not 8.4 or lower)
+1a. on linux, installing python-tk package or python3-tk package should do the trick
+	(sudo apt-get install python3-tk) 
+1b. on MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though)
+1c. Follow this tutorial if all above fails: https://tkdocs.com/tutorial/install.html
+2.  Run command on terminal: make run
+2a. If make doesnt exist and on Windows OS install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
+2b. The above step installs the manager, then select mingw32-make package and install it. Go to the install directory and copy the
+	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
+	Restart your terminal and you should now be able to run command 'make run'
+
+
+*************************************
+Known Limitations, Assumptions and Errors
+NOTE: The following error will occur periodically
+when closing the application. It has nothing to do
+with the software I wrote. It is a known bug so do not
+be alarmed
+in Tkinter:
+
+	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
+	Traceback (most recent call last):
+		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
+	TypeError: catching classes that do not inherit from BaseException is not allowed
+	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
+	Traceback (most recent call last):
+		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
+	TypeError: catching classes that do not inherit from BaseException is not allowed
+	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
+	Traceback (most recent call last):
+		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
+	TypeError: catching classes that do not inherit from BaseException is not allowed
+	
+	
+	
+
+*************************************
+
+**********************************************************************************************
+Learning Outcomes:
+Design and implement classes for an object-oriented program demonstrating correct use of encapsulation, 
+constructors, method overloading, class invariants, accessors, mutators, instance variables and class variables.
+	- Class Drink is parent class of Alcoholic and NonAlcoholic. All 3 of these have accessors and mutators (called properties in Python)
+	- Class Manager is abstract class implemented in class Fridge and Glass. All of these classes have accessors and mutators.
+	  Fridge and Glass classes override the methods in Manager. There was no clear need for method overloading for this assignment
+	  however, so it wasn't used. In the next assignment when introducing the Inventory API I might have to introduce overloading
+	  for different categories of drinks which might have different information (i.e. wine has VQA information that a rum won't have)
+	- The Cocktail class maintained a static class variable holding a dictionary of all cocktails (used by other classes to search parsed
+	  cocktails)
+	- Most child classes (Cocktail, NonAlcoholic, Alcoholic) have instance variables pertaining to specific information about each
+	  type of object (name, id, main alcohol, garnishes, etc)
+	- All classes have constructors
+	- There is no explicit private or public or even protected type in python, but there is a standard for denoting one or the other.
+	  all private types have an underscore at the start of the name (i.e. _name, _id) and all objects with a dunder (__) are protocols (i.e. __str__ in
+	  Drink, Alcoholic, and NonAlcoholic classes) but there is no standard for protected type and so you won't see any in my code. If
+	  there was most of my drink attributes I would have reviewed as to whether keep them as private or make them protected instead.
+	- ***class invariants?***
+
+Construct class hierarchies that maximize code reuse through inheritance while accommodating differences through method overriding.
+	- I used class heirarchies to minimize code reuse between Non Alcoholic and Alcoholic types. These two types share similar data, and so
+	  to limit reuse I created the Drink class to maintain shared information. The Drink string protocol is overridden by 
+	  Alcoholic and NonAlcoholic class to return more relevant information for each class and their specific attributes.
+
+Use polymorphism, abstract methods/classes, and interfaces effectively to produce generic code.
+	- I am currently maintaining a dictionary of Drinks in the Manager class, however I am adding Alcoholic and NonAlcoholic
+	  drinks to it. This is where polymorphism plays a part in my project.
+	- My Manager class is abstract, and this was done to differentiate between the 2 types of 'Managers' I maintain, Fridge and Glass
+	  which are inherintly different. However in the following assignment I will be adding another called Inventory which will be updated
+	  by the LCBO API and so method overriding and the abstract class will play a larger role there.
+	- "Interfaces are not necessary in Python. This is because Python has proper multiple inheritance, and also ducktyping, 
+	   which means that the places where you must have interfaces in Java, you don't have to have them in Python. ... 
+	   Some of them [properties of interfaces] are covered by Pythons Abstract Base Classes, introduced in Python 2.6. 
+	   They are useful, if you want to make base classes that cannot be instantiated, but provide a specific interface or part of an implementation." - Lennart Regebro (Stack Overflow)
+	   - To elaborate, in my application there is no clear interfaces, but my Abstract class is implemented in a fashion similar to an interface
+		 where there is only static variables whereas an Abstract class can maintain non static variables. Also there are only method signatures in
+		 my abstract class rather than any implementation. What makes my abstract class abstract rather than just an interface is that I also am
+		 implementing a non-static method 'drinks' to return the static dictionary of drinks.
+	
+
+Use event-driven programming to create a usable, effective graphical user interface.
+	- My GUI currently uses lambda functions in PyDrink.py (i.e. line 189) to call event handlers in PyDrink_support.py
+	  which will handle specific events like changing tabs, clicking buttons, selecting elements in the TreeViews and
+	  and double clicking on the elements too.
