@@ -39,7 +39,8 @@ command for the rest of the setup instructions)
 	(sudo apt-get install python3-tk) 
 1b. on MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though)
 1c. Follow this tutorial if all above fails: https://tkdocs.com/tutorial/install.html
-2.  Run command on terminal: make run
+2.  Run command on terminal: make run 
+	*NOTE this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
 2a. If make doesnt exist and on Windows OS install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
 2b. The above step installs the manager, then select mingw32-make package and install it. Go to the install directory and copy the
 	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
@@ -126,4 +127,6 @@ User Stories Yet to be Implemented:
 
 The user can access the Inventory of all LCBO products
 The user can select LCBO products and add it to their 'fridge'
+The user will get specific information depending on category of drink selected (i.e. Wine will
+	provide VQA information)
 **********************************************************************************************
