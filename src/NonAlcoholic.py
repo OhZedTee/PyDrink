@@ -1,6 +1,5 @@
 #!/usr/bin/python
 from .Drink import Drink
-from types import *
 
 
 class NonAlcoholic (Drink):
