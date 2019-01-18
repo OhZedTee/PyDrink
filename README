@@ -125,10 +125,5 @@ Use event-driven programming to create a usable, effective graphical user interf
 User Stories Yet to be Implemented:
 
 The user can access the Inventory of all LCBO products
-The user can select LCBO products and at it to their 'fridge'
-
-
-
-
-
+The user can select LCBO products and add it to their 'fridge'
 **********************************************************************************************

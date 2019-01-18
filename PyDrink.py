@@ -60,6 +60,7 @@ class PyDrink:
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        _tabpadding = [root.winfo_screenwidth()/9.7,5]
         font9 = "-family {Segoe UI} -size 12 -weight normal -slant " \
                 "roman -underline 0 -overstrike 0"
         self.style = ttk.Style()
@@ -123,8 +124,12 @@ class PyDrink:
 
         self.style.configure('TNotebook.Tab', background=_bgcolor)
         self.style.configure('TNotebook.Tab', foreground=_fgcolor)
+        self.style.configure('TNotebook.Tab', tabposition="center")
+        self.style.configure('TNotebook.Tab', padding=_tabpadding)
         self.style.map('TNotebook.Tab', background=
             [('selected', _compcolor), ('active',_ana2color)])
+        self.style.map('TNotebook.Tab', padding=
+            [('selected', _tabpadding), ('active', _tabpadding)])
         self.notebook = ttk.Notebook(top)
         self.notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
         self.notebook.configure(width=1080)
@@ -132,19 +137,19 @@ class PyDrink:
         # self.notebook.configure(style=PNOTEBOOK)
         self.notebook_t0 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t0, padding=3)
-        self.notebook.tab(0, text=f'{"Inventory": ^120s}', compound="none", underline="-1", state='disabled')
+        self.notebook.tab(0, text="Inventory", compound="none", underline="-1", state='disabled')
         self.notebook_t0.configure(background="#d9d9d9")
         self.notebook_t0.configure(highlightbackground="#d9d9d9")
         self.notebook_t0.configure(highlightcolor="black")
         self.notebook_t1 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t1, padding=3)
-        self.notebook.tab(1, text=f'{"Fridge": ^120s}', compound="none", underline="-1")
+        self.notebook.tab(1, text="Fridge", compound="none", underline="-1")
         self.notebook_t1.configure(background="#d9d9d9")
         self.notebook_t1.configure(highlightbackground="#d9d9d9")
         self.notebook_t1.configure(highlightcolor="black")
         self.notebook_t2 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t2, padding=3)
-        self.notebook.tab(2, text=f'{"Glass": ^120s}', compound="none", underline="-1")
+        self.notebook.tab(2, text="Glass", compound="none", underline="-1")
         self.notebook_t2.configure(background="#d9d9d9")
         self.notebook_t2.configure(highlightbackground="#d9d9d9")
         self.notebook_t2.configure(highlightcolor="black")
