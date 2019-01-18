@@ -40,9 +40,10 @@ command for the rest of the setup instructions)
 1b. on MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though)
 1c. Follow this tutorial if all above fails: https://tkdocs.com/tutorial/install.html
 2.  Run command on terminal: make run 
-	*NOTE this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+	*NOTE this will attempt to clean and rebuild all bytecode so if none found disregard the error message
+	 ALSO this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
 2a. If make doesnt exist and on Windows OS install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
-2b. The above step installs the manager, then select mingw32-make package and install it. Go to the install directory and copy the
+2b. The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
 	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
 	Restart your terminal and you should now be able to run command 'make run'
 
