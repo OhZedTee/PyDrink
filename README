@@ -92,7 +92,9 @@ constructors, method overloading, class invariants, accessors, mutators, instanc
 	  all private types have an underscore at the start of the name (i.e. _name, _id) and all objects with a dunder (__) are protocols (i.e. __str__ in
 	  Drink, Alcoholic, and NonAlcoholic classes) but there is no standard for protected type and so you won't see any in my code. If
 	  there was most of my drink attributes I would have reviewed as to whether keep them as private or make them protected instead.
-	- ***class invariants?***
+	- In my program the only invariant would be the types for the properties in each class. Because all my information will be taken from an API their values are not
+	  constrained. In fact most values are strings, and the ones that aren't are unique from the API. I could check for types however that wouldn't be very Pythonic due
+	  to Python's duck typing core ideology.
 
 Construct class hierarchies that maximize code reuse through inheritance while accommodating differences through method overriding.
 	- I used class heirarchies to minimize code reuse between Non Alcoholic and Alcoholic types. These two types share similar data, and so
