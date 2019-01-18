@@ -60,7 +60,7 @@ class PyDrink:
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
-        _tabpadding = [root.winfo_screenwidth()/9.7,5]
+        _tabpadding = [root.winfo_screenwidth()/9.9,5]
         font9 = "-family {Segoe UI} -size 12 -weight normal -slant " \
                 "roman -underline 0 -overstrike 0"
         self.style = ttk.Style()
@@ -224,7 +224,7 @@ class PyDrink:
         self.lbl_fridge_description.configure(text='''Description''')
 
         self.lbl_add_glass_success = tk.Label(self.notebook_t1)
-        self.lbl_add_glass_success.place(relx=0.027, rely=0.943, height=33, width=200)
+        self.lbl_add_glass_success.place(relx=0.027, rely=0.943, height=33, width=250)
         self.lbl_add_glass_success.configure(background="#d9d9d9")
         self.lbl_add_glass_success.configure(disabledforeground="#a3a3a3")
         self.lbl_add_glass_success.configure(font=font9)
@@ -347,12 +347,13 @@ class PyDrink:
         self.frm_select_glass.configure(width=375)
 
         self.lbl_glass_description = tk.Label(self.frm_select_glass)
-        self.lbl_glass_description.place(relx=0.027, rely=0.016, height=34, width=150)
+        self.lbl_glass_description.place(relx=0.027, rely=0.016, height=34, width=250)
         self.lbl_glass_description.configure(background="#d9d9d9")
         self.lbl_glass_description.configure(disabledforeground="#a3a3a3")
         self.lbl_glass_description.configure(font=font9)
         self.lbl_glass_description.configure(foreground="#000000")
         self.lbl_glass_description.configure(text='''Ingredients Needed:''')
+        self.lbl_glass_description.configure(anchor="center")
 
         self.txtbx_glass_selected = ROText(self.frm_select_glass)
         self.txtbx_glass_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
