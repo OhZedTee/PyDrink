@@ -221,7 +221,8 @@ class PyDrink:
         self.lbl_fridge_description.configure(disabledforeground="#a3a3a3")
         self.lbl_fridge_description.configure(font=font9)
         self.lbl_fridge_description.configure(foreground="#000000")
-        self.lbl_fridge_description.configure(text='''Description''')
+        self.lbl_fridge_description.configure(text='''Description:''')
+        self.lbl_fridge_description.pack(side="top")
 
         self.lbl_add_glass_success = tk.Label(self.notebook_t1)
         self.lbl_add_glass_success.place(relx=0.027, rely=0.943, height=33, width=250)
@@ -347,13 +348,13 @@ class PyDrink:
         self.frm_select_glass.configure(width=375)
 
         self.lbl_glass_description = tk.Label(self.frm_select_glass)
-        self.lbl_glass_description.place(relx=0.027, rely=0.016, height=34, width=250)
+        self.lbl_glass_description.place(relx=0.027, rely=0.016, height=34, width=294)
         self.lbl_glass_description.configure(background="#d9d9d9")
         self.lbl_glass_description.configure(disabledforeground="#a3a3a3")
         self.lbl_glass_description.configure(font=font9)
         self.lbl_glass_description.configure(foreground="#000000")
         self.lbl_glass_description.configure(text='''Ingredients Needed:''')
-        self.lbl_glass_description.configure(anchor="center")
+        self.lbl_glass_description.pack(side="top")
 
         self.txtbx_glass_selected = ROText(self.frm_select_glass)
         self.txtbx_glass_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
