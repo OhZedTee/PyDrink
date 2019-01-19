@@ -46,6 +46,7 @@ command for the rest of the setup instructions)
 2b. The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
 	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
 	Restart your terminal and you should now be able to run command 'make run'
+3.  If make still doesnt work, tpye python3 || python PyDrink.py
 
 
 *************************************
@@ -115,6 +116,7 @@ Use polymorphism, abstract methods/classes, and interfaces effectively to produc
 		 where there is only static variables whereas an Abstract class can maintain non static variables. Also there are only method signatures in
 		 my abstract class rather than any implementation. What makes my abstract class abstract rather than just an interface is that I also am
 		 implementing a non-static method 'drinks' to return the static dictionary of drinks.
+	   - Please see interface source below for more information on Interfaces in Python
 	
 
 Use event-driven programming to create a usable, effective graphical user interface.
@@ -133,3 +135,11 @@ The user can select LCBO products and add it to their 'fridge'
 The user will get specific information depending on category of drink selected (i.e. Wine will
 	provide VQA information)
 **********************************************************************************************
+
+**********************************
+Sources:
+
+- https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
+- http://net-informations.com/python/iq/interfaces.htm
+
+**********************************
