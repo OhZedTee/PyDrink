@@ -145,7 +145,7 @@ Class Relationships: Abstract Manager Class -> Fridge and Glass classes, Drink c
 	Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
 	NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
 Polymorphism: List of Drinks in Manager class (line 10) holds all drink types (Alcoholic and Non Alcoholic)
-GUI: PyDrink.py is the view, PyDrink_support.py is the Model for the program since it contains
+GUI: PyDrink.py is the view, PyDrink_support.py is the Controller for the program since it contains
     the eventhandlers which utilize the Models created (Fridge and Glass) in the file (line 29-30)
 Event Driven Programming: There are event handlers all over the PyDrink.py file and some
 	in the PyDrink_support.py file that are created dynamically for GUI objects that are
