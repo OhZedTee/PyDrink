@@ -75,6 +75,16 @@ in Tkinter:
 
 *************************************
 
+*************************************
+Coding Style
+- Class names use PascalCase
+- Private variables use a _ prepending
+the variable name
+- Variable and method names are 
+written 'like_this' all lowercase
+according to PEP8 standards
+*************************************
+
 **********************************************************************************************
 Learning Outcomes:
 Design and implement classes for an object-oriented program demonstrating correct use of encapsulation, 
@@ -125,6 +135,21 @@ Use event-driven programming to create a usable, effective graphical user interf
 	  and double clicking on the elements too.
 	  
 	  
+Encapsulation: i.e. Drink.py line 8-58
+Overriding Methods: Drink.py line 60-61, NonAlcoholic.py line 57-61, Alcoholic.py line 45-47
+Class Relationships: Abstract Manager Class -> Fridge and Glass classes, Drink class -> NonAlcoholic and Alcoholic classes
+	Manager: List of Drinks, required methods for child classes
+	Fridge: Implementation of Manager required methods
+	Glass: Implementation of Manager required methods
+	Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
+	Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
+	NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
+Polymorphism: List of Drinks in Manager class (line 10) holds all drink types (Alcoholic and Non Alcoholic)
+GUI: PyDrink.py is the view, PyDrink_support.py is the Model for the program since it contains
+    the eventhandlers which utilize the Models created (Fridge and Glass) in the file (line 29-30)
+Event Driven Programming: There are event handlers all over the PyDrink.py file and some
+	in the PyDrink_support.py file that are created dynamically for GUI objects that are
+	created on the fly. (i.e. PyDrink.py line 194, 261, etc; PyDrink_support.py line 175-176, 188)
 **********************************************************************************************
 
 **********************************************************************************************
