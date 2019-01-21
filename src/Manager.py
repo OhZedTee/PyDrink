@@ -49,5 +49,8 @@ class Manager(ABC):
 
     @abstractmethod
     def parse(self, fp):
-        """Parses data to use in manager dictionary"""
+        """Parses data to use in children classes
+           i.e. Fridge will parse drinks for Manager's
+           drink dictionary.
+           Glass will parse cocktails for its dictionary"""
         pass

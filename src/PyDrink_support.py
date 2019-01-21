@@ -55,11 +55,8 @@ def ntb_open_fridge(p1, tree, textbox_selected, success_message):
     print('p1 = {0}'.format(p1))
 
     """Event triggered when the fridge tab is opened
-    1. If the fridge is empty, attempt to parse the mock data
-    2. Call method to add drinks from the fridge to the TreeView"""
+    Call method to add drinks from the fridge to the TreeView"""
 
-    for drink in fridge.drinks.values():
-        print("Drink: %s Selected: %s" % (drink.name, str(drink.selected)))
     success_message.configure(state=tk.DISABLED)
     insert_manager_tree(tree, fridge, textbox_selected, success_message)
 
@@ -70,9 +67,6 @@ def ntb_open_glass(p1, tree, cocktail_tree, textbox_selected):
 
     print('PyDrink_support.ntb_open_fridge')
     print('p1 = {0}'.format(p1))
-
-    for drink in fridge.drinks.values():
-        print("Drink: %s Selected: %s" % (drink.name, str(drink.selected)))
 
     cocktail_categories = {}
     alcoholic = []

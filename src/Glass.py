@@ -55,17 +55,18 @@ class Glass(Manager):
             except IndexError:
                 c.garnish = ''
 
-            self.cocktails()[c_id] = c
+            self.cocktails[c_id] = c
             c_id += 1
         pass
 
+    @property
     def cocktails(self):
         """Get list of all cocktails parsed from data"""
         return self._cocktails
 
     def get_cocktail(self, name):
         """Find cocktail by name and return cocktail object"""
-        for cocktail in self.cocktails().values():
+        for cocktail in self.cocktails.values():
             if getattr(cocktail, 'name', False) == name:
                 return cocktail
 
@@ -74,7 +75,7 @@ class Glass(Manager):
                only cocktails whose main_alcohol, other_alcohols, and mixes
                are in the categories list (list of drinks in fridge)"""
         result = []
-        for cocktail in self.cocktails().values():
+        for cocktail in self.cocktails.values():
             has_main_alcohol = False
             has_other_alcohol = False
             has_mix = False
