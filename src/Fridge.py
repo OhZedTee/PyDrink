@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-from .Drink import Drink
 from .Manager import Manager
+from .Alcoholic import Alcoholic
+from .NonAlcoholic import NonAlcoholic
+import csv
 
 
 class Fridge(Manager):
@@ -10,31 +12,47 @@ class Fridge(Manager):
 
     def __init__(self):
         super().__init__()
+        with open('data/mock/fridge.csv', newline='') as file:
+            """File is formatted:
+            Alcoholic
+            Name,Price,Description, Alcohol%,Package,Category
+            ...
+            ...
+            ...
+            NonAlcoholic
+            Name,Price,Description, Carbonated,Sugar Content,Package,Caffiene Content
+            ...
+            ...
+            ...        
+            """
+            self.parse(file)
 
-    def get_drink(self, _id):
-        """Returns drink from Manager dictionary based off of a given id"""
-        return self.drinks[str(_id)]
+    def parse(self, file):
+        """Will be implemented in A2, will parse inventory data when adding to Inventory fridge"""
+        # skip header line
+        d_id = 0
+        line = file.readline().strip()
+        if line == 'Alcoholic':
+            next(file)
+            fp = csv.reader(file)
 
-    def has_drink(self, _id):
-        """Checks if a drink exists in the Manager dictionary
-           returns boolean indicator"""
-        if str(_id) not in self.drinks:
-            return False
-        return True
+            for row in fp:
+                if row[0] == 'NonAlcoholic':
+                    line = row[0]
+                    break
 
-    def find_drink(self, attr, value):
-        """Finds a drink in the Manager dictionary based on a parameter attribute
-           and returns it"""
-        for drink in self.drinks.values():
-            if getattr(drink, attr, False) == value:
-                return drink
+                drink = Alcoholic(d_id, row[0], int(row[1]), row[2], int(row[3]), row[4], row[5])
+                self.add_drink(drink)
+                d_id += 1
+        if line == 'NonAlcoholic':
+            next(file)
+            fp = csv.reader(file)
 
-    def add_drink(self, drink):
-        """Adds a drink to the Manager dictionary"""
-        if isinstance(drink, Drink):
-            self.drinks[str(drink.id)] = drink
+            for row in fp:
+                is_carbonated = True
+                if row[3] == 'False':
+                    is_carbonated = False
 
-    def remove_drink(self, _id):
-        """Removes a drink from the Manager dictionary by id
-           does not return it"""
-        del self.drinks[str(_id)]
+                drink = NonAlcoholic(d_id, row[0], int(row[1]), row[2], is_carbonated, row[4], row[5], row[6])
+                self.add_drink(drink)
+                d_id += 1

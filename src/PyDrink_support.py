@@ -6,12 +6,9 @@
 #    Jan 11, 2019 12:32:59 PM EST  platform: Windows NT
 
 import sys
-import csv
 from .Fridge import Fridge
 from .Alcoholic import Alcoholic
-from .NonAlcoholic import NonAlcoholic
 from .Glass import Glass
-from . import Cocktails
 
 
 try:
@@ -28,50 +25,6 @@ except ImportError:
 
 fridge = Fridge()
 glass = Glass()
-
-
-def parse_mock():
-    """Parses mock data to add to fridge, will be deprecated in A2 once I utilize the LCBO API"""
-    with open('data/mock/fridge.csv', newline='') as file:
-        """File is formatted:
-        Alcoholic
-        Name,Price,Description, Alcohol%,Package,Category
-        ...
-        ...
-        ...
-        NonAlcoholic
-        Name,Price,Description, Carbonated,Sugar Content,Package,Caffiene Content
-        ...
-        ...
-        ...        
-        """
-        # skip header line
-        d_id = 0
-        line = file.readline().strip()
-        if line == 'Alcoholic':
-            next(file)
-            fp = csv.reader(file)
-
-            for row in fp:
-                if row[0] == 'NonAlcoholic':
-                    line = row[0]
-                    break
-
-                drink = Alcoholic(d_id, row[0], int(row[1]), row[2], int(row[3]), row[4], row[5])
-                fridge.add_drink(drink)
-                d_id += 1
-        if line == 'NonAlcoholic':
-            next(file)
-            fp = csv.reader(file)
-
-            for row in fp:
-                is_carbonated = True
-                if row[3] == 'False':
-                    is_carbonated = False
-
-                drink = NonAlcoholic(d_id, row[0], int(row[1]), row[2], is_carbonated, row[4], row[5], row[6])
-                fridge.add_drink(drink)
-                d_id += 1
 
 
 def btn_add_glass_lclick(p1, tree, glass_list, success_message):
@@ -105,8 +58,6 @@ def ntb_open_fridge(p1, tree, textbox_selected, success_message):
     1. If the fridge is empty, attempt to parse the mock data
     2. Call method to add drinks from the fridge to the TreeView"""
 
-    if fridge.drinks.__len__() == 0:
-        parse_mock()
     for drink in fridge.drinks.values():
         print("Drink: %s Selected: %s" % (drink.name, str(drink.selected)))
     success_message.configure(state=tk.DISABLED)
@@ -121,14 +72,14 @@ def ntb_open_glass(p1, tree, cocktail_tree, textbox_selected):
     print('p1 = {0}'.format(p1))
 
     for drink in fridge.drinks.values():
-        print("Drink: %s Selected: %s" %(drink.name, str(drink.selected)))
+        print("Drink: %s Selected: %s" % (drink.name, str(drink.selected)))
 
     cocktail_categories = {}
     alcoholic = []
     non_alcoholic = []
 
     """Iterate through all items in TreeView adding all to dict obj"""
-    glass.empty_glass()
+    glass.clear_drinks()
     for child in tree.get_children():
         drink = fridge.find_drink('name', tree.item(child, "text"))
         if not glass.has_drink(drink.id):
@@ -140,7 +91,7 @@ def ntb_open_glass(p1, tree, cocktail_tree, textbox_selected):
 
     cocktail_categories["Alcoholic"] = alcoholic
     cocktail_categories["NonAlcoholic"] = non_alcoholic
-    insert_cocktail_tree(cocktail_tree, Cocktails.find_cocktails(cocktail_categories), textbox_selected)
+    insert_cocktail_tree(cocktail_tree, glass.find_cocktails(cocktail_categories), textbox_selected)
 
     sys.stdout.flush()
 
@@ -150,7 +101,6 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
-    Cocktails.init()
 
 
 def destroy_window():
@@ -206,14 +156,12 @@ def stv_cocktail_selected(p1, tree, textbox_selected):
     print('PyDrink_support.stv_cocktail_selected')
     print('p1 = {0}'.format(p1))
     item = tree.selection()[0]
-    cocktail = Cocktails.get_cocktail(tree.item(item, "text"))
+    cocktail = glass.get_cocktail(tree.item(item, "text"))
 
     if cocktail is not None:
         # 1 - line 0 - coloumn
         textbox_selected.delete('1.0', tk.END)
-        textbox_selected.insert('1.0', "Glass: %s\nMain Alcohol: %s\nOther Alcohols: %s\nMixes: %s\nGarnish: %s\n"
-                                % (cocktail.glass, cocktail.main_alcohol, cocktail.other_alcohols, cocktail.mixes,
-                                   cocktail.garnish))
+        textbox_selected.insert('1.0', str(cocktail))
 
 
 def stv_list_selected_dclick(p1, tree, success_message):
