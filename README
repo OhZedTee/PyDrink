@@ -219,9 +219,7 @@ A: I'm glad the program worked right off the bad without needing to read the REA
    handles the objects in the GUI and making action listeners. The one big file could be split up, however I think by splitting it up it would only make it more confusing. The GUI file PyDrink is
    big because of the amount of objects it creates and adds to the screen as well as custom objects tailored specifically for the app. Commented Out Code will be removed. I missed this, thank you.
    
-   I'm aware of the system tab issue and currently have no idea how to fix it. I spent about a quarter of the time making this GUI trying to figure out the Tab text. I was trying to center
-   it, but on some machines it centered and on others it didn't and just padded it weirdly. It entirely depends on the resolution of the machine using the application. To remedy this,
-   I will make the tab text left aligned.
+   I'm not sure what the tab issue is. I tried it on MacOS, NoMachine, Debian, CentOs, Kali Linux, Windows 7, and Windows 10.
    
    I should have provided example test cases to see the cocktails in action for those who don't know any cocktails or what goes into them. Updated the README to make it more user inclusive.
    

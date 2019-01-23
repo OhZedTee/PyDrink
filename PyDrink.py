@@ -60,7 +60,6 @@ class PyDrink:
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
-        _tabpadding = [root.winfo_screenwidth()*0.08,5]
         font9 = "-family {Segoe UI} -size 12 -weight normal -slant " \
                 "roman -underline 0 -overstrike 0"
         self.style = ttk.Style()
@@ -104,17 +103,11 @@ class PyDrink:
         self.style.layout("ClosetabNotebook", [("ClosetabNotebook.client",
                                      {"sticky": "nswe"})])
 
-        self.style.configure('TNotebook.Tab', background=_bgcolor)
-        self.style.configure('TNotebook.Tab', foreground=_fgcolor)
-        self.style.configure('TNotebook.Tab', tabposition="center")
-        self.style.configure('TNotebook.Tab', padding=_tabpadding)
-        self.style.map('TNotebook.Tab', background=
-            [('selected', _compcolor), ('active',_ana2color)])
-        self.style.map('TNotebook.Tab', padding=
-            [('selected', _tabpadding), ('active', _tabpadding)])
+        self.style.configure('TNotebook.Tab', background=_bgcolor, foreground=_fgcolor, tabposition="center",
+                             width=root.winfo_screenwidth())
+        self.style.map('TNotebook.Tab', background=[('selected', _compcolor), ('active', _ana2color)])
         self.notebook = ttk.Notebook(top)
         self.notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
-        self.notebook.configure(width=1080)
         self.notebook.configure(takefocus="")
         self.notebook_t0 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t0, padding=3)
