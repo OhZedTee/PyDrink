@@ -103,24 +103,6 @@ class PyDrink:
 
         self.style.layout("ClosetabNotebook", [("ClosetabNotebook.client",
                                      {"sticky": "nswe"})])
-        """self.style.layout("ClosetabNotebook.Tab", [
-            ("ClosetabNotebook.tab",
-              { "sticky": "nswe",
-                "children": [
-                    ("ClosetabNotebook.padding", {
-                        "side": "top",
-                        "sticky": "nswe",
-                        "children": [
-                            ("ClosetabNotebook.focus", {
-                                "side": "top",
-                                "sticky": "nswe",
-                                "children": [
-                                    ("ClosetabNotebook.label", {"side":
-                                      "left", "sticky": ''}),
-                                    ("ClosetabNotebook.close", {"side":
-                                        "left", "sticky": ''}),]})]})]})])
-
-        PNOTEBOOK = "ClosetabNotebook" """
 
         self.style.configure('TNotebook.Tab', background=_bgcolor)
         self.style.configure('TNotebook.Tab', foreground=_fgcolor)
@@ -134,7 +116,6 @@ class PyDrink:
         self.notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
         self.notebook.configure(width=1080)
         self.notebook.configure(takefocus="")
-        # self.notebook.configure(style=PNOTEBOOK)
         self.notebook_t0 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t0, padding=3)
         self.notebook.tab(0, text="Inventory", compound="none", underline="-1", state='disabled')
@@ -288,6 +269,7 @@ class PyDrink:
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")
         style = ttk.Style(self.style)
+		#Commented out lines below left to show what attributes of Treeitem were removed
         style.layout("Treeview.Item",
                      [('Treeitem.padding', {'sticky': 'nswe', 'children':
                          [('Treeitem.indicator', {'side': 'left', 'sticky': ''}),
@@ -455,8 +437,7 @@ class AutoScroll(object):
             pass
         hsb = ttk.Scrollbar(master, orient='horizontal', command=self.xview)
 
-        # self.configure(yscrollcommand=_autoscroll(vsb),
-        #    xscrollcommand=_autoscroll(hsb))
+        
         try:
             self.configure(yscrollcommand=self._autoscroll(vsb))
         except:

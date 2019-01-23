@@ -136,7 +136,7 @@ def stv_select_lclick(p1, tree, obj, textbox_selected):
     """Update Description of selected frame"""
     print('PyDrink_support.stv_list_selected_dclick')
     print('p1 = {0}'.format(p1))
-	#possible try catch needed here.
+	#possible try catch needed here for A2.
     item = tree.selection()[0]
     drink = obj.find_drink('name', tree.item(item, "text"))
 
