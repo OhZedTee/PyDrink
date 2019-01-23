@@ -21,6 +21,8 @@ except ImportError:
     py3 = True
 
 from src import PyDrink_support
+from ui import ScrolledTreeView
+from ui import ROText
 
 
 def vp_start_gui():
@@ -112,59 +114,36 @@ class PyDrink:
         self.notebook_t0 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t0, padding=3)
         self.notebook.tab(0, text="Inventory", compound="none", underline="-1", state='disabled')
-        self.notebook_t0.configure(background="#d9d9d9")
-        self.notebook_t0.configure(highlightbackground="#d9d9d9")
-        self.notebook_t0.configure(highlightcolor="black")
+        self.notebook_t0.configure(background="#d9d9d9", highlightbackground="#d9d9d9", highlightcolor="black")
         self.notebook_t1 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t1, padding=3)
         self.notebook.tab(1, text="Fridge", compound="none", underline="-1")
-        self.notebook_t1.configure(background="#d9d9d9")
-        self.notebook_t1.configure(highlightbackground="#d9d9d9")
-        self.notebook_t1.configure(highlightcolor="black")
+        self.notebook_t1.configure(background="#d9d9d9", highlightbackground="#d9d9d9", highlightcolor="black")
         self.notebook_t2 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t2, padding=3)
         self.notebook.tab(2, text="Glass", compound="none", underline="-1")
-        self.notebook_t2.configure(background="#d9d9d9")
-        self.notebook_t2.configure(highlightbackground="#d9d9d9")
-        self.notebook_t2.configure(highlightcolor="black")
+        self.notebook_t2.configure(background="#d9d9d9", highlightbackground="#d9d9d9", highlightcolor="black")
 
         self.cnv_list_fridge = tk.Canvas(self.notebook_t1)
         self.cnv_list_fridge.place(relx=0.0, rely=0.015, relheight=0.919
                                    , relwidth=0.635)
-        self.cnv_list_fridge.configure(background="#d9d9d9")
-        self.cnv_list_fridge.configure(borderwidth="2")
-        self.cnv_list_fridge.configure(insertbackground="black")
-        self.cnv_list_fridge.configure(relief='ridge')
-        self.cnv_list_fridge.configure(selectbackground="#c4c4c4")
-        self.cnv_list_fridge.configure(selectforeground="black")
-        self.cnv_list_fridge.configure(width=683)
+        self.cnv_list_fridge.configure(background="#d9d9d9", borderwidth="2", insertbackground="black", relief='ridge',
+                                       selectbackground="#c4c4c4", selectforeground="black", width=683)
 
         self.frame_list_fridge = tk.Frame(self.cnv_list_fridge)
         self.frame_list_fridge.place(relx=0.015, rely=0.016, relheight=0.972
                                      , relwidth=0.974)
-        self.frame_list_fridge.configure(relief='groove')
-        self.frame_list_fridge.configure(borderwidth="2")
-        self.frame_list_fridge.configure(relief='groove')
-        self.frame_list_fridge.configure(background="#d9d9d9")
-        self.frame_list_fridge.configure(width=665)
+        self.frame_list_fridge.configure(relief='groove', borderwidth="2", background="#d9d9d9", width=665)
 
         self.style.configure('Treeview.Heading',  font="TkDefaultFont")
-        self.stv_list_fridge = ScrolledTreeView(self.frame_list_fridge)
+        self.stv_list_fridge = ScrolledTreeView.ScrolledTreeView(self.frame_list_fridge)
         self.stv_list_fridge.place(relx=0.015, rely=0.016, relheight=0.971
                                    , relwidth=0.962)
         self.stv_list_fridge.configure(columns="Select")
-        self.stv_list_fridge.heading("#0", text="Drink")
-        self.stv_list_fridge.heading("#0", anchor="center")
-        self.stv_list_fridge.column("#0", width="308")
-        self.stv_list_fridge.column("#0", minwidth="20")
-        self.stv_list_fridge.column("#0", stretch="1")
-        self.stv_list_fridge.column("#0", anchor="w")
-        self.stv_list_fridge.heading("Select", text="Select")
-        self.stv_list_fridge.heading("Select", anchor="center")
-        self.stv_list_fridge.column("Select", width="309")
-        self.stv_list_fridge.column("Select", minwidth="20")
-        self.stv_list_fridge.column("Select", stretch="1")
-        self.stv_list_fridge.column("Select", anchor="center")
+        self.stv_list_fridge.heading("#0", text="Drink", anchor="center")
+        self.stv_list_fridge.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
+        self.stv_list_fridge.heading("Select", text="Select", anchor="center")
+        self.stv_list_fridge.column("Select", width="309", minwidth="20", stretch="1", anchor="center")
         self.notebook_t1.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_fridge(e, self.stv_list_fridge,
                                                                                         self.txtbx_fridge_selected,
                                                                                         self.lbl_add_glass_success))
@@ -172,66 +151,38 @@ class PyDrink:
         self.cnv_select_fridge = tk.Canvas(self.notebook_t1)
         self.cnv_select_fridge.place(relx=0.632, rely=0.015, relheight=0.919
                                      , relwidth=0.365)
-        self.cnv_select_fridge.configure(background="#d9d9d9")
-        self.cnv_select_fridge.configure(borderwidth="2")
-        self.cnv_select_fridge.configure(insertbackground="black")
-        self.cnv_select_fridge.configure(relief='ridge')
-        self.cnv_select_fridge.configure(selectbackground="#c4c4c4")
-        self.cnv_select_fridge.configure(selectforeground="black")
-        self.cnv_select_fridge.configure(width=393)
+        self.cnv_select_fridge.configure(background="#d9d9d9", borderwidth="2", insertbackground="black", relief='ridge'
+                                         , selectbackground="#c4c4c4", selectforeground="black", width=393)
 
         self.frm_select_fridge = tk.Frame(self.cnv_select_fridge)
         self.frm_select_fridge.place(relx=0.025, rely=0.016, relheight=0.972
                                      , relwidth=0.954)
-        self.frm_select_fridge.configure(relief='groove')
-        self.frm_select_fridge.configure(borderwidth="2")
-        self.frm_select_fridge.configure(relief='groove')
-        self.frm_select_fridge.configure(background="#d9d9d9")
-        self.frm_select_fridge.configure(width=375)
+        self.frm_select_fridge.configure(relief='groove', borderwidth="2", background="#d9d9d9", width=375)
 
         self.lbl_fridge_description = tk.Label(self.frm_select_fridge)
         self.lbl_fridge_description.place(relx=0.027, rely=0.016, height=34, width=106)
-        self.lbl_fridge_description.configure(background="#d9d9d9")
-        self.lbl_fridge_description.configure(disabledforeground="#a3a3a3")
-        self.lbl_fridge_description.configure(font=font9)
-        self.lbl_fridge_description.configure(foreground="#000000")
-        self.lbl_fridge_description.configure(text='''Description:''')
+        self.lbl_fridge_description.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                              foreground="#000000", text='Description:')
         self.lbl_fridge_description.pack(side="top")
 
         self.lbl_add_glass_success = tk.Label(self.notebook_t1)
         self.lbl_add_glass_success.place(relx=0.027, rely=0.943, height=33, width=250)
-        self.lbl_add_glass_success.configure(background="#d9d9d9")
-        self.lbl_add_glass_success.configure(disabledforeground="#a3a3a3")
-        self.lbl_add_glass_success.configure(font=font9)
-        self.lbl_add_glass_success.configure(foreground="#AE3A3A")
-        self.lbl_add_glass_success.configure(text='''Successfully Added To Glass''')
-        self.lbl_add_glass_success.configure(state=tk.DISABLED)
+        self.lbl_add_glass_success.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                             foreground="#AE3A3A", text='Successfully Added To Glass',
+                                             state=tk.DISABLED)
 
-        self.txtbx_fridge_selected = ROText(self.frm_select_fridge)
+        self.txtbx_fridge_selected = ROText.ROText(self.frm_select_fridge)
         self.txtbx_fridge_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
-        self.txtbx_fridge_selected.configure(background="white")
-        self.txtbx_fridge_selected.configure(font="TkTextFont")
-        self.txtbx_fridge_selected.configure(foreground="black")
-        self.txtbx_fridge_selected.configure(highlightbackground="#d9d9d9")
-        self.txtbx_fridge_selected.configure(highlightcolor="black")
-        self.txtbx_fridge_selected.configure(insertbackground="black")
-        self.txtbx_fridge_selected.configure(selectbackground="#c4c4c4")
-        self.txtbx_fridge_selected.configure(selectforeground="black")
-        self.txtbx_fridge_selected.configure(width=294)
-        self.txtbx_fridge_selected.configure(wrap='word')
+        self.txtbx_fridge_selected.configure(background="white", font="TkTextFont", foreground="black",
+                                             highlightbackground="#d9d9d9", highlightcolor="black",
+                                             insertbackground="black", selectbackground="#c4c4c4",
+                                             selectforeground="black", width=294, wrap='word')
 
         self.btn_add_glass = tk.Button(self.notebook_t1)
         self.btn_add_glass.place(relx=0.836, rely=0.943, height=33, width=166)
-        self.btn_add_glass.configure(activebackground="#ececec")
-        self.btn_add_glass.configure(activeforeground="#000000")
-        self.btn_add_glass.configure(background="#d9d9d9")
-        self.btn_add_glass.configure(disabledforeground="#a3a3a3")
-        self.btn_add_glass.configure(foreground="#000000")
-        self.btn_add_glass.configure(highlightbackground="#d9d9d9")
-        self.btn_add_glass.configure(highlightcolor="black")
-        self.btn_add_glass.configure(pady="0")
-        self.btn_add_glass.configure(text='''Add To Glass''')
-        self.btn_add_glass.configure(width=166)
+        self.btn_add_glass.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                     disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
+                                     highlightcolor="black", pady="0", text='Add To Glass', width=166)
         self.btn_add_glass.bind('<Button-1>', lambda e: PyDrink_support.btn_add_glass_lclick(e, self.stv_list_fridge,
                                                                                              self.stv_list_glass,
                                                                                              self.lbl_add_glass_success)
@@ -239,30 +190,19 @@ class PyDrink:
         self.cnv_list_glass = tk.Canvas(self.notebook_t2)
         self.cnv_list_glass.place(relx=0.0, rely=0.015, relheight=0.919
                                   , relwidth=0.635)
-        self.cnv_list_glass.configure(background="#d9d9d9")
-        self.cnv_list_glass.configure(borderwidth="2")
-        self.cnv_list_glass.configure(highlightbackground="#d9d9d9")
-        self.cnv_list_glass.configure(highlightcolor="black")
-        self.cnv_list_glass.configure(insertbackground="black")
-        self.cnv_list_glass.configure(relief='ridge')
-        self.cnv_list_glass.configure(selectbackground="#c4c4c4")
-        self.cnv_list_glass.configure(selectforeground="black")
-        self.cnv_list_glass.configure(width=683)
+        self.cnv_list_glass.configure(background="#d9d9d9", borderwidth="2", highlightbackground="#d9d9d9",
+                                      highlightcolor="black", insertbackground="black", relief='ridge',
+                                      selectbackground="#c4c4c4", selectforeground="black", width=683)
 
         self.frame_list_glass = tk.Frame(self.cnv_list_glass)
         self.frame_list_glass.place(relx=0.015, rely=0.016, relheight=0.972
                                     , relwidth=0.974)
-        self.frame_list_glass.configure(relief='groove')
-        self.frame_list_glass.configure(borderwidth="2")
-        self.frame_list_glass.configure(relief='groove')
-        self.frame_list_glass.configure(background="#d9d9d9")
-        self.frame_list_glass.configure(highlightbackground="#d9d9d9")
-        self.frame_list_glass.configure(highlightcolor="black")
-        self.frame_list_glass.configure(width=665)
+        self.frame_list_glass.configure(relief='groove', borderwidth="2", background="#d9d9d9",
+                                        highlightbackground="#d9d9d9", highlightcolor="black", width=665)
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")
         style = ttk.Style(self.style)
-		#Commented out lines below left to show what attributes of Treeitem were removed
+        # Commented out lines below left to show what attributes of Treeitem were removed
         style.layout("Treeview.Item",
                      [('Treeitem.padding', {'sticky': 'nswe', 'children':
                          [('Treeitem.indicator', {'side': 'left', 'sticky': ''}),
@@ -273,76 +213,48 @@ class PyDrink:
                           ],
                                             })]
                      )
-        self.stv_list_glass = ScrolledTreeView(self.frame_list_glass)
+        self.stv_list_glass = ScrolledTreeView.ScrolledTreeView(self.frame_list_glass)
         self.stv_list_glass.place(relx=0.015, rely=0.016, relheight=0.486
                                   , relwidth=0.962)
-        self.stv_list_glass.heading("#0", text="Drink")
-        self.stv_list_glass.heading("#0", anchor="center")
-        self.stv_list_glass.column("#0", width="308")
-        self.stv_list_glass.column("#0", minwidth="20")
-        self.stv_list_glass.column("#0", stretch="1")
-        self.stv_list_glass.column("#0", anchor="w")
+        self.stv_list_glass.heading("#0", text="Drink", anchor="center")
+        self.stv_list_glass.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
         self.stv_list_glass.configure(style='nodotbox.Treeview', selectmode='none')
         self.notebook_t2.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_glass(e, self.stv_list_glass,
                                                                                        self.stv_list_cocktails,
                                                                                        self.txtbx_glass_selected))
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")
-        self.stv_list_cocktails = ScrolledTreeView(self.frame_list_glass)
+        self.stv_list_cocktails = ScrolledTreeView.ScrolledTreeView(self.frame_list_glass)
         self.stv_list_cocktails.place(relx=0.015, rely=0.497, relheight=0.485
                                       , relwidth=0.962)
-        self.stv_list_cocktails.heading("#0", text="Cocktail")
-        self.stv_list_cocktails.heading("#0", anchor="center")
-        self.stv_list_cocktails.column("#0", width="308")
-        self.stv_list_cocktails.column("#0", minwidth="20")
-        self.stv_list_cocktails.column("#0", stretch="1")
-        self.stv_list_cocktails.column("#0", anchor="center")
+        self.stv_list_cocktails.heading("#0", text="Cocktail", anchor="center")
+        self.stv_list_cocktails.column("#0", width="308", minwidth="20", stretch="1", anchor="center")
 
         self.cnv_select_glass = tk.Canvas(self.notebook_t2)
         self.cnv_select_glass.place(relx=0.632, rely=0.015, relheight=0.919
                                     , relwidth=0.365)
-        self.cnv_select_glass.configure(background="#d9d9d9")
-        self.cnv_select_glass.configure(borderwidth="2")
-        self.cnv_select_glass.configure(highlightbackground="#d9d9d9")
-        self.cnv_select_glass.configure(highlightcolor="black")
-        self.cnv_select_glass.configure(insertbackground="black")
-        self.cnv_select_glass.configure(relief='ridge')
-        self.cnv_select_glass.configure(selectbackground="#c4c4c4")
-        self.cnv_select_glass.configure(selectforeground="black")
-        self.cnv_select_glass.configure(width=393)
+        self.cnv_select_glass.configure(background="#d9d9d9", borderwidth="2", highlightbackground="#d9d9d9",
+                                        highlightcolor="black", insertbackground="black", relief='ridge',
+                                        selectbackground="#c4c4c4", selectforeground="black", width=393)
 
         self.frm_select_glass = tk.Frame(self.cnv_select_glass)
         self.frm_select_glass.place(relx=0.025, rely=0.016, relheight=0.972
                                     , relwidth=0.954)
-        self.frm_select_glass.configure(relief='groove')
-        self.frm_select_glass.configure(borderwidth="2")
-        self.frm_select_glass.configure(relief='groove')
-        self.frm_select_glass.configure(background="#d9d9d9")
-        self.frm_select_glass.configure(highlightbackground="#d9d9d9")
-        self.frm_select_glass.configure(highlightcolor="black")
-        self.frm_select_glass.configure(width=375)
+        self.frm_select_glass.configure(relief='groove', borderwidth="2", background="#d9d9d9",
+                                        highlightbackground="#d9d9d9", highlightcolor="black", width=375)
 
         self.lbl_glass_description = tk.Label(self.frm_select_glass)
         self.lbl_glass_description.place(relx=0.027, rely=0.016, height=34, width=294)
-        self.lbl_glass_description.configure(background="#d9d9d9")
-        self.lbl_glass_description.configure(disabledforeground="#a3a3a3")
-        self.lbl_glass_description.configure(font=font9)
-        self.lbl_glass_description.configure(foreground="#000000")
-        self.lbl_glass_description.configure(text='''Ingredients Needed:''')
+        self.lbl_glass_description.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                             foreground="#000000", text='Ingredients Needed:')
         self.lbl_glass_description.pack(side="top")
 
-        self.txtbx_glass_selected = ROText(self.frm_select_glass)
+        self.txtbx_glass_selected = ROText.ROText(self.frm_select_glass)
         self.txtbx_glass_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
-        self.txtbx_glass_selected.configure(background="white")
-        self.txtbx_glass_selected.configure(font="TkTextFont")
-        self.txtbx_glass_selected.configure(foreground="black")
-        self.txtbx_glass_selected.configure(highlightbackground="#d9d9d9")
-        self.txtbx_glass_selected.configure(highlightcolor="black")
-        self.txtbx_glass_selected.configure(insertbackground="black")
-        self.txtbx_glass_selected.configure(selectbackground="#c4c4c4")
-        self.txtbx_glass_selected.configure(selectforeground="black")
-        self.txtbx_glass_selected.configure(width=294)
-        self.txtbx_glass_selected.configure(wrap='word')
+        self.txtbx_glass_selected.configure(background="white", font="TkTextFont", foreground="black",
+                                            highlightbackground="#d9d9d9", highlightcolor="black",
+                                            insertbackground="black", selectbackground="#c4c4c4",
+                                            selectforeground="black", width=294, wrap='word')
 
         self.notebook.bind('<Button-1>', _button_press)
         self.notebook.bind('<ButtonRelease-1>', _button_release)
@@ -365,6 +277,7 @@ def _button_release(event):
     if not widget.instate(['pressed']):
             return
     element = widget.identify(event.x, event.y)
+    index = None
     try:
         index = widget.index("@%d,%d" % (event.x, event.y))
     except Exception:
@@ -384,162 +297,6 @@ def _mouse_over(event):
         widget.state(['alternate'])
     else:
         widget.state(['!alternate'])
-
-# The following code is added to facilitate read-only textbox
-class ROText(tk.Text):
-    """Configure the Text widget to be read-only."""
-    # This is the list of all default command in the "Text" tag that modify the text
-    commands_to_remove = ("<Control-Key-h>", "<Meta-Key-Delete>", "<Meta-Key-BackSpace>", "<Meta-Key-d>",
-                          "<Meta-Key-b>", "<<Redo>>", "<<Undo>>", "<Control-Key-t>", "<Control-Key-o>",
-                          "<Control-Key-k>", "<Control-Key-d>", "<Key>", "<Key-Insert>", "<<PasteSelection>>",
-                          "<<Clear>>", "<<Paste>>", "<<Cut>>", "<Key-BackSpace>", "<Key-Delete>", "<Key-Return>",
-                          "<Control-Key-i>", "<Key-Tab>", "<Shift-Key-Tab>")
-    tagInit = False
-
-    def init_tag(self):
-        """
-        Just go through all binding for the Text widget.
-        If the command is allowed, recopy it in the ROText binding table.
-        """
-        for key in self.bind_class("Text"):
-            if key not in self.commands_to_remove:
-                command = self.bind_class("Text", key)
-                self.bind_class("ROText", key, command)
-        ROText.tagInit = True
-
-    def __init__(self, *args, **kwords):
-        tk.Text.__init__(self, *args, **kwords)
-        if not ROText.tagInit:
-            self.init_tag()
-
-        # Create a new binding table list, replace the default Text binding table by the ROText one
-        bind_tags = tuple(tag if tag!="Text" else "ROText" for tag in self.bindtags())
-        self.bindtags(bind_tags)
-
-# The following code is added to facilitate the Scrolled widgets you specified.
-class AutoScroll(object):
-    """Configure the scrollbars for a widget."""
-
-    def __init__(self, master):
-        #  Rozen. Added the try-except clauses so that this class
-        #  could be used for scrolled entry widget for which vertical
-        #  scrolling is not supported. 5/7/14.
-        try:
-            vsb = ttk.Scrollbar(master, orient='vertical', command=self.yview)
-        except:
-            pass
-        hsb = ttk.Scrollbar(master, orient='horizontal', command=self.xview)
-
-        
-        try:
-            self.configure(yscrollcommand=self._autoscroll(vsb))
-        except:
-            pass
-        self.configure(xscrollcommand=self._autoscroll(hsb))
-
-        self.grid(column=0, row=0, sticky='nsew')
-        try:
-            vsb.grid(column=1, row=0, sticky='ns')
-        except:
-            pass
-        hsb.grid(column=0, row=1, sticky='ew')
-
-        master.grid_columnconfigure(0, weight=1)
-        master.grid_rowconfigure(0, weight=1)
-
-        # Copy geometry methods of master  (taken from ScrolledText.py)
-        if py3:
-            methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() \
-                  | tk.Place.__dict__.keys()
-        else:
-            methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
-                  + tk.Place.__dict__.keys()
-
-        for meth in methods:
-            if meth[0] != '_' and meth not in ('config', 'configure'):
-                setattr(self, meth, getattr(master, meth))
-
-    @staticmethod
-    def _autoscroll(sbar):
-        """Hide and show scrollbar as needed."""
-        def wrapped(first, last):
-            first, last = float(first), float(last)
-            if first <= 0 and last >= 1:
-                sbar.grid_remove()
-            else:
-                sbar.grid()
-            sbar.set(first, last)
-        return wrapped
-
-    def __str__(self):
-        return str(self.master)
-
-
-def _create_container(func):
-    """Creates a ttk Frame with a given master, and use this new frame to
-    place the scrollbars and the widget."""
-    def wrapped(cls, master, **kw):
-        container = ttk.Frame(master)
-        container.bind('<Enter>', lambda e: _bound_to_mousewheel(e, container))
-        container.bind('<Leave>', lambda e: _unbound_to_mousewheel(e, container))
-        return func(cls, container, **kw)
-    return wrapped
-
-
-class ScrolledTreeView(AutoScroll, ttk.Treeview):
-    """A standard ttk Treeview widget with scrollbars that will
-    automatically show/hide as needed."""
-    @_create_container
-    def __init__(self, master, **kw):
-        ttk.Treeview.__init__(self, master, **kw)
-        AutoScroll.__init__(self, master)
-
-
-def _bound_to_mousewheel(event, widget):
-    child = widget.winfo_children()[0]
-    if platform.system() == 'Windows' or platform.system() == 'Darwin':
-        child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Shift-MouseWheel>', lambda e: _on_shiftmouse(e, child))
-    else:
-        child.bind_all('<Button-4>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Button-5>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Shift-Button-4>', lambda e: _on_shiftmouse(e, child))
-        child.bind_all('<Shift-Button-5>', lambda e: _on_shiftmouse(e, child))
-
-
-def _unbound_to_mousewheel(event, widget):
-    if platform.system() == 'Windows' or platform.system() == 'Darwin':
-        widget.unbind_all('<MouseWheel>')
-        widget.unbind_all('<Shift-MouseWheel>')
-    else:
-        widget.unbind_all('<Button-4>')
-        widget.unbind_all('<Button-5>')
-        widget.unbind_all('<Shift-Button-4>')
-        widget.unbind_all('<Shift-Button-5>')
-
-
-def _on_mousewheel(event, widget):
-    if platform.system() == 'Windows':
-        widget.yview_scroll(-1*int(event.delta/120),'units')
-    elif platform.system() == 'Darwin':
-        widget.yview_scroll(-1*int(event.delta),'units')
-    else:
-        if event.num == 4:
-            widget.yview_scroll(-1, 'units')
-        elif event.num == 5:
-            widget.yview_scroll(1, 'units')
-
-
-def _on_shiftmouse(event, widget):
-    if platform.system() == 'Windows':
-        widget.xview_scroll(-1*int(event.delta/120), 'units')
-    elif platform.system() == 'Darwin':
-        widget.xview_scroll(-1*int(event.delta), 'units')
-    else:
-        if event.num == 4:
-            widget.xview_scroll(-1, 'units')
-        elif event.num == 5:
-            widget.xview_scroll(1, 'units')
 
 
 if __name__ == '__main__':
