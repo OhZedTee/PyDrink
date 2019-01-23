@@ -60,7 +60,7 @@ class PyDrink:
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
-        _tabpadding = [root.winfo_screenwidth()/9.9,5]
+        _tabpadding = [root.winfo_screenwidth()*0.08,5]
         font9 = "-family {Segoe UI} -size 12 -weight normal -slant " \
                 "roman -underline 0 -overstrike 0"
         self.style = ttk.Style()
