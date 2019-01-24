@@ -97,7 +97,6 @@ class ScrolledTreeView(AutoScroll, ttk.Treeview):
 
 
 def _bound_to_mousewheel(event, widget):
-
     child = widget.winfo_children()[0]
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
         child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))
