@@ -13,16 +13,6 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-def _create_container(func):
-    """Creates a ttk Frame with a given master, and use this new frame to
-    place the scrollbars and the widget."""
-    def wrapped(cls, master, **kw):
-        container = ttk.Frame(master)
-        container.bind('<Enter>', lambda e: _bound_to_mousewheel(e, container))
-        container.bind('<Leave>', lambda e: _unbound_to_mousewheel(e, container))
-        return func(cls, container, **kw)
-    return wrapped
-
 
 # The following code is added to facilitate the Scrolled widget.
 class AutoScroll(object):
@@ -87,6 +77,19 @@ class AutoScroll(object):
 class ScrolledTreeView(AutoScroll, ttk.Treeview):
     """A standard ttk Treeview widget with scrollbars that will
     automatically show/hide as needed."""
+
+    def _create_container(func):
+        """Creates a ttk Frame with a given master, and use this new frame to
+        place the scrollbars and the widget."""
+
+        def wrapped(cls, master, **kw):
+            container = ttk.Frame(master)
+            container.bind('<Enter>', lambda e: _bound_to_mousewheel(e, container))
+            container.bind('<Leave>', lambda e: _unbound_to_mousewheel(e, container))
+            return func(cls, container, **kw)
+
+        return wrapped
+
     @_create_container
     def __init__(self, master, **kw):
         ttk.Treeview.__init__(self, master, **kw)
@@ -94,6 +97,7 @@ class ScrolledTreeView(AutoScroll, ttk.Treeview):
 
 
 def _bound_to_mousewheel(event, widget):
+
     child = widget.winfo_children()[0]
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
         child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))

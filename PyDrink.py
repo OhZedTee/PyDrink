@@ -256,48 +256,6 @@ class PyDrink:
                                             insertbackground="black", selectbackground="#c4c4c4",
                                             selectforeground="black", width=294, wrap='word')
 
-        self.notebook.bind('<Button-1>', _button_press)
-        self.notebook.bind('<ButtonRelease-1>', _button_release)
-        self.notebook.bind('<Motion>', _mouse_over)
-
-
-# The following code is add to handle mouse events with the close icons
-# in PNotebooks widgets.
-def _button_press(event):
-    widget = event.widget
-    element = widget.identify(event.x, event.y)
-    if "close" in element:
-        index = widget.index("@%d,%d" % (event.x, event.y))
-        widget.state(['pressed'])
-        widget._active = index
-
-
-def _button_release(event):
-    widget = event.widget
-    if not widget.instate(['pressed']):
-            return
-    element = widget.identify(event.x, event.y)
-    index = None
-    try:
-        index = widget.index("@%d,%d" % (event.x, event.y))
-    except Exception:
-        pass
-    if "close" in element and widget._active == index:
-        widget.forget(index)
-        widget.event_generate("<<NotebookTabClosed>>")
-
-    widget.state(['!pressed'])
-    widget._active = None
-
-
-def _mouse_over(event):
-    widget = event.widget
-    element = widget.identify(event.x, event.y)
-    if "close" in element:
-        widget.state(['alternate'])
-    else:
-        widget.state(['!alternate'])
-
 
 if __name__ == '__main__':
     vp_start_gui()
