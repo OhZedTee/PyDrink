@@ -11,6 +11,9 @@ you to add drinks your fridge based
 on what is available at LCBO.
 All is performed in a GUI:
 
+Inventory Tab:
+Will be implemented in A2 with the LCBO API
+
 Fridge Tab:
 Single click on a drink - shows description
 Double click on a drink - Selects the drink
@@ -153,12 +156,20 @@ Use event-driven programming to create a usable, effective graphical user interf
 Encapsulation: i.e. Drink.py line 8-58
 Overriding Methods: Drink.py line 60-61, NonAlcoholic.py line 57-61, Alcoholic.py line 45-47
 Class Relationships: Abstract Manager Class -> Fridge and Glass classes, Drink class -> NonAlcoholic and Alcoholic classes
++++++++++++++++++++++++++++++++++++++++IMPORTANT EXPLANATION OF ALL CLASSES+++++++++++++++++++++++++++++++++++++++++
 	Manager: List of Drinks, required methods for child classes
 	Fridge: Implementation of Manager required methods
 	Glass: Implementation of Manager required methods
 	Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
 	Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
 	NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
+	PyDrink: GUI class
+	PyDrink_support: GUI event handlers
+	ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
+	           (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
+	ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
+	                     to allow for multipaged display with a convenient scroll bar
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Polymorphism: List of Drinks in Manager class (line 10) holds all drink types (Alcoholic and Non Alcoholic)
 GUI: PyDrink.py is the view, PyDrink_support.py is the Controller for the program since it contains
     the eventhandlers which utilize the Models created (Fridge and Glass) in the file (line 29-30)
@@ -198,44 +209,3 @@ R: For some reason, the glass tab does not show any of the drinks selected.
 A: To add selected drinks to the glass tab, please press add to glass button. This was done so that the user has a distinction between selecting a drink in the inventory (to see its description) and 
    adding the drink to their glass (by pressing a button) for making a cocktail. If more people are confused by this, I could remove the button altogether and make it so if you selected a drink
    its added to the glass tab immediately.
-   
-   
-   
-R: Though the instructions in the readme were written well and cover all the bases, it didn't take me more than 10 seconsd to get the program up and running without even needing to use them. 
-   Coding style is consistent, however I would suggest consolidating a bit of the code - I'm pretty sure that the main file doesn't need to be 500 lines with a few other files to support 
-   the program. This should really be split up into separate folders to make it more understandable (-1). 
-   In addition, there are bits of code commented out sporadically throughout the files, and I'm not sure why. File/folder names/structures are both reasonable and easy to understand.
- 
-   When run, the actions available to me are not as intuitive as they should be. Firstly, the system's tabs at the top do not have visible text on Linux environments - this is a problem,
-   sicne the assignment outline said that it needed to run on Linux. I tested the program on both my native Fedora install and the NoMachine servers, both didn't show the text.
-   Fortunately, my Mac was able to render the tabs and I was able to see the titles that were supposed to be there. (-1)
-
-   In addition, it is unclear what the purpose of the program is. I can tell (by looking through code) its supposed to be some kind of cocktail suggestion application that bases its suggestions 
-   off an inventory in your fridge or such. However, the inventory tab is disabled, and the tab for suggestions doesn't show any useful information as such. The only real use I can tell for the
-   program is to look at a few types of alcohols and see their descriptions and details about them (-1)
-   
-A: I'm glad the program worked right off the bad without needing to read the README, though I believe had you read it, you would have understood the program more clearly, and understand how to use it
-   and why the inventory tab is disabled (for A2 implementation). You are right the main GUI file is large and requires a support file. The support file handles the event handling and the main file
-   handles the objects in the GUI and making action listeners. The one big file could be split up, however I think by splitting it up it would only make it more confusing. The GUI file PyDrink is
-   big because of the amount of objects it creates and adds to the screen as well as custom objects tailored specifically for the app. Commented Out Code will be removed. I missed this, thank you.
-   
-   I'm not sure what the tab issue is. I tried it on MacOS, NoMachine, Debian, CentOs, Kali Linux, Windows 7, and Windows 10.
-   
-   I should have provided example test cases to see the cocktails in action for those who don't know any cocktails or what goes into them. Updated the README to make it more user inclusive.
-   
-   
-   
-R: I'm also not really sure what the use is for the ROText class, since tkinter includes a way to disable a text box from being written to without defining a class and methods (again, not encapsulated properly. -1). 
-
-   Duplicate code is everywhere in the GUI section of the assignment. Namely, there are many instances of the call to the configure() method on the same instance, sometimes even ten lines in a row of the same 
-   obj.configure(<something>) call. This wouldn't really be an issue if you couldn't use multiple arguments in this method, but you can, so there is no reason to waste so many lines when one call such as 
-   obj.configure(<something>, <something_else>) would have sufficed. This makes the code long for no good reason. (-1)
-
-A: ROText class is for read only textboxes. Not disabling them. There is only a way to fully disable, but then I can't write or update to them once disabled. So Read-only allows me to update the values dynamically in
-   the application, but does not let the user change, update, focus, or copy/paste. 
-   
-   The multople calls to the configure were done on purpose for my own readablity. I find it hard to understand what the GUI is doing at times (in terms of the object locations and styles) bc I'm not super versed in GUI
-   implementation. Hence I seperated the configure lines into seperate lines so that I can understand it better. The number of lines of code doesnt matter. Its what they do and how understandable they are that does.
-   
-   Please keep in mind, this assignment is not a GUI assignment. I used template code from the PAGE GUI maker (check sources) to help me make the GUI objects, The event handlers were written by me. So look for OOP
-   methodologies in my classes rather than my GUI.
