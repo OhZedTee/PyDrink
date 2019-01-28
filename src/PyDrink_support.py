@@ -9,6 +9,7 @@ import sys
 from .Fridge import Fridge
 from .Alcoholic import Alcoholic
 from .Glass import Glass
+from .Inventory import Inventory
 
 
 try:
@@ -25,6 +26,29 @@ except ImportError:
 
 fridge = Fridge()
 glass = Glass()
+inventory = Inventory()
+
+
+def search(text, prev, next, inventory_list, textbox_selected, success_message, page_message):
+    print('PyDrink_support.search: %s' % text)
+    if text == "":
+        text = None
+
+    inventory.page = 1
+    inventory.search_params = text
+
+    inventory.get_products(text)
+    insert_manager_tree(inventory_list, inventory, textbox_selected, success_message)
+
+    if inventory.page == 1:
+        prev.configure(state=tk.DISABLED)
+    if inventory.final_page:
+        next.configure(state=tk.DISABLED)
+
+    text = "Page %g of %g" % (inventory.page, inventory.num_pages)
+    page_message.configure(text=text)
+
+    sys.stdout.flush()
 
 
 def btn_add_glass_lclick(p1, tree, glass_list, success_message):
@@ -50,6 +74,108 @@ def btn_add_glass_lclick(p1, tree, glass_list, success_message):
     sys.stdout.flush()
 
 
+def btn_add_fridge_lclick(inventory_list, success_message, page_message):
+    print('PyDrink_support.btn_add_fridge_lclick')
+    """Event triggered when add to fridge button is pressed
+        1. Adds selected drinks to the fridge tab"""
+    count = 0
+    for child in inventory_list.get_children():
+        if str(inventory_list.item(child, "values")) == "('Yes',)" and not fridge.find_drink('name',
+               inventory_list.item(child, "text")):
+            print("Adding %s" % inventory_list.item(child, "text"))
+            count += 1
+            d = inventory.find_drink('name', inventory_list.item(child, "text"))
+            d.selected = False
+            fridge.add_drink(d)
+
+    if count > 0:
+        success_message.configure(state=tk.NORMAL)
+
+    text = "Page %g of %g" % (inventory.page, inventory.num_pages)
+    page_message.configure(text=text)
+
+    sys.stdout.flush()
+
+
+def btn_remove_fridge_lclick(tree):
+    print('PyDrink_support.btn_remove_fridge_lclick')
+    """Event triggered when remove from fridge button is pressed
+            1. Remove selected drinks to the fridge tab"""
+    try:
+        item = tree.selection()[0]
+        drink = fridge.find_drink('name', tree.item(item, "text"))
+    except IndexError:
+        drink = None
+        pass
+
+    if drink is not None:
+        tree.delete(item)
+        fridge.remove_drink(drink.id)
+
+    sys.stdout.flush()
+
+
+def btn_inv_prev_lclick(prev, next, inventory_list, textbox_selected, success_message, page_message):
+    print('PyDrink_support.btn_inv_prev_lclick')
+
+    """Event triggered when prev button is pressed
+    1. Empties the Inventory TreeView in Inventory tab
+    2. Repopulates it with previous page"""
+    for child in inventory_list.get_children():
+        inventory_list.delete(child)
+
+    inventory.page -= 1
+    next.configure(state=tk.NORMAL)
+
+    inventory.get_products(inventory.search_params)
+    insert_manager_tree(inventory_list, inventory, textbox_selected, success_message)
+
+    if inventory.page == 1:
+        prev.configure(state=tk.DISABLED)
+
+    text = "Page %g of %g" % (inventory.page, inventory.num_pages)
+    page_message.configure(text=text)
+
+    sys.stdout.flush()
+
+
+def btn_inv_next_lclick(prev, next, inventory_list, textbox_selected, success_message, page_message):
+    print('PyDrink_support.btn_inv_next_lclick')
+
+    """Event triggered when prev button is pressed
+    1. Empties the Inventory TreeView in Inventory tab
+    2. Repopulates it with previous page"""
+    for child in inventory_list.get_children():
+        inventory_list.delete(child)
+
+    inventory.page += 1
+    prev.configure(state=tk.NORMAL)
+
+    inventory.get_products(inventory.search_params)
+    insert_manager_tree(inventory_list, inventory, textbox_selected, success_message)
+
+    if inventory.final_page:
+        next.configure(state=tk.DISABLED)
+
+    text = "Page %g of %g" % (inventory.page, inventory.num_pages)
+    page_message.configure(text=text)
+
+    sys.stdout.flush()
+
+
+def ntb_open_inventory(p1, tree, textbox_selected, success_message, page_message):
+    print('PyDrink_support.ntb_open_inventory')
+    print('p1 = {0}'.format(p1))
+
+    """Event triggered when the inventory tab is opened
+        Call method to add drinks from the API to the TreeView"""
+
+    insert_manager_tree(tree, inventory, textbox_selected, success_message)
+    text = "Page %g of %g" % (inventory.page, inventory.num_pages)
+    page_message.configure(text=text)
+    sys.stdout.flush()
+
+
 def ntb_open_fridge(p1, tree, textbox_selected, success_message):
     print('PyDrink_support.ntb_open_fridge')
     print('p1 = {0}'.format(p1))
@@ -64,9 +190,12 @@ def ntb_open_fridge(p1, tree, textbox_selected, success_message):
 
 
 def ntb_open_glass(p1, tree, cocktail_tree, textbox_selected):
-
-    print('PyDrink_support.ntb_open_fridge')
+    print('PyDrink_support.ntb_open_glass')
     print('p1 = {0}'.format(p1))
+
+    """Event triggered when the Glass tab is opened
+        Call method to add drinks from the glass object to the TreeView,
+        Call method to add cocktails to the TreeView"""
 
     cocktail_categories = {}
     alcoholic = []
@@ -116,7 +245,7 @@ def insert_manager_tree(tree, obj, textbox_selected, success_message=None):
             selected = 'Yes'
         tree.insert('', 'end', text=str(drink.name),
                     values=selected)
-        tree.bind("<Double-1>", lambda e: stv_list_selected_dclick(e, tree, success_message))
+        tree.bind("<Double-1>", lambda e: stv_list_selected_dclick(e, tree, obj, success_message))
         tree.bind("<ButtonRelease-1>", lambda e: stv_select_lclick(e, tree, obj, textbox_selected))
 
 
@@ -163,12 +292,12 @@ def stv_cocktail_selected(p1, tree, textbox_selected):
         textbox_selected.insert('1.0', str(cocktail))
 
 
-def stv_list_selected_dclick(p1, tree, success_message):
+def stv_list_selected_dclick(p1, tree, obj, success_message):
     """Update Selection of drink in fridge"""
     print('PyDrink_support.stv_list_selected_dclick')
     print('p1 = {0}'.format(p1))
     item = tree.selection()[0]
-    drink = fridge.find_drink('name', tree.item(item, "text"))
+    drink = obj.find_drink('name', tree.item(item, "text"))
 
     # Flip sign of selected
     if tree.item(item, "values")[0] == 'No':

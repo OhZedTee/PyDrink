@@ -58,4 +58,4 @@ class Drink:
         self._selected = value
 
     def __str__(self):
-        return "Name: %s\nCost: %g$\nDescription: %s\n" % (self.name, self.cost, self.desc)
+        return "Name: %s\nCost: %s\nDescription: %s" % (self.name, '${:,.2f}'.format(float(self.cost)/100.), self.desc)

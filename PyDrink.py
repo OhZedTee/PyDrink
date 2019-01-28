@@ -23,6 +23,7 @@ except ImportError:
 from src import PyDrink_support
 from ui import ScrolledTreeView
 from ui import ROText
+from ui import SearchBox
 
 
 def vp_start_gui():
@@ -113,7 +114,7 @@ class PyDrink:
         self.notebook.configure(takefocus="")
         self.notebook_t0 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t0, padding=3)
-        self.notebook.tab(0, text="Inventory", compound="none", underline="-1", state='disabled')
+        self.notebook.tab(0, text="Inventory", compound="none", underline="-1")
         self.notebook_t0.configure(background="#d9d9d9", highlightbackground="#d9d9d9", highlightcolor="black")
         self.notebook_t1 = tk.Frame(self.notebook)
         self.notebook.add(self.notebook_t1, padding=3)
@@ -123,6 +124,94 @@ class PyDrink:
         self.notebook.add(self.notebook_t2, padding=3)
         self.notebook.tab(2, text="Glass", compound="none", underline="-1")
         self.notebook_t2.configure(background="#d9d9d9", highlightbackground="#d9d9d9", highlightcolor="black")
+
+        self.cnv_list_inv = tk.Canvas(self.notebook_t0)
+        self.cnv_list_inv.place(relx=0.0, rely=0.015, relheight=0.919
+                                , relwidth=0.635)
+        self.cnv_list_inv.configure(background="#d9d9d9", borderwidth="2", insertbackground="black", relief='ridge',
+                                    selectbackground="#c4c4c4", selectforeground="black", width=683)
+
+        self.frame_list_inv = tk.Frame(self.cnv_list_inv)
+        self.frame_list_inv.place(relx=0.015, rely=0.016, relheight=0.972
+                                     , relwidth=0.974)
+        self.frame_list_inv.configure(relief='groove', borderwidth="2", background="#d9d9d9", width=665)
+
+        self.search_inv = SearchBox.SearchBox(self.frame_list_inv, command=lambda: PyDrink_support.search(
+            self.search_inv.get_text(), self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv,
+            self.txtbx_inv_selected, self.lbl_add_fridge_success, self.lbl_inv_page),
+            placeholder="Search by Category (i.e. Beer, Wine, Vodka, Tequila)", entry_highlightthickness=0,
+            entry_width=94)
+        self.search_inv.place(relx=0.015, rely=0.016)
+
+        self.style.configure('Treeview.Heading', font="TkDefaultFont")
+        self.stv_list_inv = ScrolledTreeView.ScrolledTreeView(self.frame_list_inv)
+        self.stv_list_inv.place(relx=0.015, rely=0.056, relheight=0.90, relwidth=0.962)
+        self.stv_list_inv.configure(columns="Select")
+        self.stv_list_inv.heading("#0", text="Drink", anchor="center")
+        self.stv_list_inv.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
+        self.stv_list_inv.heading("Select", text="Select", anchor="center")
+        self.stv_list_inv.column("Select", width="309", minwidth="20", stretch="1", anchor="center")
+        self.notebook_t0.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_inventory(e, self.stv_list_inv,
+                                                                                           self.txtbx_inv_selected,
+                                                                                           self.lbl_add_fridge_success,
+                                                                                           self.lbl_inv_page))
+
+        self.cnv_select_inv = tk.Canvas(self.notebook_t0)
+        self.cnv_select_inv.place(relx=0.632, rely=0.015, relheight=0.919
+                                  , relwidth=0.365)
+        self.cnv_select_inv.configure(background="#d9d9d9", borderwidth="2", insertbackground="black", relief='ridge'
+                                      , selectbackground="#c4c4c4", selectforeground="black", width=393)
+
+        self.frm_select_inv = tk.Frame(self.cnv_select_inv)
+        self.frm_select_inv.place(relx=0.025, rely=0.016, relheight=0.972
+                                  , relwidth=0.954)
+        self.frm_select_inv.configure(relief='groove', borderwidth="2", background="#d9d9d9", width=375)
+
+        self.lbl_inv_description = tk.Label(self.frm_select_inv)
+        self.lbl_inv_description.place(relx=0.027, rely=0.016, height=34, width=106)
+        self.lbl_inv_description.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                           foreground="#000000", text='Description:')
+        self.lbl_inv_description.pack(side="top")
+
+        self.lbl_add_fridge_success = tk.Label(self.notebook_t0)
+        self.lbl_add_fridge_success.place(relx=0.6, rely=0.943, height=33, width=250)
+        self.lbl_add_fridge_success.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                              foreground="#AE3A3A", text='Added To Fridge',
+                                              state=tk.DISABLED)
+
+        self.txtbx_inv_selected = ROText.ROText(self.frm_select_inv)
+        self.txtbx_inv_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
+        self.txtbx_inv_selected.configure(background="white", font="TkTextFont", foreground="black",
+                                          highlightbackground="#d9d9d9", highlightcolor="black",
+                                          insertbackground="black", selectbackground="#c4c4c4",
+                                          selectforeground="black", width=294, wrap='word')
+
+        self.btn_add_fridge = tk.Button(self.notebook_t0, command=lambda: PyDrink_support.btn_add_fridge_lclick(
+            self.stv_list_inv, self.lbl_add_fridge_success, self.lbl_inv_page))
+        self.btn_add_fridge.place(relx=0.836, rely=0.943, height=33, width=166)
+        self.btn_add_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                      disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
+                                      highlightcolor="black", pady="0", text='Add To Fridge')
+
+        self.btn_inv_prev = tk.Button(self.frame_list_inv, command=lambda: PyDrink_support.btn_inv_prev_lclick(
+            self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv, self.txtbx_inv_selected,
+            self.lbl_add_fridge_success, self.lbl_inv_page))
+        self.btn_inv_prev.place(relx=0.25, rely=0.96, height=22, width=18)
+        self.btn_inv_prev.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                    disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
+                                    highlightcolor="black", pady="0", text='<', state='disabled')
+        self.lbl_inv_page = tk.Label(self.frame_list_inv)
+        self.lbl_inv_page.place(relx=0.5, rely=0.973, height=22, width=125, anchor="center")
+        self.lbl_inv_page.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
+                                    foreground="#000000", text='')
+
+        self.btn_inv_next = tk.Button(self.frame_list_inv, command=lambda: PyDrink_support.btn_inv_next_lclick(
+            self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv, self.txtbx_inv_selected,
+            self.lbl_add_fridge_success, self.lbl_inv_page))
+        self.btn_inv_next.place(relx=0.75, rely=0.96, height=22, width=18)
+        self.btn_inv_next.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                    disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
+                                    highlightcolor="black", pady="0", text='>')
 
         self.cnv_list_fridge = tk.Canvas(self.notebook_t1)
         self.cnv_list_fridge.place(relx=0.0, rely=0.015, relheight=0.919
@@ -182,11 +271,20 @@ class PyDrink:
         self.btn_add_glass.place(relx=0.836, rely=0.943, height=33, width=166)
         self.btn_add_glass.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                      disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
-                                     highlightcolor="black", pady="0", text='Add To Glass', width=166)
+                                     highlightcolor="black", pady="0", text='Add To Glass')
         self.btn_add_glass.bind('<Button-1>', lambda e: PyDrink_support.btn_add_glass_lclick(e, self.stv_list_fridge,
                                                                                              self.stv_list_glass,
                                                                                              self.lbl_add_glass_success)
                                 )
+
+        self.btn_remove_fridge = tk.Button(self.notebook_t1, command=lambda: PyDrink_support.btn_remove_fridge_lclick(
+            self.stv_list_fridge))
+        self.btn_remove_fridge.place(relx=0.65, rely=0.943, height=33, width=166)
+        self.btn_remove_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                         disabledforeground="#a3a3a3", foreground="#000000",
+                                         highlightbackground="#d9d9d9", highlightcolor="black", pady="0",
+                                         text='Remove From Fridge')
+
         self.cnv_list_glass = tk.Canvas(self.notebook_t2)
         self.cnv_list_glass.place(relx=0.0, rely=0.015, relheight=0.919
                                   , relwidth=0.635)

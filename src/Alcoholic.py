@@ -43,5 +43,5 @@ class Alcoholic (Drink):
         self._category = category
 
     def __str__(self):
-        return "Name: %s\nCost: %g$\nDescription: %s\nAlcohol: %g%%\nPackaging: %s\nCategory: %s\n" % \
-               (self.name, self.cost / 100, self.desc, self.apv / 10, self.package, self.category)
+        return "Name: %s\nCost: %s\nAlcohol: %g%%\nPackaging: %s\nCategory: %s\nDescription: %s" % \
+               (self.name, '${:,.2f}'.format(float(self.cost)/100.), self.apv / 10, self.package, self.category, self.desc)
