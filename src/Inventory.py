@@ -5,6 +5,7 @@ from .Alcoholic import Alcoholic
 from .NonAlcoholic import NonAlcoholic
 import urllib.request
 import json
+import re
 
 
 class Inventory(Manager):
@@ -68,8 +69,27 @@ class Inventory(Manager):
         self.num_pages =  fp['pager']['total_pages']
         results = fp['result']
         for item in results:
+            category = item['primary_category']
+            if category == 'Spirits':
+                category = item['secondary_category']
+
             d = Alcoholic(item['id'], item['name'], item['regular_price_in_cents'], item['tasting_note'],
-                          item['alcohol_content'] / 10, item['package'], item['primary_category'])
+                          item['alcohol_content'] / 10, item['package'], category)
+
+            for param in item:
+                if (item[param] != category and param != 'id' and param != 'name' and param != 'regular_price_in_cents'
+                    and param != 'tasting_note' and param != 'alcohol_content' and param != 'package'
+                    and param != 'image_thumb_url' and param != 'updated_at' and param != 'image_url'
+                    and item[param] != False and item[param] != None):
+                        # Convert snake_case to readable Snake Case
+
+                        def print_case(match):
+                            return match.group(1) + " " + match.group(2)
+
+                        #replace snake case with space separated Pascal Case
+                        key =  re.sub(r"(.*?)_([a-zA-Z])", print_case, param, 0)
+                        d.add_unique_param(key.title(), item[param])
+
 
             # duplicates found in API, if duplicates fixed in API, this can be removed
             if self.find_drink('name', d.name) is None:
@@ -84,9 +104,10 @@ class Inventory(Manager):
         url = 'http://localhost:3000/products?%s' % params
         req = urllib.request.Request(url)
         req.method = 'GET'
-        with urllib.request.urlopen(req) as jsonobj:
-            contents = json.loads(jsonobj.read().decode('utf-8'))
-            self.parse(contents)
-            #item = str(contents)
-            #print(item)
+        try:
+            with urllib.request.urlopen(req) as jsonobj:
+                contents = json.loads(jsonobj.read().decode('utf-8'))
+                self.parse(contents)
+        except:
+            print("LCBO API NOT CONNECTED")
 

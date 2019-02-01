@@ -1,5 +1,7 @@
 #!/usr/bin/python
 from .Drink import Drink
+from .Encoder import JSONEncoder
+import json
 
 
 class NonAlcoholic (Drink):
@@ -53,8 +55,13 @@ class NonAlcoholic (Drink):
         """Set Caffeine content of drink"""
         self._caffeine_content = caffeine_content
 
+    def dumps(self):
+        """Dump JSON data of object"""
+        return json.dumps(self, ensure_ascii=True, cls=JSONEncoder, indent=4)
+
     def __str__(self):
         str_carbonated = 'Yes' if self.is_carbonated else 'No'
         return "Name: %s\nCost: %s\nCarbonated: %s\nSugar Content: %s\nPackage: %s\nDescription: %s" \
-               "Caffeine Content: %s" % (self.name, '${:,.2f}'.format(float(self.cost)/100.), str_carbonated, self.sugar_content,
-                                         self.package, self.caffeine_content, self.desc)
+               "Caffeine Content: %s\n\n\n************JSON**********\n%s" \
+               % (self.name, '${:,.2f}'.format(float(self.cost)/100.), str_carbonated, self.sugar_content,
+                                         self.package, self.caffeine_content, self.desc, self.dumps())

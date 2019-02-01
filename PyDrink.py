@@ -278,7 +278,7 @@ class PyDrink:
                                 )
 
         self.btn_remove_fridge = tk.Button(self.notebook_t1, command=lambda: PyDrink_support.btn_remove_fridge_lclick(
-            self.stv_list_fridge))
+            self.stv_list_fridge, self.txtbx_fridge_selected))
         self.btn_remove_fridge.place(relx=0.65, rely=0.943, height=33, width=166)
         self.btn_remove_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                          disabledforeground="#a3a3a3", foreground="#000000",

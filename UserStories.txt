@@ -1,6 +1,6 @@
-1. The user can access the Inventory of all LCBO products
-2. The user can select LCBO products and add it to their 'fridge' (parse JSON data)
+1. The user can access the Inventory of all LCBO products Done
+2. The user can select LCBO products and add it to their 'fridge' (parse JSON data) Done
 3. The user will get specific information depending on category of drink selected (i.e. Wine will
-	provide VQA information)
-4. The user will see JSON data about each object as part of the description (will be used for A3 in Web Server)
-5. The user will have all Fridge elements stored in the database for later access
+	provide VQA information) 
+4. The user will see JSON data about each Drink as part of the description (will be used for A3 in Web Server)
+5. The user will have the Fridge state stored in the database for later access

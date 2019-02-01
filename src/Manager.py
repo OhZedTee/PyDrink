@@ -15,6 +15,10 @@ class Manager(ABC):
         """Returns dictionary containing all drinks in the manager"""
         return self._drinks
 
+    @drinks.setter
+    def drinks(self, value):
+        self._drinks = value
+
     def get_drink(self, _id):
         """Returns drink in dictionary based off of a given id"""
         return self.drinks[str(_id)]
@@ -41,6 +45,7 @@ class Manager(ABC):
     def remove_drink(self, _id):
         """Removes a drink from the dictionary by id
            does not return it"""
+        self.drinks[str(_id)].clear_unique_params()
         del self.drinks[str(_id)]
 
     def clear_drinks(self):

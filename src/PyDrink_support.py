@@ -87,6 +87,7 @@ def btn_add_fridge_lclick(inventory_list, success_message, page_message):
             d = inventory.find_drink('name', inventory_list.item(child, "text"))
             d.selected = False
             fridge.add_drink(d)
+            fridge.save()
 
     if count > 0:
         success_message.configure(state=tk.NORMAL)
@@ -97,7 +98,7 @@ def btn_add_fridge_lclick(inventory_list, success_message, page_message):
     sys.stdout.flush()
 
 
-def btn_remove_fridge_lclick(tree):
+def btn_remove_fridge_lclick(tree, description):
     print('PyDrink_support.btn_remove_fridge_lclick')
     """Event triggered when remove from fridge button is pressed
             1. Remove selected drinks to the fridge tab"""
@@ -111,6 +112,8 @@ def btn_remove_fridge_lclick(tree):
     if drink is not None:
         tree.delete(item)
         fridge.remove_drink(drink.id)
+        description.delete('1.0', tk.END)
+        fridge.save()
 
     sys.stdout.flush()
 
@@ -263,7 +266,7 @@ def insert_cocktail_tree(tree, obj, textbox_selected):
 
 def stv_select_lclick(p1, tree, obj, textbox_selected):
     """Update Description of selected frame"""
-    print('PyDrink_support.stv_list_selected_dclick')
+    print('PyDrink_support.stv_list_selected_lclick')
     print('p1 = {0}'.format(p1))
 
     try:
@@ -283,8 +286,12 @@ def stv_cocktail_selected(p1, tree, textbox_selected):
     """Update Description of selected frame"""
     print('PyDrink_support.stv_cocktail_selected')
     print('p1 = {0}'.format(p1))
-    item = tree.selection()[0]
-    cocktail = glass.get_cocktail(tree.item(item, "text"))
+    try:
+        item = tree.selection()[0]
+        cocktail = glass.get_cocktail(tree.item(item, "text"))
+    except IndexError:
+        cocktail = None
+        pass
 
     if cocktail is not None:
         # 1 - line 0 - coloumn
@@ -296,19 +303,25 @@ def stv_list_selected_dclick(p1, tree, obj, success_message):
     """Update Selection of drink in fridge"""
     print('PyDrink_support.stv_list_selected_dclick')
     print('p1 = {0}'.format(p1))
-    item = tree.selection()[0]
-    drink = obj.find_drink('name', tree.item(item, "text"))
+    try:
+        item = tree.selection()[0]
+        drink = obj.find_drink('name', tree.item(item, "text"))
 
-    # Flip sign of selected
-    if tree.item(item, "values")[0] == 'No':
-        tree.item(item, values='Yes')
-        drink.selected = True
-    else:
-        tree.item(item, values='No')
-        drink.selected = False
+        # Flip sign of selected
+        if tree.item(item, "values")[0] == 'No':
+            tree.item(item, values='Yes')
+            drink.selected = True
+        else:
+            tree.item(item, values='No')
+            drink.selected = False
 
-    if success_message is not None:
-        success_message.configure(state=tk.DISABLED)
+        if success_message is not None:
+            success_message.configure(state=tk.DISABLED)
+
+        if type(obj) is Fridge:
+            obj.save()
+    except:
+        pass
 
 
 if __name__ == '__main__':
