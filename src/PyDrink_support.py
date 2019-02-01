@@ -69,7 +69,7 @@ def btn_add_glass_lclick(p1, tree, glass_list, success_message):
             glass_list.insert('', 'end', text=tree.item(child, "text"), values=tree.item(child, "values"))
 
     if count > 0:
-        success_message.configure(state=tk.NORMAL)
+        success_`message.configure(state=tk.NORMAL)
 
     sys.stdout.flush()
 
