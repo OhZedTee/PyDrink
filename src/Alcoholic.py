@@ -2,7 +2,6 @@
 from .Drink import Drink
 from .Encoder import JSONEncoder
 import json
-import sys
 
 
 class Alcoholic (Drink):

@@ -109,10 +109,9 @@ class Inventory(Manager):
         url = 'http://localhost:3000/products?%s' % params
         req = urllib.request.Request(url)
         req.method = 'GET'
-        #try:
-        with urllib.request.urlopen(req) as jsonobj:
-            contents = json.loads(jsonobj.read().decode('utf-8'))
-            self.parse(contents)
-        #except:
-        #    print("LCBO API NOT CONNECTED")
-
+        try:
+            with urllib.request.urlopen(req) as jsonobj:
+                contents = json.loads(jsonobj.read().decode('utf-8'))
+                self.parse(contents)
+        except:
+            print("LCBO API NOT CONNECTED")

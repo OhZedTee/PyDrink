@@ -2,7 +2,6 @@
 
 from .Manager import Manager
 import csv
-import sys
 import re
 
 
@@ -78,11 +77,6 @@ class Glass(Manager):
                are in the categories list (list of drinks in fridge)"""
         result = []
         for cocktail in self.cocktails.values():
-            is_manhattan = False
-            if 'manhattan' in getattr(cocktail, 'name', False).lower():
-                print("found manhattan")
-                is_manhattan = True
-
             has_main_alcohol = False
             has_other_alcohol = False
             has_mix = False
