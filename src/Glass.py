@@ -2,6 +2,8 @@
 
 from .Manager import Manager
 import csv
+import sys
+import re
 
 
 class Glass(Manager):
@@ -76,6 +78,11 @@ class Glass(Manager):
                are in the categories list (list of drinks in fridge)"""
         result = []
         for cocktail in self.cocktails.values():
+            is_manhattan = False
+            if 'manhattan' in getattr(cocktail, 'name', False).lower():
+                print("found manhattan")
+                is_manhattan = True
+
             has_main_alcohol = False
             has_other_alcohol = False
             has_mix = False
@@ -90,14 +97,19 @@ class Glass(Manager):
             elif mixes == '':
                 has_mix = True
 
-            for attribute in categories["Alcoholic"]:
-                if attribute.lower() in main_alcohol:
-                    has_main_alcohol = True
-                if attribute.lower() in other_alcohol:
-                    has_other_alcohol = True
+            main_alcohol_list = re.findall(r"[\w']+", main_alcohol)
+            other_alcohol_list = re.findall(r"[\w']+", other_alcohol)
+            mixes_list = re.findall(r"[\w']+", mixes)
+
+            for categoryList in categories["Alcoholic"]:
+                for attribute in categoryList:
+                    if  any(x in str(attribute).lower() for  x in main_alcohol_list): # main_alcohol in str(attribute).lower() or str(attribute).lower() in main_alcohol:
+                        has_main_alcohol = True
+                    if  any(x in str(attribute).lower() for  x in other_alcohol_list):# other_alcohol in str(attribute).lower() or str(attribute).lower() in other_alcohol:
+                        has_other_alcohol = True
 
             for attribute in categories["NonAlcoholic"]:
-                if attribute.lower() in mixes:
+                if any(x in str(attribute).lower() for x in mixes_list):
                     has_mix = True
 
             if cocktail not in result and has_main_alcohol and has_other_alcohol and has_mix:

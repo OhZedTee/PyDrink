@@ -1,6 +1,6 @@
 .PHONY: python3 python
 
-run: clean-pyc
+run:
 	python3 PyDrink.py || python PyDrink.py
 	
 clean-pyc:

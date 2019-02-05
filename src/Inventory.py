@@ -6,6 +6,7 @@ from .NonAlcoholic import NonAlcoholic
 import urllib.request
 import json
 import re
+import sys
 
 
 class Inventory(Manager):
@@ -69,15 +70,19 @@ class Inventory(Manager):
         self.num_pages =  fp['pager']['total_pages']
         results = fp['result']
         for item in results:
-            category = item['primary_category']
-            if category == 'Spirits':
-                category = item['secondary_category']
+            category = []
+            for attribute in item:
+                if "category" in attribute.lower():
+                    category.append(item[attribute])
+            # category = item['primary_category']
+            # if category == 'Spirits':
+            #     category = item['secondary_category']
 
             d = Alcoholic(item['id'], item['name'], item['regular_price_in_cents'], item['tasting_note'],
                           item['alcohol_content'] / 10, item['package'], category)
 
             for param in item:
-                if (item[param] != category and param != 'id' and param != 'name' and param != 'regular_price_in_cents'
+                if (item[param] not in category and param != 'id' and param != 'name' and param != 'regular_price_in_cents'
                     and param != 'tasting_note' and param != 'alcohol_content' and param != 'package'
                     and param != 'image_thumb_url' and param != 'updated_at' and param != 'image_url'
                     and item[param] != False and item[param] != None):
@@ -104,10 +109,10 @@ class Inventory(Manager):
         url = 'http://localhost:3000/products?%s' % params
         req = urllib.request.Request(url)
         req.method = 'GET'
-        try:
-            with urllib.request.urlopen(req) as jsonobj:
-                contents = json.loads(jsonobj.read().decode('utf-8'))
-                self.parse(contents)
-        except:
-            print("LCBO API NOT CONNECTED")
+        #try:
+        with urllib.request.urlopen(req) as jsonobj:
+            contents = json.loads(jsonobj.read().decode('utf-8'))
+            self.parse(contents)
+        #except:
+        #    print("LCBO API NOT CONNECTED")
 
