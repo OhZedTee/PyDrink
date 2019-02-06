@@ -3,6 +3,7 @@
 from .Manager import Manager
 import csv
 import re
+import sys
 
 
 class Glass(Manager):
@@ -80,30 +81,79 @@ class Glass(Manager):
             has_main_alcohol = False
             has_other_alcohol = False
             has_mix = False
+            is_test = False
             main_alcohol = getattr(cocktail, 'main_alcohol', False).lower()
             other_alcohol = getattr(cocktail, 'other_alcohols', False).lower()
             mixes = getattr(cocktail, 'mixes', False).lower()
 
-            if main_alcohol == '':
-                has_main_alcohol = True
-            elif other_alcohol == '':
-                has_other_alcohol = True
-            elif mixes == '':
-                has_mix = True
+            main_alcohol_list = main_alcohol.split(',')
+            other_alcohol_list = other_alcohol.split(',')
+            mixes_list = mixes.split(',')
 
-            main_alcohol_list = re.findall(r"[\w']+", main_alcohol)
-            other_alcohol_list = re.findall(r"[\w']+", other_alcohol)
-            mixes_list = re.findall(r"[\w']+", mixes)
+            sys.stdout.flush()
+            for main_requirement in main_alcohol_list:
+                requirement_list = re.findall(r"[\w']+|[.,!?;]", main_requirement)
+                if len(requirement_list) != 0:
+                    found = False
+                    for categoryList in categories["Alcoholic"]:
+                        for attribute in categoryList:
+                            if str(attribute).lower() != "none":
+                                if any(x in str(attribute).lower() for x in requirement_list):
+                                    found  = True
+                                    break
+                        if found:
+                            break
 
-            for categoryList in categories["Alcoholic"]:
-                for attribute in categoryList:
-                    if  any(x in str(attribute).lower() for  x in main_alcohol_list): # main_alcohol in str(attribute).lower() or str(attribute).lower() in main_alcohol:
+                    if found:
                         has_main_alcohol = True
-                    if  any(x in str(attribute).lower() for  x in other_alcohol_list):# other_alcohol in str(attribute).lower() or str(attribute).lower() in other_alcohol:
-                        has_other_alcohol = True
+                    else:
+                        has_main_alcohol = False
+                        break
+                else:
+                    has_main_alcohol = True
 
-            for attribute in categories["NonAlcoholic"]:
-                if any(x in str(attribute).lower() for x in mixes_list):
+            for other_requirements in other_alcohol_list:
+                requirement_list = re.findall(r"[\w']+|[.,!?;]", other_requirements)
+                if len(requirement_list) != 0:
+                    found = False
+                    for categoryList in categories["Alcoholic"]:
+                        for attribute in categoryList:
+                            if str(attribute).lower() != "none":
+                                if "vermouth" in str(attribute).lower() and any("vermouth" for x in requirement_list):
+                                    if "dry" in str(attribute).lower() and not "dry" in str(requirement_list).lower():
+                                        continue
+                                    elif "sweet" in str(attribute).lower() and not "sweet" in str(requirement_list).lower():
+                                        continue
+                                if any(x in str(attribute).lower() for x in requirement_list):
+                                    found = True
+                                    break
+                        if found:
+                            break
+
+                    if found:
+                        has_other_alcohol = True
+                    else:
+                        has_other_alcohol = False
+                        break
+                else:
+                    has_other_alcohol = True
+                    break
+
+            for mix_requirements in mixes_list:
+                if len(mix_requirements) != 0:
+                    found = False
+                    for attribute in categories["NonAlcoholic"]:
+                        if str(attribute).lower() != "none":
+                            if str(attribute).lower() in mix_requirements or mix_requirements in str(attribute).lower():
+                                found = True
+                                break
+                    if found:
+                        has_mix = True
+                    else:
+                        has_mix = False
+
+                    sys.stdout.flush()
+                else:
                     has_mix = True
 
             if cocktail not in result and has_main_alcohol and has_other_alcohol and has_mix:

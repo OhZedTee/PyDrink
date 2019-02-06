@@ -73,10 +73,12 @@ class Inventory(Manager):
             category = []
             for attribute in item:
                 if "category" in attribute.lower():
+                    if "vermouth" in item[attribute].lower():
+                        if "dry" in item['name'].lower():
+                            item[attribute] += "/Dry"
+                        elif "sweet" in item['name'].lower():
+                            item[attribute] += "/Sweet"
                     category.append(item[attribute])
-            # category = item['primary_category']
-            # if category == 'Spirits':
-            #     category = item['secondary_category']
 
             d = Alcoholic(item['id'], item['name'], item['regular_price_in_cents'], item['tasting_note'],
                           item['alcohol_content'] / 10, item['package'], category)

@@ -61,7 +61,7 @@ class NonAlcoholic (Drink):
 
     def __str__(self):
         str_carbonated = 'Yes' if self.is_carbonated else 'No'
-        return "Name: %s\nCost: %s\nCarbonated: %s\nSugar Content: %s\nPackage: %s\nDescription: %s" \
-               "Caffeine Content: %s\n\n\n************JSON**********\n%s" \
+        return "Name: %s\nCost: %s\nCarbonated: %s\nSugar Content: %s\nPackage: %s\nCaffeine Content: %s\n" \
+               "Description: %s\n\n\n************JSON**********\n%s" \
                % (self.name, '${:,.2f}'.format(float(self.cost)/100.), str_carbonated, self.sugar_content,
                                          self.package, self.caffeine_content, self.desc, self.dumps())

@@ -20,7 +20,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-from src import PyDrink_support
+from src.PyDrink_support import PyDrinkController
 from ui import ScrolledTreeView
 from ui import ROText
 from ui import SearchBox
@@ -30,8 +30,9 @@ def vp_start_gui():
     """Starting point when module is the main routine."""
     global val, w, root
     root = tk.Tk()
-    top = PyDrink(root)
-    PyDrink_support.init(root, top)
+    controller = PyDrinkController()
+    top = PyDrink(controller, root)
+    controller.init(root, top)
     root.mainloop()
 
 
@@ -43,8 +44,9 @@ def create_PyDrink(root, *args, **kwargs):
     global w, w_win, rt
     rt = root
     w = tk.Toplevel(root)
-    top = PyDrink(w)
-    PyDrink_support.init(w, top, *args, **kwargs)
+    controller = PyDrinkController()
+    top = PyDrink(controller, w)
+    controller.init(w, top, *args, **kwargs)
     return w, top
 
 
@@ -55,7 +57,7 @@ def destroy_PyDrink():
 
 
 class PyDrink:
-    def __init__(self, top=None):
+    def __init__(self, controller, top=None):
         """This class configures and populates the toplevel window.
            top is the toplevel containing window."""
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -136,7 +138,7 @@ class PyDrink:
                                      , relwidth=0.974)
         self.frame_list_inv.configure(relief='groove', borderwidth="2", background="#d9d9d9", width=665)
 
-        self.search_inv = SearchBox.SearchBox(self.frame_list_inv, command=lambda: PyDrink_support.search(
+        self.search_inv = SearchBox.SearchBox(self.frame_list_inv, command=lambda: controller.search(
             self.search_inv.get_text(), self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv,
             self.txtbx_inv_selected, self.lbl_add_fridge_success, self.lbl_inv_page),
             placeholder="Search by Category (i.e. Beer, Wine, Vodka, Tequila)", entry_highlightthickness=0,
@@ -149,9 +151,9 @@ class PyDrink:
         self.stv_list_inv.configure(columns="Select")
         self.stv_list_inv.heading("#0", text="Drink", anchor="center")
         self.stv_list_inv.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
-        self.stv_list_inv.heading("Select", text="Select", anchor="center")
+        self.stv_list_inv.heading("Select", text="Cart (Right Click Selected Item to Add)", anchor="center")
         self.stv_list_inv.column("Select", width="309", minwidth="20", stretch="1", anchor="center")
-        self.notebook_t0.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_inventory(e, self.stv_list_inv,
+        self.notebook_t0.bind('<Visibility>', lambda e: controller.ntb_open_inventory(e, self.stv_list_inv,
                                                                                            self.txtbx_inv_selected,
                                                                                            self.lbl_add_fridge_success,
                                                                                            self.lbl_inv_page))
@@ -186,14 +188,14 @@ class PyDrink:
                                           insertbackground="black", selectbackground="#c4c4c4",
                                           selectforeground="black", width=294, wrap='word')
 
-        self.btn_add_fridge = tk.Button(self.notebook_t0, command=lambda: PyDrink_support.btn_add_fridge_lclick(
+        self.btn_add_fridge = tk.Button(self.notebook_t0, command=lambda: controller.btn_add_fridge_lclick(
             self.stv_list_inv, self.lbl_add_fridge_success, self.lbl_inv_page))
         self.btn_add_fridge.place(relx=0.836, rely=0.943, height=33, width=166)
         self.btn_add_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                       disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
                                       highlightcolor="black", pady="0", text='Add To Fridge')
 
-        self.btn_inv_prev = tk.Button(self.frame_list_inv, command=lambda: PyDrink_support.btn_inv_prev_lclick(
+        self.btn_inv_prev = tk.Button(self.frame_list_inv, command=lambda: controller.btn_inv_prev_lclick(
             self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv, self.txtbx_inv_selected,
             self.lbl_add_fridge_success, self.lbl_inv_page))
         self.btn_inv_prev.place(relx=0.25, rely=0.96, height=22, width=18)
@@ -205,7 +207,7 @@ class PyDrink:
         self.lbl_inv_page.configure(background="#d9d9d9", disabledforeground="#a3a3a3", font=font9,
                                     foreground="#000000", text='')
 
-        self.btn_inv_next = tk.Button(self.frame_list_inv, command=lambda: PyDrink_support.btn_inv_next_lclick(
+        self.btn_inv_next = tk.Button(self.frame_list_inv, command=lambda: controller.btn_inv_next_lclick(
             self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv, self.txtbx_inv_selected,
             self.lbl_add_fridge_success, self.lbl_inv_page))
         self.btn_inv_next.place(relx=0.75, rely=0.96, height=22, width=18)
@@ -231,9 +233,9 @@ class PyDrink:
         self.stv_list_fridge.configure(columns="Select")
         self.stv_list_fridge.heading("#0", text="Drink", anchor="center")
         self.stv_list_fridge.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
-        self.stv_list_fridge.heading("Select", text="Select", anchor="center")
+        self.stv_list_fridge.heading("Select", text="Glass (Right Click Selected Item to Add)", anchor="center")
         self.stv_list_fridge.column("Select", width="309", minwidth="20", stretch="1", anchor="center")
-        self.notebook_t1.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_fridge(e, self.stv_list_fridge,
+        self.notebook_t1.bind('<Visibility>', lambda e: controller.ntb_open_fridge(e, self.stv_list_fridge,
                                                                                         self.txtbx_fridge_selected,
                                                                                         self.lbl_add_glass_success))
 
@@ -272,12 +274,13 @@ class PyDrink:
         self.btn_add_glass.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                      disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
                                      highlightcolor="black", pady="0", text='Add To Glass')
-        self.btn_add_glass.bind('<Button-1>', lambda e: PyDrink_support.btn_add_glass_lclick(e, self.stv_list_fridge,
-                                                                                             self.stv_list_glass,
-                                                                                             self.lbl_add_glass_success)
+        self.btn_add_glass.bind('<Button-1>', lambda e: controller.btn_add_glass_lclick(e, self.stv_list_fridge,
+                                                                                        self.stv_list_glass,
+                                                                                        "Added To Glass",
+                                                                                        self.lbl_add_glass_success)
                                 )
 
-        self.btn_remove_fridge = tk.Button(self.notebook_t1, command=lambda: PyDrink_support.btn_remove_fridge_lclick(
+        self.btn_remove_fridge = tk.Button(self.notebook_t1, command=lambda: controller.btn_remove_fridge_lclick(
             self.stv_list_fridge, self.txtbx_fridge_selected))
         self.btn_remove_fridge.place(relx=0.65, rely=0.943, height=33, width=166)
         self.btn_remove_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
@@ -317,7 +320,7 @@ class PyDrink:
         self.stv_list_glass.heading("#0", text="Drink", anchor="center")
         self.stv_list_glass.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
         self.stv_list_glass.configure(style='nodotbox.Treeview', selectmode='none')
-        self.notebook_t2.bind('<Visibility>', lambda e: PyDrink_support.ntb_open_glass(e, self.stv_list_glass,
+        self.notebook_t2.bind('<Visibility>', lambda e: controller.ntb_open_glass(e, self.stv_list_glass,
                                                                                        self.stv_list_cocktails,
                                                                                        self.txtbx_glass_selected))
 
