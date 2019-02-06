@@ -6,10 +6,10 @@
 #    Jan 11, 2019 12:32:59 PM EST  platform: Windows NT
 
 import sys
-from .Fridge import Fridge
-from .Alcoholic import Alcoholic
-from .Glass import Glass
-from .Inventory import Inventory
+from src.Fridge import Fridge
+from src.Alcoholic import Alcoholic
+from src.Glass import Glass
+from src.Inventory import Inventory
 
 
 try:
