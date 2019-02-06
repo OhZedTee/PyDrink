@@ -103,14 +103,14 @@ class PyDrinkController:
             pass
         sys.stdout.flush()
 
-    def btn_add_fridge_lclick(self, inventory_list, success_message, page_message):
+    def btn_add_fridge_lclick(self, inventory_list, success_message, page_message, selection_message):
         print('PyDrink_support.btn_add_fridge_lclick')
         """Event triggered when add to fridge button is pressed
             1. Adds selected drinks to the fridge tab"""
         try:
             count = 0
             for child in inventory_list.get_children():
-                if inventory_list.item(child, "values")[0] == "Added to Cart" and not self.fridge.find_drink('name',
+                if inventory_list.item(child, "values")[0] == selection_message and not self.fridge.find_drink('name',
                        inventory_list.item(child, "text")):
                     print("Adding %s" % inventory_list.item(child, "text"))
                     count += 1
@@ -265,7 +265,7 @@ class PyDrinkController:
         top_level = None
 
     @staticmethod
-    def insert_manager_tree(tree, textbox_selected, obj, selection_mesage, success_message=None):
+    def insert_manager_tree(tree, textbox_selected, obj, selection_message, success_message=None):
         """Insertion method."""
         # Clears TreeView
         for child in tree.get_children():
@@ -274,11 +274,11 @@ class PyDrinkController:
         for drink in obj.drinks.values():
             selected = ('', '')
             if drink.selected:
-                selected = (selection_mesage, '')
+                selected = (selection_message, '')
 
             tree.insert('', 'end', text=str(drink.name), values=selected)
             tree.bind("<ButtonRelease-3>", lambda e: PyDrinkController.stv_list_selected_rclick(e, tree, obj,
-                                                                                                selection_mesage,
+                                                                                                selection_message,
                                                                                                 success_message))
             tree.bind("<ButtonRelease-1>", lambda e: PyDrinkController.stv_select_lclick(e, tree, obj,
                                                                                          textbox_selected))
@@ -346,7 +346,7 @@ class PyDrinkController:
                 tree.item(item, values=(selection_message, ""))
                 drink.selected = True
             else:
-                tree.item(item, value='')
+                tree.item(item, values=('', ''))
                 drink.selected = False
 
             if success_message is not None:

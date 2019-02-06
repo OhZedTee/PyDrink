@@ -149,7 +149,7 @@ class PyDrink:
         self.stv_list_inv = ScrolledTreeView.ScrolledTreeView(self.frame_list_inv)
         self.stv_list_inv.place(relx=0.015, rely=0.056, relheight=0.90, relwidth=0.962)
         self.stv_list_inv.configure(columns="Select")
-        self.stv_list_inv.heading("#0", text="Drink", anchor="center")
+        self.stv_list_inv.heading("#0", text="Drink (Left Click To Select)", anchor="center")
         self.stv_list_inv.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
         self.stv_list_inv.heading("Select", text="Cart (Right Click Selected Item to Add)", anchor="center")
         self.stv_list_inv.column("Select", width="309", minwidth="20", stretch="1", anchor="center")
@@ -189,7 +189,7 @@ class PyDrink:
                                           selectforeground="black", width=294, wrap='word')
 
         self.btn_add_fridge = tk.Button(self.notebook_t0, command=lambda: controller.btn_add_fridge_lclick(
-            self.stv_list_inv, self.lbl_add_fridge_success, self.lbl_inv_page))
+            self.stv_list_inv, self.lbl_add_fridge_success, self.lbl_inv_page, "Added To Cart"))
         self.btn_add_fridge.place(relx=0.836, rely=0.943, height=33, width=166)
         self.btn_add_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                       disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
@@ -231,7 +231,7 @@ class PyDrink:
         self.stv_list_fridge.place(relx=0.015, rely=0.016, relheight=0.971
                                    , relwidth=0.962)
         self.stv_list_fridge.configure(columns="Select")
-        self.stv_list_fridge.heading("#0", text="Drink", anchor="center")
+        self.stv_list_fridge.heading("#0", text="Drink (Left Click To Select)", anchor="center")
         self.stv_list_fridge.column("#0", width="308", minwidth="20", stretch="1", anchor="w")
         self.stv_list_fridge.heading("Select", text="Glass (Right Click Selected Item to Add)", anchor="center")
         self.stv_list_fridge.column("Select", width="309", minwidth="20", stretch="1", anchor="center")

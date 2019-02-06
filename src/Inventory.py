@@ -6,6 +6,7 @@ from .NonAlcoholic import NonAlcoholic
 import urllib.request
 import json
 import re
+import yaml
 
 
 class Inventory(Manager):
@@ -14,12 +15,31 @@ class Inventory(Manager):
 
     def __init__(self):
         super().__init__()
+        self._host = "localhost"
+        self._port = "3000"
         self._page = 1
         self._num_pages = 0
         self._final_page = False
         self._is_search = False
         self._search_params = None
+        self.config()
         self.get_products()
+
+    @property
+    def host(self):
+        return self._host
+
+    @host.setter
+    def host(self, host):
+        self._host = host
+
+    @property
+    def port(self):
+        return self._port
+
+    @port.setter
+    def port(self, port):
+        self._port = port
 
     @property
     def page(self):
@@ -63,6 +83,13 @@ class Inventory(Manager):
     def search_params(self, value):
         self._search_params = value
 
+    def config(self):
+        with open("data/config.yml", 'r') as ymlfile:
+            cfg = yaml.load(ymlfile)
+
+        self.host = cfg['API']['host']
+        self.port = cfg['API']['port']
+
     def parse(self, fp):
         """Method to parse JSON data from API into dictionary"""
         self.final_page = fp['pager']['is_final_page']
@@ -72,12 +99,14 @@ class Inventory(Manager):
             category = []
             for attribute in item:
                 if "category" in attribute.lower():
-                    if "vermouth" in item[attribute].lower():
-                        if "dry" in item['name'].lower():
-                            item[attribute] += "/Dry"
-                        elif "sweet" in item['name'].lower():
-                            item[attribute] += "/Sweet"
                     category.append(item[attribute])
+
+            if "vermouth" in str(item['name']).lower():
+                if "dry" in str(item['name']).lower():
+                    category.append("Dry")
+                elif "sweet" in item['name'].lower():
+                    category.append("Sweet")
+
 
             d = Alcoholic(item['id'], item['name'], item['regular_price_in_cents'], item['tasting_note'],
                           item['alcohol_content'] / 10, item['package'], category)
@@ -107,7 +136,7 @@ class Inventory(Manager):
             params = urllib.parse.urlencode({'page': self.page, 'q': category})
         else:
             params = urllib.parse.urlencode({'page': self.page})
-        url = 'http://localhost:3000/products?%s' % params
+        url = 'http://%s:%s/products?%s' % (self.host, self.port, params)
         req = urllib.request.Request(url)
         req.method = 'GET'
         try:
