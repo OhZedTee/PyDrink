@@ -3,7 +3,6 @@
 from .Manager import Manager
 import csv
 import re
-import sys
 
 
 class Glass(Manager):
@@ -90,7 +89,6 @@ class Glass(Manager):
             other_alcohol_list = other_alcohol.split(',')
             mixes_list = mixes.split(',')
 
-            sys.stdout.flush()
             for main_requirement in main_alcohol_list:
                 requirement_list = re.findall(r"[\w']+|[.,!?;]", main_requirement)
                 if len(requirement_list) != 0:
@@ -152,7 +150,6 @@ class Glass(Manager):
                     else:
                         has_mix = False
 
-                    sys.stdout.flush()
                 else:
                     has_mix = True
 

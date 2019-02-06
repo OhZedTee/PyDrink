@@ -10,7 +10,6 @@ from .Fridge import Fridge
 from .Alcoholic import Alcoholic
 from .Glass import Glass
 from .Inventory import Inventory
-from .Manager import Manager
 
 
 try:

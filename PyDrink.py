@@ -20,7 +20,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-from src.PyDrink_support import PyDrinkController
+from ui.PyDrinkController import PyDrinkController
 from ui import ScrolledTreeView
 from ui import ROText
 from ui import SearchBox

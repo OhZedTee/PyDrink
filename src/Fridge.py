@@ -5,7 +5,6 @@ from .Alcoholic import Alcoholic
 from .NonAlcoholic import NonAlcoholic
 import csv
 import pickle
-import sys
 
 
 class Fridge(Manager):
@@ -24,8 +23,6 @@ class Fridge(Manager):
                 ...
                 ...
                 """
-                print("adding")
-                sys.stdout.flush()
                 self.add(file)
         except:
             print("State of Fridge not found")

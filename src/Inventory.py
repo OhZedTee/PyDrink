@@ -6,7 +6,6 @@ from .NonAlcoholic import NonAlcoholic
 import urllib.request
 import json
 import re
-import sys
 
 
 class Inventory(Manager):
