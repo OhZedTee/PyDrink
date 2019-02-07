@@ -57,7 +57,7 @@ in the cart to glass/fridge tab.
 Glass Tab:
 Shows all drinks you've selected
 Single click on any cocktail - shows whats required for
-making the cocktail choosen
+making the cocktail chosen
 
 NOTE: Here are some cocktails for you
 to try to make using the app:
@@ -144,6 +144,19 @@ LO1:  Demonstrate best practices for OO development in the language of your choi
   was decided in my design since my controller needs multiple Models to handle events properly. If
   I split up my controllers, I would have to add coupling between controllers and split handling an event in multiple
   controllers which is more than having the 3 models handled in the one controller.
+- Inventory Class added that shows encapsulation by having its own private variables and mutators/accessors,
+  and inheritance since it inherits from my Manager abstract class.
+- In PyDrinkController line 268, method insert_manager_tree() shows code reuse, since multiple events call this
+  method to handle similar tasks with different models. This allows me to load data into tree views with different
+  models.
+- I am currently maintaining a dictionary of Drinks in the Manager class, however I am adding Alcoholic and NonAlcoholic
+  drinks to it. This is where polymorphism plays a part in my project.
+- I used class heirarchies to minimize code reuse between Drink -> Non Alcoholic and Alcoholic types as well as Manager -> Glass and Fridge. 
+  These heirarchies types share similar data, and so to limit reuse I created the Drink and Manager class to maintain shared information. 
+  The Drink string protocol is overridden by Alcoholic and NonAlcoholic class to return more relevant information for each class and their specific attributes.
+- Encapsulation: i.e. Drink.py line 8-58
+- Overriding Methods: Drink.py line 60-61, NonAlcoholic.py line 57-61, Alcoholic.py line 45-47
+- Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
 LO2:  Utilize persistence effectively to realize a user story that could not be realized without persistence.
 - Added Serialization to Fridge Class which saves the Fridge object to data/fridge.bin 
 - This allows for the Fridge state to be stored and loaded on application closure and boot.
@@ -155,8 +168,19 @@ L03: Facilitate the addition of portability to your program via the definition a
   implements a custom JSONEncoder for the json.dumps method to retrieve the public equivalent of private variables.
 
 Persistent Storage Rational:
-
+- I chose serialization over persistant storage due to its light weight capacity.
+- Furthermore a database would be to heavily coupled with my program which can be used with and without
+  the persistent storage. I am using the persistence for my Fridge object so that the state of the fridge
+  can be stored between application use. This lightweight effect makes it easier integrating web in the
+  next assignment because and since my Fridge object's functionality will not change, as its only purpose is to store Drinks
+  from the inventory and let you chose drinks for your glass - the schema for Fridge will likely not change further.  
 Portable Storage Rational:
+- I chose JSON to parse and transmit Drink objects since I am already getting JSON data from my API, so storing it from JSON 
+  also helped me in displaying it by JSON. I found JSON easier to read, so to understand the large sums of data im sending and manipulating 
+  is easier with JSON. Also, in the future when I implement a web server, parsing large amounts of XML data is costly and slow
+  compared to JSON, expecially since I'm parsing tens of thousands of Drink objects from JSON elements in the inventory
+- I chose to make the Drink object portable to help facilitate my future use of Drinks on the web and transmitting back and forth
+  and forth with the server that will be more easily done with portable Drink objects.
 
 +++++++++++++++++++++++++++++++++++++++IMPORTANT EXPLANATION OF ALL CLASSES+++++++++++++++++++++++++++++++++++++++++
 	Models:
