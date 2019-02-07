@@ -110,14 +110,17 @@ class PyDrinkController:
         try:
             count = 0
             for child in inventory_list.get_children():
-                if inventory_list.item(child, "values")[0] == selection_message and not self.fridge.find_drink('name',
-                       inventory_list.item(child, "text")):
-                    print("Adding %s" % inventory_list.item(child, "text"))
-                    count += 1
-                    d = self.inventory.find_drink('name', inventory_list.item(child, "text"))
-                    d.selected = False
-                    self.fridge.add_drink(d)
-                    self.fridge.save()
+                if inventory_list.item(child, "values")[0] == selection_message:
+                    if not self.fridge.find_drink('name', inventory_list.item(child, "text")):
+                        print("Adding %s" % inventory_list.item(child, "text"))
+                        count += 1
+                        d = self.inventory.find_drink('name', inventory_list.item(child, "text"))
+                        d.selected = False
+                        inventory_list.item(child, values=('',''))
+                        self.fridge.add_drink(d)
+                        self.fridge.save()
+                    else:
+                        inventory_list.item(child, values=('', ''))
 
             if count > 0:
                 success_message.configure(state=tk.NORMAL)

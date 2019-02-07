@@ -31,7 +31,7 @@ class Fridge(Manager):
         """Parses Fridge data from serialized object using pickle."""
         self.drinks = pickle.load(file)
         for drink in self.drinks:
-            if isinstance(drink, NonAlcoholic):
+            if isinstance(drink, NonAlcoholic) and drink.selected == False:
                 self.remove_drink(drink.id)
 
 
@@ -52,5 +52,7 @@ class Fridge(Manager):
                 is_carbonated = False
 
             drink = NonAlcoholic(d_id, row[0], int(row[1]), row[2], is_carbonated, row[4], row[5], row[6])
-            self.add_drink(drink)
+            if not self.has_drink(drink.id):
+                self.add_drink(drink)
+
             d_id -= 1
