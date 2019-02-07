@@ -4,21 +4,55 @@ Program Description:
 An Drink Manager that monitors the
 drinks you have and helps you find
 cocktails you can make with it.
-NOTE: For this assignment all data is
-mocked, Inventory is disabled,
-will be introduced in A2, will allow
-you to add drinks your fridge based
-on what is available at LCBO.
-All is performed in a GUI:
+NOTE: For this assignment all data
+is coming from the LCBO API running
+on the cis4450.socs.uoguelph.ca server.
+Please make sure you are connected
+to the school VPN before running this
+application.
 
-Inventory Tab:
-Will be implemented in A2 with the LCBO API
+The inventory is where the API is
+connected and allows you to view
+the LCBO products. You can search
+based off any parameter and can
+add multiple parameters together:
+i.e. "Yellow", "Apple", "Vodka",
+	 "Red Wine", etc...
 
-Fridge Tab:
-Single click on a drink - shows description
-Double click on a drink - Selects the drink
-Pressing 'Add to Glass' button - Adds all selected
-drinks to glass tab
+To add a drink from your inventory
+to your fridge, you need to select
+a drink with a left click and then
+right click the drink to add it to
+your cart. At that point pressing 
+the Add To Fridge Button will add
+any drink in your cart to your Fridge.
+
+The same UI principles are in effect
+in the Fridge Tab. Select the drinks
+you might want to make a cocktail 
+from.
+
+In the Glass tab, you can see what drinks
+are selected (however you cant click on them)
+you can however see the cocktails you
+can make. Left clicking on them will show
+you how to make each cocktail.
+
+Note* Due to the nature of the data
+I am working with there is a chance that
+the cocktails available are not accurate
+to the types of drinks you have added.
+I have tried to mitigate this as much as possible
+but there are limitations to what I can do
+with the bad data I have managed to find for
+free.
+
+TLDR:
+Inventory + Fridge Tab:
+Left click on a drink - shows description and selects drink
+Right click on a drink that is selected - Adds drink to cart
+Pressing 'Add To Glass/Add To Fridge' button - Adds all drinks
+in the cart to glass/fridge tab.
 
 Glass Tab:
 Shows all drinks you've selected
@@ -38,6 +72,11 @@ Buffalo Trace (Bourbon Whiskey)
 
 Try something else out, maybe you'll find
 other cocktails you never knew existed!
+
+Note: Non Alcoholic Beverages are mocked
+in data/mock/nonalcoholic.csv. Feel free
+to add your own to the mock data to use
+in making drinks.
 **************************
 
 *************************************
@@ -63,7 +102,7 @@ command for the rest of the setup instructions)
 2b. The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
 	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
 	Restart your terminal and you should now be able to run command 'make run'
-3.  If make still doesnt work, tpye python3 || python PyDrink.py
+3.  If make still doesnt work, type python3 || python PyDrink.py
 
 
 *************************************
@@ -86,10 +125,6 @@ in Tkinter:
 	Traceback (most recent call last):
 		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
 	TypeError: catching classes that do not inherit from BaseException is not allowed
-	
-	
-	
-
 *************************************
 
 *************************************
@@ -104,87 +139,69 @@ according to PEP8 standards
 
 **********************************************************************************************
 Learning Outcomes:
-Design and implement classes for an object-oriented program demonstrating correct use of encapsulation, 
-constructors, method overloading, class invariants, accessors, mutators, instance variables and class variables.
-	- Class Drink is parent class of Alcoholic and NonAlcoholic. All 3 of these have accessors and mutators (called properties in Python)
-	- Class Manager is abstract class that implements common functionality in Glass and Fridge, but also contains stubs for unique methods
-	  overwritten in class Fridge and Glass. All of these classes have accessors and mutators.
-	  Fridge and Glass classes override the methods in Manager. There was no clear need for method overloading for this assignment
-	  however, so it wasn't used. In the next assignment when introducing the Inventory API I might have to introduce overloading
-	  for different categories of drinks which might have different information (i.e. wine has VQA information that a rum won't have)
-	- The Cocktail class (written in Glass.py maintains all cocktail attributes that are handled and stored in the glass class in a dictionary
-      of all cocktails (used by other classes to search parsed cocktails)
-	- Most child classes (i.e. NonAlcoholic, Alcoholic) have instance variables pertaining to specific information about each
-	  type of object (name, id, main alcohol, garnishes, etc)
-	- All classes have constructors
-	- There is no explicit private or public or even protected type in python, but there is a standard for denoting one or the other.
-	  all private types have an underscore at the start of the name (i.e. _name, _id) and all objects with a dunder (__) are protocols (i.e. __str__ in
-	  Cocktail, Drink, Alcoholic, and NonAlcoholic classes) but there is no standard for protected type and so you won't see any in my code. If
-	  there was most of my drink attributes I would have reviewed as to whether keep them as private or make them protected instead.
-	- In my program the only invariant would be the types for the properties in each class. Because all my information will be taken from an API (currently mocked in
-	  data folder) their values are not constrained. In fact most values are strings, and the ones that aren't, are unique from the API.
-	  I could check for types however that wouldn't be very Pythonic due to Python's duck typing core ideology.
+LO1:  Demonstrate best practices for OO development in the language of your choice.
+- Added Controller Glass for my GUI - Called PyDrinkController. One controller that handles all the models 
+  was decided in my design since my controller needs multiple Models to handle events properly. If
+  I split up my controllers, I would have to add coupling between controllers and split handling an event in multiple
+  controllers which is more than having the 3 models handled in the one controller.
+LO2:  Utilize persistence effectively to realize a user story that could not be realized without persistence.
+- Added Serialization to Fridge Class which saves the Fridge object to data/fridge.bin 
+- This allows for the Fridge state to be stored and loaded on application closure and boot.
+- See Method parse() and save() in Fridge class lines 30 and 38 respectively
+L03: Facilitate the addition of portability to your program via the definition and creation of portable objects.
+- Added JSON portability to the Drink object and its child classes Alcoholic and NonAlcoholic. This will allow
+  me to easily send and receive drink objects on the web.
+- See dumps() method in Drinks.py, Alcoholic.py, and NonAlcoholic.py classes. Also see Encoder Class, this
+  implements a custom JSONEncoder for the json.dumps method to retrieve the public equivalent of private variables.
 
-Construct class hierarchies that maximize code reuse through inheritance while accommodating differences through method overriding.
-	- I used class heirarchies to minimize code reuse between Drink -> Non Alcoholic and Alcoholic types as well as Manager -> Glass and Fridge. 
-	  These heirarchies types share similar data, and so to limit reuse I created the Drink and Manager class to maintain shared information. 
-	  The Drink string protocol is overridden by Alcoholic and NonAlcoholic class to return more relevant information for each class and their specific attributes.
+Persistent Storage Rational:
 
-Use polymorphism, abstract methods/classes, and interfaces effectively to produce generic code.
-	- I am currently maintaining a dictionary of Drinks in the Manager class, however I am adding Alcoholic and NonAlcoholic
-	  drinks to it. This is where polymorphism plays a part in my project.
-	- My Manager class is abstract, and this was done to differentiate between the 2 types of 'Managers' I maintain, Fridge and Glass
-	  which are inherintly different. However in the following assignment I will be adding another called Inventory which will be updated
-	  by the LCBO API and so method overriding and the abstract class will play a larger role there.
-	- "Interfaces are not necessary in Python. This is because Python has proper multiple inheritance, and also ducktyping, 
-	   which means that the places where you must have interfaces in Java, you don't have to have them in Python. ... 
-	   Some of them [properties of interfaces] are covered by Pythons Abstract Base Classes, introduced in Python 2.6. 
-	   They are useful, if you want to make base classes that cannot be instantiated, but provide a specific interface or part of an implementation." - Lennart Regebro (Stack Overflow)
-	   - To elaborate, in my application there is no clear interfaces, but my Abstract class is implemented in a fashion similar to an interface
-		 where there is only static variables whereas an Abstract class can maintain non static variables. Also there are only method signatures in
-		 my abstract class rather than any implementation. What makes my abstract class abstract rather than just an interface is that I also am
-		 implementing a non-static method 'drinks' to return the static dictionary of drinks.
-	   - Please see interface source below for more information on Interfaces in Python
-	
+Portable Storage Rational:
 
-Use event-driven programming to create a usable, effective graphical user interface.
-	- My GUI currently uses lambda functions in PyDrink.py (i.e. line 189) to call event handlers in PyDrink_support.py
-	  which will handle specific events like changing tabs, clicking buttons, selecting elements in the TreeViews and
-	  and double clicking on the elements too.
-	  
-	  
-Encapsulation: i.e. Drink.py line 8-58
-Overriding Methods: Drink.py line 60-61, NonAlcoholic.py line 57-61, Alcoholic.py line 45-47
-Class Relationships: Abstract Manager Class -> Fridge and Glass classes, Drink class -> NonAlcoholic and Alcoholic classes
 +++++++++++++++++++++++++++++++++++++++IMPORTANT EXPLANATION OF ALL CLASSES+++++++++++++++++++++++++++++++++++++++++
-	Manager: List of Drinks, required methods for child classes
-	Fridge: Implementation of Manager required methods
-	Glass: Implementation of Manager required methods
-	Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
-	Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
-	NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
-	PyDrink: GUI class
-	PyDrink_support: GUI event handlers
+	Models:
+		src/Manager: List of Drinks, required methods for child classes
+		src/Fridge: Implementation of Manager required methods
+		src/Glass: Implementation of Manager required methods
+		src/Inventory: Implementation of Manager required methods + Parses API data + Parses mock data
+		src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
+		src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
+		src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
+	View: 
+		PyDrink: GUI class
+	Controller:
+		ui/PyDrinkController: GUI event handlers + Maintains models
+						*There is one controller that handles all the models
+						 since some of the event handlers require multiple models
+						 in order to function properly
+	src/Encoder: Encoder for the JSON format to use public variables instead of private
 	ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
 	           (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
 	ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
 	                     to allow for multipaged display with a convenient scroll bar
+	ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
+	                     the purposes of this app.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Polymorphism: List of Drinks in Manager class (line 10) holds all drink types (Alcoholic and Non Alcoholic)
-GUI: PyDrink.py is the view, PyDrink_support.py is the Controller for the program since it contains
-    the eventhandlers which utilize the Models created (Fridge and Glass) in the file (line 29-30)
-Event Driven Programming: There are event handlers all over the PyDrink.py file and some
-	in the PyDrink_support.py file that are created dynamically for GUI objects that are
-	created on the fly. (i.e. PyDrink.py line 194, 261, etc; PyDrink_support.py line 175-176, 188)
+
 **********************************************************************************************
 
 **********************************************************************************************
-User Stories Yet to be Implemented:
-
-The user can access the Inventory of all LCBO products
-The user can select LCBO products and add it to their 'fridge'
-The user will get specific information depending on category of drink selected (i.e. Wine will
-	provide VQA information)
+User Stories Implemented:
+1. As a user I want to be able to select from a slew of drinks that I may have at home so
+   that I can add them to my fridge and use them for cocktails
+2. As a user I want to be able to get specific information about any drink I have at home
+   so that I can make informed decisions about what I consume and the cost of consuming
+3. As a user I want to be able to store the information from my fridge so that I can
+   reload all the information back on application startup
+4. As a user I want to be able to see cocktails that can be made only from the
+   Drinks I've selected so that I'm not required to buy anything else to make
+   them (other than garnishes). (In A1, it was any drink selected is enough for a cocktail,
+   i.e. if I select just Vodka, I can make Sex on the Beach which requires Vodka and Peach Schnapps,
+   now it needs every requirement for a drink to be made, harder to implement than it sounds with my bad data)
+5. As a user I want to be able to add Non Alcoholic beverages to my Fridge
+   so that I can use them to make cocktails (Currently only from file, no UI)
+6. As a system administrator I want to be able to see JSON data about each Drink as part of
+   the description so that I can display it on the web (will be used in A3)
 **********************************************************************************************
 
 **********************************
@@ -193,11 +210,11 @@ Sources:
 - https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
 - http://net-informations.com/python/iq/interfaces.htm
 - http://page.sourceforge.net/
-
+- http://code.activestate.com/recipes/580773-tkinter-search-box/
 **********************************
 
 ****************************************************************************************************************
-Clarification based of Peer Review: (R- Review) (A - Answer)
+Clarification based of A1 Peer Review: (R- Review) (A - Answer)
 
 R: The distinction between cocktail and drink is a bit fuzzy[-1]. I get that a cocktail has a drink and a glass. However, if I ever had to use your code] and just had a look at the class names. I would assume cocktail is a drink.
 A: A Cocktail is made up of many drinks. While there is no list of drinks in my cocktail class, it has categories of drinks that must be satisfied. A Glass is where you make your cocktail. You add drinks to your glass in order to
