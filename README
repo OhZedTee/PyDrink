@@ -104,6 +104,11 @@ command for the rest of the setup instructions)
 	Restart your terminal and you should now be able to run command 'make run'
 3.  If make still doesnt work, type python3 || python PyDrink.py
 
+4.  This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+    reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+    doesn't work, please see README in lcbo-api folder to set up the API locally.
+	Once the API is running locally. Go to data/ folder and edit
+	config.yml: host: localhost (or 127.0.0.1) and port:3000
 
 *************************************
 Known Limitations, Assumptions and Errors
@@ -181,6 +186,9 @@ Portable Storage Rational:
   compared to JSON, expecially since I'm parsing tens of thousands of Drink objects from JSON elements in the inventory
 - I chose to make the Drink object portable to help facilitate my future use of Drinks on the web and transmitting back and forth
   and forth with the server that will be more easily done with portable Drink objects.
+  
+  NOTE* The json strings can be found in the description on each drink on the bottom. They can be copied from there.
+		Keep in mind however those boxes are Read only, so paste, nor editting can be performed.
 
 +++++++++++++++++++++++++++++++++++++++IMPORTANT EXPLANATION OF ALL CLASSES+++++++++++++++++++++++++++++++++++++++++
 	Models:

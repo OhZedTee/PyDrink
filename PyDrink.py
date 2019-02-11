@@ -142,7 +142,7 @@ class PyDrink:
             self.search_inv.get_text(), self.btn_inv_prev, self.btn_inv_next, self.stv_list_inv,
             self.txtbx_inv_selected, self.lbl_add_fridge_success, self.lbl_inv_page),
             placeholder="Search by Category (i.e. Beer, Wine, Vodka, Tequila)", entry_highlightthickness=0,
-            entry_width=94)
+            entry_width=52)
         self.search_inv.place(relx=0.015, rely=0.016)
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")

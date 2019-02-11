@@ -16,6 +16,10 @@ class Fridge(Manager):
         try:
             with open('data/fridge.bin', mode="rb") as file:
                 self.parse(file)
+        except:
+            print("State of Fridge not found")
+
+        try:
             with open('data/mock/nonalcoholic.csv', newline='') as file:
                 """File is formatted:
                 Name,Price,Description,Carbonated,Sugar Content,Package,Caffeine Content
@@ -25,7 +29,7 @@ class Fridge(Manager):
                 """
                 self.add(file)
         except:
-            print("State of Fridge not found")
+            print("Non Alcoholic Mock Import failed")
 
     def parse(self, file):
         """Parses Fridge data from serialized object using pickle."""
