@@ -361,17 +361,24 @@ class PyDrinkController:
             if tree.item(item, "values")[0] == '':
                 tree.item(item, values=(selection_message, ""))
                 drink.selected = True
-                success_message.configure(text="Added Selected Drink To Glass", state=tk.NORMAL, foreground="#04B431")
+                if selection_message == "Added To Glass":
+                    success_message.configure(text="Added Selected Drink To Glass", state=tk.NORMAL, foreground="#04B431")
             else:
                 tree.item(item, values=('', ''))
                 drink.selected = False
-                success_message.configure(text="Removed Selected Drink From Glass", state=tk.NORMAL,
-                                          foreground="#AE3A3A")
+
+                if selection_message == "Added To Glass":
+                    success_message.configure(text="Removed Selected Drink From Glass", state=tk.NORMAL,
+                                              foreground="#AE3A3A")
+
+            if selection_message != "Added To Glass":
+                    success_message.configure(state=tk.DISABLED)
 
             if type(obj) is Fridge:
                 obj.save()
         except:
             pass
+
 
         sys.stdout.flush()
 
