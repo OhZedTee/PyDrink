@@ -19,8 +19,8 @@ To add a drink from your inventory to your fridge, you need to select a drink wi
 right click the drink to add it to your cart. At that point pressing the Add To Fridge Button will add
 any drink in your cart to your Fridge.
 
-The same UI principles are in effect in the Fridge Tab. Select the drinks you might want to make a cocktail 
-from.
+The same UI principles are in effect in the Fridge Tab, Except no need for an Add To Glass Button. 
+Select the drinks you might want to make a cocktail from and they will appear in the glass tab.
 
 In the Glass tab, you can see what drinks are selected (however you cant click on them) and the cocktails you
 can make. Left clicking on the cocktails will show you how to make each cocktail.
@@ -30,14 +30,14 @@ to the types of drinks you have added. I have tried to mitigate this as much as 
 with the bad data I have managed to find for free.
 
 TLDR:
-Inventory + Fridge Tab:
+Inventory Tab:
 Left click on a drink - shows description and selects drink
 Right click on a drink that is selected - Adds drink to cart
-Pressing 'Add To Glass/Add To Fridge' button - Adds all drinks
-in the cart to glass/fridge tab.
+Pressing 'Add To Fridge' button - Adds all drinks
+in the cart to the fridge tab.
 
 Glass Tab:
-Shows all drinks you've selected
+Shows all drinks you've selected in the fridge tab
 Single click on any cocktail - shows whats required for
 making the cocktail chosen
 
@@ -167,6 +167,21 @@ Windows
                          the purposes of this app.
 
 
+
+##Known Limitations##
+- Due to the sheer size of the inventory data and the way the restful API works, I only get 20 items per request.
+  So as to not bog down the application, I have made every inventory page distinct. What does this mean?
+  If you select a drink in the inventory page, and shuffle through the pages, the dictionary that holds the
+  drink objects is cleared and new drinks are added to it. Meaning the data as to which drinks you selected don't
+  persist. A way around this is to add drinks to your fridge from the inventory internitently before changing pages
+  (or making queries).
+- NonAlcoholic Beverages are difficult to create without user input. Due to the complexity of this Application, I did
+  not have time to include more forms for user input. Please use the mock data file found at "data/mock/nonalcoholic.csv".
+  You can add or remove whatever you like in that file, however because I am using mock data I did not want to
+  be able to delete Non Alcoholic beverages through the application with mock data due to the effort required to add
+  and remove non alcoholic beverages. Thus, when removing a non alcoholic drink from the fridge in the app, it will
+  only remove the drink from the current session. When reopening the application, the original mock data will show up
+  again. Simple to fix, but for testing and usability purposes I did not.
 
 ------------------------------------------------------------------------------------------------------------------------
     1   |   Demonstrate best practices for OO development in the language of your choice
@@ -309,10 +324,8 @@ A: A Cocktail is made up of many drinks. While there is no list of drinks in my 
    make the cocktail.
    
 R: For some reason, the glass tab does not show any of the drinks selected.
-A: To add selected drinks to the glass tab, please select a drink in the fridge with a left click, and right click it afterwards to add it to your Glass. Press the add to glass button in order to send it to the glass tab.
-   This was done so that the user has a distinction between selecting a drink in the fridge (to see its description) and  adding the drink to their glass (by pressing a button) for making a cocktail. 
-   If more people are confused by this, I could remove the button altogether and make it so if you selected a drink
-   its added to the glass tab immediately.
+A: To add selected drinks to the glass tab, please select a drink in the fridge with a left click, and right click it afterwards to add it to your Glass.
+   This was done so that the user has a distinction between selecting a drink in the fridge (to see its description) and  adding the drink to their glass (by right clicking a selected drink) for making a cocktail. 
    
 R: The persistence makes sense, but for some reason, after removing the clamato, orange juice and tonic from my fridge, they reappear every time I open the program.
 A: Yes great observation! Since my app is using mock data for the non alcoholic beverages, I am loading in the information when the application starts up. Hence removing a non alcoholic beverage

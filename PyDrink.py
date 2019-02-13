@@ -269,20 +269,9 @@ class PyDrink:
                                              insertbackground="black", selectbackground="#c4c4c4",
                                              selectforeground="black", width=294, wrap='word')
 
-        self.btn_add_glass = tk.Button(self.notebook_t1)
-        self.btn_add_glass.place(relx=0.836, rely=0.943, height=33, width=166)
-        self.btn_add_glass.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
-                                     disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
-                                     highlightcolor="black", pady="0", text='Add To Glass')
-        self.btn_add_glass.bind('<Button-1>', lambda e: controller.btn_add_glass_lclick(e, self.stv_list_fridge,
-                                                                                        self.stv_list_glass,
-                                                                                        "Added To Glass",
-                                                                                        self.lbl_add_glass_success)
-                                )
-
         self.btn_remove_fridge = tk.Button(self.notebook_t1, command=lambda: controller.btn_remove_fridge_lclick(
             self.stv_list_fridge, self.txtbx_fridge_selected))
-        self.btn_remove_fridge.place(relx=0.65, rely=0.943, height=33, width=166)
+        self.btn_remove_fridge.place(relx=0.836, rely=0.943, height=33, width=166)
         self.btn_remove_fridge.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
                                          disabledforeground="#a3a3a3", foreground="#000000",
                                          highlightbackground="#d9d9d9", highlightcolor="black", pady="0",
@@ -322,7 +311,9 @@ class PyDrink:
         self.stv_list_glass.configure(style='nodotbox.Treeview', selectmode='none')
         self.notebook_t2.bind('<Visibility>', lambda e: controller.ntb_open_glass(e, self.stv_list_glass,
                                                                                        self.stv_list_cocktails,
-                                                                                       self.txtbx_glass_selected))
+                                                                                       self.txtbx_glass_selected,
+                                                                                       self.stv_list_fridge,
+                                                                                       "Added To Glass"))
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")
         self.stv_list_cocktails = ScrolledTreeView.ScrolledTreeView(self.frame_list_glass)

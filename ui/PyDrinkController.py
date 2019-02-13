@@ -224,7 +224,7 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
-    def ntb_open_glass(self, p1, tree, cocktail_tree, textbox_selected):
+    def ntb_open_glass(self, p1, tree, cocktail_tree, textbox_selected, fridge_list, selection_message):
         print('PyDrink_support.ntb_open_glass')
         print('p1 = {0}'.format(p1))
 
@@ -236,21 +236,34 @@ class PyDrinkController:
         alcoholic = []
         non_alcoholic = []
 
-        """Iterate through all items in TreeView adding all to dict obj"""
-        self.glass.clear_drinks()
-        for child in tree.get_children():
-            drink = self.fridge.find_drink('name', tree.item(child, "text"))
-            if not self.glass.has_drink(drink.id):
-                self.glass.add_drink(drink)
-            if isinstance(drink, Alcoholic):
-                alcoholic.append(drink.category)
-            else:
-                non_alcoholic.append(drink.desc)
+        try:
+            for child in tree.get_children():
+                tree.delete(child)
 
-        cocktail_categories["Alcoholic"] = alcoholic
-        cocktail_categories["NonAlcoholic"] = non_alcoholic
-        PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, cocktail_categories, textbox_selected)
+            """Iterate through all items in TreeView adding all to dict obj"""
+            self.glass.clear_drinks()
 
+            for child in fridge_list.get_children():
+                if fridge_list.item(child, "values")[0] == selection_message:
+                    tree.insert('', 'end', text=fridge_list.item(child, "text"),
+                                values=fridge_list.item(child, "values"))
+
+            for child in tree.get_children():
+                drink = self.fridge.find_drink('name', tree.item(child, "text"))
+                if not self.glass.has_drink(drink.id):
+                    self.glass.add_drink(drink)
+                if isinstance(drink, Alcoholic):
+                    alcoholic.append(drink.category)
+                else:
+                    non_alcoholic.append(drink.desc)
+
+            cocktail_categories["Alcoholic"] = alcoholic
+            cocktail_categories["NonAlcoholic"] = non_alcoholic
+            PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, cocktail_categories, textbox_selected)
+
+
+        except:
+            pass
         sys.stdout.flush()
 
     @staticmethod
@@ -348,12 +361,12 @@ class PyDrinkController:
             if tree.item(item, "values")[0] == '':
                 tree.item(item, values=(selection_message, ""))
                 drink.selected = True
+                success_message.configure(text="Added Selected Drink To Glass", state=tk.NORMAL, foreground="#04B431")
             else:
                 tree.item(item, values=('', ''))
                 drink.selected = False
-
-            if success_message is not None:
-                success_message.configure(state=tk.DISABLED)
+                success_message.configure(text="Removed Selected Drink From Glass", state=tk.NORMAL,
+                                          foreground="#AE3A3A")
 
             if type(obj) is Fridge:
                 obj.save()
