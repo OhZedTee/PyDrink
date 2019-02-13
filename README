@@ -13,7 +13,7 @@ time you open the app, they will be there.
 The inventory is where the API is connected and allows you to view the LCBO products. You can search based off any parameter and can
 add multiple parameters together:
 i.e. "Yellow", "Apple", "Vodka",
-	 "Red Wine", etc...
+     "Red Wine", etc...
 
 To add a drink from your inventory to your fridge, you need to select a drink with a left click and then
 right click the drink to add it to your cart. At that point pressing the Add To Fridge Button will add
@@ -77,9 +77,9 @@ All of the user stories have been implemented in the application.
 
 ##Requirements:##
   Python 3.7.2 (not negotiable, modules required from 3.7, so 3.5 is not enough unless you are able to get around some module dependencies)
-	Check which version you have
-	with the following command 'python --version' or 'python3 --version' if you don't have it
-	please install: https://www.python.org/downloads/release/python-372/
+    Check which version you have
+    with the following command 'python --version' or 'python3 --version' if you don't have it
+    please install: https://www.python.org/downloads/release/python-372/
   tkinter
   PyYaml
   ABC (Abstract Base Class, requires Python 3.x, if the program complains about this, its because you aren't using Python 3.x)
@@ -93,123 +93,123 @@ command for the rest of the setup instructions)
 
 Linux
   1. On linux, installing python-tk package or python3-tk package should do the trick
-	(sudo apt-get install python3-tk) 
+    (sudo apt-get install python3-tk) 
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Run command on terminal: make run 
-		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+        this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   6. If make doesnt work, type python3 || python PyDrink.py
   7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
-		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
-		doesn't work, please see README in lcbo-api folder to set up the API locally.
-		Once the API is running locally. Go to data/ folder and edit
-		config.yml: host: localhost (or 127.0.0.1) and port:3000
-		
+        reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+        doesn't work, please see README in lcbo-api folder to set up the API locally.
+        Once the API is running locally. Go to data/ folder and edit
+        config.yml: host: localhost (or 127.0.0.1) and port:3000
+        
 Mac
   1. On MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though). If it doesnt, installing latest distribution of Python should install it.
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Run command on terminal: make run 
-		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+        this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   6. If make doesnt work, type python3 || python PyDrink.py
   7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
-		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
-		doesn't work, please see README in lcbo-api folder to set up the API locally.
-		Once the API is running locally. Go to data/ folder and edit
-		config.yml: host: localhost (or 127.0.0.1) and port:3000
+        reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+        doesn't work, please see README in lcbo-api folder to set up the API locally.
+        Once the API is running locally. Go to data/ folder and edit
+        config.yml: host: localhost (or 127.0.0.1) and port:3000
  
 Windows
   1. This software requires TKinter. If the program doesn't start correctly
-		with below step please visit https://www.activestate.com/products/activetcl/downloads/
-		to install ActiveTcl which adds Tkinter to Python distribution (make sure you install 8.5+,
-		not 8.4 or lower)
+        with below step please visit https://www.activestate.com/products/activetcl/downloads/
+        to install ActiveTcl which adds Tkinter to Python distribution (make sure you install 8.5+,
+        not 8.4 or lower)
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command pip install pyyaml, if this doesnt work try pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Run command on terminal: make run 
-		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+        this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   6. If make doesnt exist install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
-		The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
-		file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
-		Restart your terminal and you should now be able to run command 'make run'
+        The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
+        file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
+        Restart your terminal and you should now be able to run command 'make run'
   7. If make still doesnt work, type python3 || python PyDrink.py
   8. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
-		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
-		doesn't work, please see README in lcbo-api folder to set up the API locally.
-		Once the API is running locally. Go to data/ folder and edit
-		config.yml: host: localhost (or 127.0.0.1) and port:3000
+        reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+        doesn't work, please see README in lcbo-api folder to set up the API locally.
+        Once the API is running locally. Go to data/ folder and edit
+        config.yml: host: localhost (or 127.0.0.1) and port:3000
 
 
 ##Explanation of All Classes##
-	Models:
-		src/Manager: List of Drinks, required methods for child classes
-		src/Fridge: Implementation of Manager required methods
-		src/Glass: Implementation of Manager required methods
-		src/Inventory: Implementation of Manager required methods + Parses API data + Parses mock data
-		src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
-		src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
-		src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
-	View: 
-		PyDrink: GUI class
-	Controller:
-		ui/PyDrinkController: GUI event handlers + Maintains models
-						*There is one controller that handles all the models
-						 since some of the event handlers require multiple models
-						 in order to function properly
-	src/Encoder: Encoder for the JSON format to use public variables instead of private
-	ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
-	           (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
-	ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
-	                     to allow for multipaged display with a convenient scroll bar
-	ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
-	                     the purposes of this app.
+    Models:
+        src/Manager: List of Drinks, required methods for child classes
+        src/Fridge: Implementation of Manager required methods
+        src/Glass: Implementation of Manager required methods
+        src/Inventory: Implementation of Manager required methods + Parses API data + Parses mock data
+        src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
+        src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
+        src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
+    View: 
+        PyDrink: GUI class
+    Controller:
+        ui/PyDrinkController: GUI event handlers + Maintains models
+                        *There is one controller that handles all the models
+                         since some of the event handlers require multiple models
+                         in order to function properly
+    src/Encoder: Encoder for the JSON format to use public variables instead of private
+    ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
+               (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
+    ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
+                         to allow for multipaged display with a convenient scroll bar
+    ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
+                         the purposes of this app.
 
 
 
 ------------------------------------------------------------------------------------------------------------------------
     1   |   Demonstrate best practices for OO development in the language of your choice
-		|
+        |
         |   Controller + Model + View Design
         |
-        |   - ui/PyDrinkController.py                           - One controller that handles all the models was 
-		|														  decided in my design since my controller needs
-		|														  multiple Models to handle events properly. If
-		|														  I split up my controllers, I would have to add 
-		|														  coupling between controllers and split handling
-		|														  an event in multiple controllers which is more 
-		|														  than having the 3 models handled in the one controller.
+        |   - ui/PyDrinkController.py                            - One controller that handles all the models was 
+        |                                                          decided in my design since my controller needs
+        |                                                          multiple Models to handle events properly. If
+        |                                                          I split up my controllers, I would have to add 
+        |                                                          coupling between controllers and split handling
+        |                                                          an event in multiple controllers which is more 
+        |                                                          than having the 3 models handled in the one controller.
         |                                                         
         |
         |   Encapsulation, Constructors, Accessors, Mutators, Instance Variables
         |
         |   - src/Inventory.py            - Lines 12 - 84       - Inventory Class added that shows encapsulation
-		|														  by having its own private variables and 
-		|													      mutators/accessors, and inheritance since it
-		|													      inherits from my Manager abstract class.
-        |	
-		|	- src/Drink.py				  - Lines 8 - 69		- Encapsulation is everywhere in my program, but
-		|                                                         here is another example that shows were I use
-		|                                                         private instance variables, constructors, and 
-		|														  mutators/accessors.
-		|
-		|
-		|	Code Reuse
-		|
-		|	- ui/PyDrinkController.py	  - Lines 271 - 287     - method insert_manager_tree() shows code reuse, 
-		|													      since multiple events call this method to handle
-		|														  similar tasks with different models. This allows
-		|														  me to load data into tree views with different models.
+        |                                                         by having its own private variables and 
+        |                                                         mutators/accessors, and inheritance since it
+        |                                                         inherits from my Manager abstract class.
+        |    
+        |    - src/Drink.py                 - Lines 8 - 69      - Encapsulation is everywhere in my program, but
+        |                                                         here is another example that shows were I use
+        |                                                         private instance variables, constructors, and 
+        |                                                         mutators/accessors.
         |
-		|
-		|	Polymorphism
-		|
-        |	- src/Inventory.py			- Line 131 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
-		|	- src/Fridge.py				- Lines 58-60	     	  in the Manager class, however I am adding Alcoholic and NonAlcoholic
-		|														  drinks to it. This is where polymorphism plays a part in my project.
-		|
-		|
+        |
+        |    Code Reuse
+        |
+        |    - ui/PyDrinkController.py      - Lines 271 - 287   - Method insert_manager_tree() shows code reuse, 
+        |                                                         since multiple events call this method to handle
+        |                                                         similar tasks with different models. This allows
+        |                                                         me to load data into tree views with different models.
+        |
+        |
+        |    Polymorphism
+        |
+        |    - src/Inventory.py            - Line 131 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
+        |    - src/Fridge.py               - Lines 58-60             in the Manager class, however I am adding Alcoholic and NonAlcoholic
+        |                                                            drinks to it. This is where polymorphism plays a part in my project.
+        |
+        |
         |   Class Hierarchies and Method Overriding
         |
         |   - src/Drink.py                - Line 106            - src/Alcoholic.py and src/NonAlcoholic.py depend
@@ -222,75 +222,75 @@ Windows
         |   - src/Inventory.py            - Line 93               src/Inventory.py
         |
         |
-		|	Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
+        |    Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
         |
         |   - src/Manager.py              - Line 4              - This is an abstract class that contains 
         |                                                         behaviours and attributes common to 
         |                                                         src/Inventory.py, src/Glass.py and
-		|														  src/Fridge.py
+        |                                                          src/Fridge.py
         |
         |   - src/Drink.py                - Line 6              - This is an parent class that contains
         |                                                         behaviours and attributes common to 
-		|														  src/Alcoholic.py and src/NonAlcoholic.py
+        |                                                         src/Alcoholic.py and src/NonAlcoholic.py
         |
         |   
         |
   -------------------------------------------------------------------------------------------------------------------
     2   |   Utilize persistence effectively to realize a user story that could not be realized without persistence
-		|
+        |
         |   - src/Fridge.py               - Line 30 + 38        - In order to persist the fridge for the user
         |                                                         I used the pickle library in Python. Whenever
-		|														  fridge is updated by the user I serialized the entire
-		|														  fridge object to data/fridge.bin. This allows for the
-		|														  Fridge state to be stored and loaded on application 
-		|														  closure and startup. See method parse() and save()
-		|														  in the Fridge class on the lines specified respectively.
+        |                                                         fridge is updated by the user I serialized the entire
+        |                                                         fridge object to data/fridge.bin. This allows for the
+        |                                                         Fridge state to be stored and loaded on application 
+        |                                                         closure and startup. See method parse() and save()
+        |                                                         in the Fridge class on the lines specified respectively.
         |
         |                                                       - I chose serialization over persistant storage due to
-		|														  its light weight capacity.
-		|														
-		|														- Furthermore a database would be to heavily coupled 
-		|														  with my program which can be used with and without
-		|														  the persistent storage. I am using the persistence 
-		|														  for my Fridge object so that the state of the fridge 
-		|														  can be stored between application use. This lightweight
-		|														  effect makes it easier integrating web and server in 
-		|														  the next assignment. Serialization also works because 
-		|														  my Fridge object's functionality will not change, 
-		|														  as its only purpose is to store Drinks from the inventory
-		|														  and let you chose drinks for your glass - the schema 
+        |                                                         its light weight capacity.
+        |                                                        
+        |                                                       - Furthermore a database would be to heavily coupled 
+        |                                                         with my program which can be used with and without
+        |                                                         the persistent storage. I am using the persistence 
+        |                                                         for my Fridge object so that the state of the fridge 
+        |                                                         can be stored between application use. This lightweight
+        |                                                         effect makes it easier integrating web and server in 
+        |                                                         the next assignment. Serialization also works because 
+        |                                                         my Fridge object's functionality will not change, 
+        |                                                         as its only purpose is to store Drinks from the inventory
+        |                                                         and let you chose drinks for your glass - the schema 
         |
 ---------------------------------------------------------------------------------------------------------------------
     3   |   Facilitate the addition of portability to your program via the definition and creation of portable objects
         |
         |   - src/Drinks.py               - Line 102            - Added JSON portability to the Drink object and its 
-		|	- src/Alcoholic.py			  - Line 47				  child classes Alcoholic and NonAlcoholic.
-		|	- src/NonAlcoholic.py		  - Line 58     		  This will allow me to easily send and receive drink 
-		|    													  objects on the web.
-		|
-		|														- I chose JSON to parse and transmit Drink objects since
-    	|														  I am already getting JSON data from my API, so storing
-		|														  it from JSON also helped me in displaying it by JSON. 
-		|														  I found JSON easier to read, so to understand the large
-		|														  sums of data I'm sending and manipulating is easier
-		|														  with JSON. Also, in the future when I implement a web
-		|														  server, parsing large amounts of XML data is costly and 
-		|														  slow compared to JSON, expecially since I'm parsing tens
-		|														  of thousands of Drink objects from JSON elements in the
-		|														  inventory.
-		|
-		|														- I chose to make the Drink object portable to help facilitate
-  		|														  my future use of Drinks on the web and transmitting them back
-		|														  and forth with the server will be more easily done with
-		|														  portable Drink objects.
-		|
-		|	- src/Encoder.py              - (Whole Class)       - This implements a custom JSONEncoder for the json.dumps
-		|														  method to retrieve the public equivalent of private variables.	
-		|														  
-		|														NOTE* The json strings can be found in the description on
-		|														each drink on the bottom. They can be copied from there.
-		|														Keep in mind however those boxes are Read only, so pasting, 
-		|														nor editting can be performed.
+        |   - src/Alcoholic.py            - Line 47               child classes Alcoholic and NonAlcoholic.
+        |   - src/NonAlcoholic.py         - Line 58               This will allow me to easily send and receive drink 
+        |                                                         objects on the web.
+        |
+        |                                                        - I chose JSON to parse and transmit Drink objects since
+        |                                                          I am already getting JSON data from my API, so storing
+        |                                                          it from JSON also helped me in displaying it by JSON. 
+        |                                                          I found JSON easier to read, so to understand the large
+        |                                                          sums of data I'm sending and manipulating is easier
+        |                                                          with JSON. Also, in the future when I implement a web
+        |                                                          server, parsing large amounts of XML data is costly and 
+        |                                                          slow compared to JSON, expecially since I'm parsing tens
+        |                                                          of thousands of Drink objects from JSON elements in the
+        |                                                          inventory.
+        |
+        |                                                        - I chose to make the Drink object portable to help facilitate
+        |                                                          my future use of Drinks on the web and transmitting them back
+        |                                                          and forth with the server will be more easily done with
+        |                                                          portable Drink objects.
+        |
+        |    - src/Encoder.py              - (Whole Class)       - This implements a custom JSONEncoder for the json.dumps
+        |                                                          method to retrieve the public equivalent of private variables.    
+        |                                                          
+        |                                                        NOTE* The json strings can be found in the description on
+        |                                                        each drink on the bottom. They can be copied from there.
+        |                                                        Keep in mind however those boxes are Read only, so pasting, 
+        |                                                        nor editting can be performed.
 ------------------------------------------------------------------------------------------------------------------------
 
 
