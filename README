@@ -1,51 +1,33 @@
-************************
-Program Description:
-
-An Drink Manager that monitors the
-drinks you have and helps you find
+##Overview##
+This is a Drink Manager App that monitors the drinks you have and helps you find
 cocktails you can make with it.
-NOTE: For this assignment all data
-is coming from the LCBO API running
-on the cis4450.socs.uoguelph.ca server.
-Please make sure you are connected
-to the school VPN before running this
-application.
 
-The inventory is where the API is
-connected and allows you to view
-the LCBO products. You can search
-based off any parameter and can
+For this assignment all data (except NonAlcoholic Mock data) is coming from the LCBO API running on the cis4450.socs.uoguelph.ca server.
+Please make sure you are connected to the school VPN before running this application.
+
+Non Alcoholic Beverages are mocked in data/mock/nonalcoholic.csv. Feel free to add your own to the mock data to use
+in making drinks. These Non Alcoholic drinks will appear straight in your fridge (not in the inventory) and can not
+be removed permanetly without removing them from nonalcoholic.csv. You can remove them for a session, but the next
+time you open the app, they will be there.
+
+The inventory is where the API is connected and allows you to view the LCBO products. You can search based off any parameter and can
 add multiple parameters together:
 i.e. "Yellow", "Apple", "Vodka",
 	 "Red Wine", etc...
 
-To add a drink from your inventory
-to your fridge, you need to select
-a drink with a left click and then
-right click the drink to add it to
-your cart. At that point pressing 
-the Add To Fridge Button will add
+To add a drink from your inventory to your fridge, you need to select a drink with a left click and then
+right click the drink to add it to your cart. At that point pressing the Add To Fridge Button will add
 any drink in your cart to your Fridge.
 
-The same UI principles are in effect
-in the Fridge Tab. Select the drinks
-you might want to make a cocktail 
+The same UI principles are in effect in the Fridge Tab. Select the drinks you might want to make a cocktail 
 from.
 
-In the Glass tab, you can see what drinks
-are selected (however you cant click on them)
-you can however see the cocktails you
-can make. Left clicking on them will show
-you how to make each cocktail.
+In the Glass tab, you can see what drinks are selected (however you cant click on them) and the cocktails you
+can make. Left clicking on the cocktails will show you how to make each cocktail.
 
-Note* Due to the nature of the data
-I am working with there is a chance that
-the cocktails available are not accurate
-to the types of drinks you have added.
-I have tried to mitigate this as much as possible
-but there are limitations to what I can do
-with the bad data I have managed to find for
-free.
+Note* Due to the nature of the data I am working with there is a chance that the cocktails available are not accurate
+to the types of drinks you have added. I have tried to mitigate this as much as possible but there are limitations to what I can do
+with the bad data I have managed to find for free.
 
 TLDR:
 Inventory + Fridge Tab:
@@ -59,8 +41,7 @@ Shows all drinks you've selected
 Single click on any cocktail - shows whats required for
 making the cocktail chosen
 
-NOTE: Here are some cocktails for you
-to try to make using the app:
+HERE ARE SOME COCKTAILS TO TRY MAKING:
 
 Gin and Tonic:
 Dillion's Unfiltered (Gin)
@@ -73,124 +54,95 @@ Buffalo Trace (Bourbon Whiskey)
 Try something else out, maybe you'll find
 other cocktails you never knew existed!
 
-Note: Non Alcoholic Beverages are mocked
-in data/mock/nonalcoholic.csv. Feel free
-to add your own to the mock data to use
-in making drinks.
-**************************
 
-*************************************
-User Guide - !!REQUIRES Python 3.7! Check which version you have
-with the following command 'python --version' or 'python3 --version' if you don't have it
-please install: https://www.python.org/downloads/release/python-372/!
 
-Which ever --version command gives you 3.7 (python or python3, please use that
+##User Stories:##
+1. As a user I want to be able to select from a slew of drinks that I may have at home so
+   that I can add them to my fridge and use them for cocktails
+2. As a user I want to be able to get specific information about any drink I have at home
+   so that I can make informed decisions about what I consume and the cost of consuming
+3. As a user I want to be able to store the information from my fridge so that I can
+   reload all the information back on application startup
+4. As a user I want to be able to see cocktails that can be made only from the
+   Drinks I've selected so that I'm not required to buy anything else to make
+   them (other than garnishes). (In A1, it was any drink selected is enough for a cocktail,
+   i.e. if I select just Vodka, I can make Sex on the Beach which requires Vodka and Peach Schnapps,
+   now it needs every requirement for a drink to be made, harder to implement than it sounds with my bad data)
+5. As a system administrator I want to be able to see JSON data about each Drink as part of
+   the description so that I can display it on the web (will be used in A3)
+
+All of the user stories have been implemented in the application.
+
+
+
+##Requirements:##
+  Python 3.7.2 (not negotiable, modules required from 3.7, so 3.5 is not enough unless you are able to get around some module dependencies)
+	Check which version you have
+	with the following command 'python --version' or 'python3 --version' if you don't have it
+	please install: https://www.python.org/downloads/release/python-372/
+  tkinter
+  PyYaml
+  ABC (Abstract Base Class, requires Python 3.x, if the program complains about this, its because you aren't using Python 3.x)
+
+  
+
+##Instructions for Running:##
+
+Which ever --version command gives you 3.7 ('python' or 'python3', please use that
 command for the rest of the setup instructions)
 
-1. This software requires TKinter. If the program doesn't start correctly
-   with below step please visit https://www.activestate.com/products/activetcl/downloads/
-   to install ActiveTcl which adds Tkinter to Python distribution (make sure you install 8.5+,
-   not 8.4 or lower)
-1a. on linux, installing python-tk package or python3-tk package should do the trick
+Linux
+  1. On linux, installing python-tk package or python3-tk package should do the trick
 	(sudo apt-get install python3-tk) 
-1b. on MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though)
-1c. Follow this tutorial if all above fails: https://tkdocs.com/tutorial/install.html
-2.  Run command on terminal: make run 
-	*NOTE this will attempt to clean and rebuild all bytecode so if none found disregard the error message
-	 ALSO this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
-2a. If make doesnt exist and on Windows OS install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
-2b. The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
-	file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
-	Restart your terminal and you should now be able to run command 'make run'
-3.  If make still doesnt work, type python3 || python PyDrink.py
+  2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
+  3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
+  4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
+  5. Run command on terminal: make run 
+		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+  6. If make doesnt work, type python3 || python PyDrink.py
+  7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+		doesn't work, please see README in lcbo-api folder to set up the API locally.
+		Once the API is running locally. Go to data/ folder and edit
+		config.yml: host: localhost (or 127.0.0.1) and port:3000
+		
+Mac
+  1. On MacOSX Python 3.1+ should include tkinter as part of the distribution (cannot vouch for that though). If it doesnt, installing latest distribution of Python should install it.
+  2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
+  3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
+  4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
+  5. Run command on terminal: make run 
+		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+  6. If make doesnt work, type python3 || python PyDrink.py
+  7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+		doesn't work, please see README in lcbo-api folder to set up the API locally.
+		Once the API is running locally. Go to data/ folder and edit
+		config.yml: host: localhost (or 127.0.0.1) and port:3000
+ 
+Windows
+  1. This software requires TKinter. If the program doesn't start correctly
+		with below step please visit https://www.activestate.com/products/activetcl/downloads/
+		to install ActiveTcl which adds Tkinter to Python distribution (make sure you install 8.5+,
+		not 8.4 or lower)
+  2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
+  3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
+  4. Run command pip install pyyaml, if this doesnt work try pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
+  5. Run command on terminal: make run 
+		this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
+  6. If make doesnt exist install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
+		The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
+		file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
+		Restart your terminal and you should now be able to run command 'make run'
+  7. If make still doesnt work, type python3 || python PyDrink.py
+  8. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+		reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
+		doesn't work, please see README in lcbo-api folder to set up the API locally.
+		Once the API is running locally. Go to data/ folder and edit
+		config.yml: host: localhost (or 127.0.0.1) and port:3000
 
-4.  This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
-    reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
-    doesn't work, please see README in lcbo-api folder to set up the API locally.
-	Once the API is running locally. Go to data/ folder and edit
-	config.yml: host: localhost (or 127.0.0.1) and port:3000
 
-*************************************
-Known Limitations, Assumptions and Errors
-NOTE: The following error will occur periodically
-when closing the application. It has nothing to do
-with the software I wrote. It is a known bug so do not
-be alarmed
-in Tkinter:
-
-	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
-	Traceback (most recent call last):
-		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
-	TypeError: catching classes that do not inherit from BaseException is not allowed
-	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
-	Traceback (most recent call last):
-		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
-	TypeError: catching classes that do not inherit from BaseException is not allowed
-	Exception ignored in: <function Image.__del__ at 0x00000250903E48C8>
-	Traceback (most recent call last):
-		File "...\Python\Python37\lib\tkinter\__init__.py", line 3508, in __del__
-	TypeError: catching classes that do not inherit from BaseException is not allowed
-*************************************
-
-*************************************
-Coding Style
-- Class names use PascalCase
-- Private variables use a _ prepending
-the variable name
-- Variable and method names are 
-written 'like_this' all lowercase
-according to PEP8 standards
-*************************************
-
-**********************************************************************************************
-Learning Outcomes:
-LO1:  Demonstrate best practices for OO development in the language of your choice.
-- Added Controller Glass for my GUI - Called PyDrinkController. One controller that handles all the models 
-  was decided in my design since my controller needs multiple Models to handle events properly. If
-  I split up my controllers, I would have to add coupling between controllers and split handling an event in multiple
-  controllers which is more than having the 3 models handled in the one controller.
-- Inventory Class added that shows encapsulation by having its own private variables and mutators/accessors,
-  and inheritance since it inherits from my Manager abstract class.
-- In PyDrinkController line 268, method insert_manager_tree() shows code reuse, since multiple events call this
-  method to handle similar tasks with different models. This allows me to load data into tree views with different
-  models.
-- I am currently maintaining a dictionary of Drinks in the Manager class, however I am adding Alcoholic and NonAlcoholic
-  drinks to it. This is where polymorphism plays a part in my project.
-- I used class heirarchies to minimize code reuse between Drink -> Non Alcoholic and Alcoholic types as well as Manager -> Glass and Fridge. 
-  These heirarchies types share similar data, and so to limit reuse I created the Drink and Manager class to maintain shared information. 
-  The Drink string protocol is overridden by Alcoholic and NonAlcoholic class to return more relevant information for each class and their specific attributes.
-- Encapsulation: i.e. Drink.py line 8-58
-- Overriding Methods: Drink.py line 60-61, NonAlcoholic.py line 57-61, Alcoholic.py line 45-47
-- Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
-LO2:  Utilize persistence effectively to realize a user story that could not be realized without persistence.
-- Added Serialization to Fridge Class which saves the Fridge object to data/fridge.bin 
-- This allows for the Fridge state to be stored and loaded on application closure and boot.
-- See Method parse() and save() in Fridge class lines 30 and 38 respectively
-L03: Facilitate the addition of portability to your program via the definition and creation of portable objects.
-- Added JSON portability to the Drink object and its child classes Alcoholic and NonAlcoholic. This will allow
-  me to easily send and receive drink objects on the web.
-- See dumps() method in Drinks.py, Alcoholic.py, and NonAlcoholic.py classes. Also see Encoder Class, this
-  implements a custom JSONEncoder for the json.dumps method to retrieve the public equivalent of private variables.
-
-Persistent Storage Rational:
-- I chose serialization over persistant storage due to its light weight capacity.
-- Furthermore a database would be to heavily coupled with my program which can be used with and without
-  the persistent storage. I am using the persistence for my Fridge object so that the state of the fridge
-  can be stored between application use. This lightweight effect makes it easier integrating web in the
-  next assignment because and since my Fridge object's functionality will not change, as its only purpose is to store Drinks
-  from the inventory and let you chose drinks for your glass - the schema for Fridge will likely not change further.  
-Portable Storage Rational:
-- I chose JSON to parse and transmit Drink objects since I am already getting JSON data from my API, so storing it from JSON 
-  also helped me in displaying it by JSON. I found JSON easier to read, so to understand the large sums of data im sending and manipulating 
-  is easier with JSON. Also, in the future when I implement a web server, parsing large amounts of XML data is costly and slow
-  compared to JSON, expecially since I'm parsing tens of thousands of Drink objects from JSON elements in the inventory
-- I chose to make the Drink object portable to help facilitate my future use of Drinks on the web and transmitting back and forth
-  and forth with the server that will be more easily done with portable Drink objects.
-  
-  NOTE* The json strings can be found in the description on each drink on the bottom. They can be copied from there.
-		Keep in mind however those boxes are Read only, so paste, nor editting can be performed.
-
-+++++++++++++++++++++++++++++++++++++++IMPORTANT EXPLANATION OF ALL CLASSES+++++++++++++++++++++++++++++++++++++++++
+##Explanation of All Classes##
 	Models:
 		src/Manager: List of Drinks, required methods for child classes
 		src/Fridge: Implementation of Manager required methods
@@ -213,48 +165,156 @@ Portable Storage Rational:
 	                     to allow for multipaged display with a convenient scroll bar
 	ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
 	                     the purposes of this app.
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-**********************************************************************************************
 
-**********************************************************************************************
-User Stories Implemented:
-1. As a user I want to be able to select from a slew of drinks that I may have at home so
-   that I can add them to my fridge and use them for cocktails
-2. As a user I want to be able to get specific information about any drink I have at home
-   so that I can make informed decisions about what I consume and the cost of consuming
-3. As a user I want to be able to store the information from my fridge so that I can
-   reload all the information back on application startup
-4. As a user I want to be able to see cocktails that can be made only from the
-   Drinks I've selected so that I'm not required to buy anything else to make
-   them (other than garnishes). (In A1, it was any drink selected is enough for a cocktail,
-   i.e. if I select just Vodka, I can make Sex on the Beach which requires Vodka and Peach Schnapps,
-   now it needs every requirement for a drink to be made, harder to implement than it sounds with my bad data)
-5. As a user I want to be able to add Non Alcoholic beverages to my Fridge
-   so that I can use them to make cocktails (Currently only from file, no UI)
-6. As a system administrator I want to be able to see JSON data about each Drink as part of
-   the description so that I can display it on the web (will be used in A3)
-**********************************************************************************************
 
-**********************************
-Sources:
+------------------------------------------------------------------------------------------------------------------------
+    1   |   Demonstrate best practices for OO development in the language of your choice
+		|
+        |   Controller + Model + View Design
+        |
+        |   - ui/PyDrinkController.py                           - One controller that handles all the models was 
+		|														  decided in my design since my controller needs
+		|														  multiple Models to handle events properly. If
+		|														  I split up my controllers, I would have to add 
+		|														  coupling between controllers and split handling
+		|														  an event in multiple controllers which is more 
+		|														  than having the 3 models handled in the one controller.
+        |                                                         
+        |
+        |   Encapsulation, Constructors, Accessors, Mutators, Instance Variables
+        |
+        |   - src/Inventory.py            - Lines 12 - 84       - Inventory Class added that shows encapsulation
+		|														  by having its own private variables and 
+		|													      mutators/accessors, and inheritance since it
+		|													      inherits from my Manager abstract class.
+        |	
+		|	- src/Drink.py				  - Lines 8 - 69		- Encapsulation is everywhere in my program, but
+		|                                                         here is another example that shows were I use
+		|                                                         private instance variables, constructors, and 
+		|														  mutators/accessors.
+		|
+		|
+		|	Code Reuse
+		|
+		|	- ui/PyDrinkController.py	  - Lines 271 - 287     - method insert_manager_tree() shows code reuse, 
+		|													      since multiple events call this method to handle
+		|														  similar tasks with different models. This allows
+		|														  me to load data into tree views with different models.
+        |
+		|
+		|	Polymorphism
+		|
+        |	- src/Inventory.py			- Line 131 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
+		|	- src/Fridge.py				- Lines 58-60	     	  in the Manager class, however I am adding Alcoholic and NonAlcoholic
+		|														  drinks to it. This is where polymorphism plays a part in my project.
+		|
+		|
+        |   Class Hierarchies and Method Overriding
+        |
+        |   - src/Drink.py                - Line 106            - src/Alcoholic.py and src/NonAlcoholic.py depend
+        |   - src/Alcoholic.py            - Line 51               on src/Drinks.py and override the __str__  
+        |   - src/NonAlcoholic.py         - Line 62               method to print according to their attributes.
+        |                                                         
+        |   - src/Manager.py              - Line 56             - Similar to the __str__ method above, the parse method
+        |   - src/Fridge.py               - Line 47               in src/Manager.py is overriden to accommodate the 
+        |   - src/Glass.py                - Line 34               differences between src/Fridge.py, src/Glass.py and
+        |   - src/Inventory.py            - Line 93               src/Inventory.py
+        |
+        |
+		|	Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
+        |
+        |   - src/Manager.py              - Line 4              - This is an abstract class that contains 
+        |                                                         behaviours and attributes common to 
+        |                                                         src/Inventory.py, src/Glass.py and
+		|														  src/Fridge.py
+        |
+        |   - src/Drink.py                - Line 6              - This is an parent class that contains
+        |                                                         behaviours and attributes common to 
+		|														  src/Alcoholic.py and src/NonAlcoholic.py
+        |
+        |   
+        |
+  -------------------------------------------------------------------------------------------------------------------
+    2   |   Utilize persistence effectively to realize a user story that could not be realized without persistence
+		|
+        |   - src/Fridge.py               - Line 30 + 38        - In order to persist the fridge for the user
+        |                                                         I used the pickle library in Python. Whenever
+		|														  fridge is updated by the user I serialized the entire
+		|														  fridge object to data/fridge.bin. This allows for the
+		|														  Fridge state to be stored and loaded on application 
+		|														  closure and startup. See method parse() and save()
+		|														  in the Fridge class on the lines specified respectively.
+        |
+        |                                                       - I chose serialization over persistant storage due to
+		|														  its light weight capacity.
+		|														
+		|														- Furthermore a database would be to heavily coupled 
+		|														  with my program which can be used with and without
+		|														  the persistent storage. I am using the persistence 
+		|														  for my Fridge object so that the state of the fridge 
+		|														  can be stored between application use. This lightweight
+		|														  effect makes it easier integrating web and server in 
+		|														  the next assignment. Serialization also works because 
+		|														  my Fridge object's functionality will not change, 
+		|														  as its only purpose is to store Drinks from the inventory
+		|														  and let you chose drinks for your glass - the schema 
+        |
+---------------------------------------------------------------------------------------------------------------------
+    3   |   Facilitate the addition of portability to your program via the definition and creation of portable objects
+        |
+        |   - src/Drinks.py               - Line 102            - Added JSON portability to the Drink object and its 
+		|	- src/Alcoholic.py			  - Line 47				  child classes Alcoholic and NonAlcoholic.
+		|	- src/NonAlcoholic.py		  - Line 58     		  This will allow me to easily send and receive drink 
+		|    													  objects on the web.
+		|
+		|														- I chose JSON to parse and transmit Drink objects since
+    	|														  I am already getting JSON data from my API, so storing
+		|														  it from JSON also helped me in displaying it by JSON. 
+		|														  I found JSON easier to read, so to understand the large
+		|														  sums of data I'm sending and manipulating is easier
+		|														  with JSON. Also, in the future when I implement a web
+		|														  server, parsing large amounts of XML data is costly and 
+		|														  slow compared to JSON, expecially since I'm parsing tens
+		|														  of thousands of Drink objects from JSON elements in the
+		|														  inventory.
+		|
+		|														- I chose to make the Drink object portable to help facilitate
+  		|														  my future use of Drinks on the web and transmitting them back
+		|														  and forth with the server will be more easily done with
+		|														  portable Drink objects.
+		|
+		|	- src/Encoder.py              - (Whole Class)       - This implements a custom JSONEncoder for the json.dumps
+		|														  method to retrieve the public equivalent of private variables.	
+		|														  
+		|														NOTE* The json strings can be found in the description on
+		|														each drink on the bottom. They can be copied from there.
+		|														Keep in mind however those boxes are Read only, so pasting, 
+		|														nor editting can be performed.
+------------------------------------------------------------------------------------------------------------------------
 
+
+
+##Sources:##
 - https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
 - http://net-informations.com/python/iq/interfaces.htm
 - http://page.sourceforge.net/
 - http://code.activestate.com/recipes/580773-tkinter-search-box/
-**********************************
 
-****************************************************************************************************************
-Clarification based of A1 Peer Review: (R- Review) (A - Answer)
 
-R: The distinction between cocktail and drink is a bit fuzzy[-1]. I get that a cocktail has a drink and a glass. However, if I ever had to use your code] and just had a look at the class names. I would assume cocktail is a drink.
+
+##Clarifications Based on Peer Review##
+R: The distinction between cocktail and drink is a bit fuzzy. I get that a cocktail has a drink and a glass. However, if I ever had to use your code and just had a look at the class names. I would assume cocktail is a drink.
 A: A Cocktail is made up of many drinks. While there is no list of drinks in my cocktail class, it has categories of drinks that must be satisfied. A Glass is where you make your cocktail. You add drinks to your glass in order to
    make the cocktail.
    
-   
-   
 R: For some reason, the glass tab does not show any of the drinks selected.
-A: To add selected drinks to the glass tab, please press add to glass button. This was done so that the user has a distinction between selecting a drink in the inventory (to see its description) and 
-   adding the drink to their glass (by pressing a button) for making a cocktail. If more people are confused by this, I could remove the button altogether and make it so if you selected a drink
+A: To add selected drinks to the glass tab, please select a drink in the fridge with a left click, and right click it afterwards to add it to your Glass. Press the add to glass button in order to send it to the glass tab.
+   This was done so that the user has a distinction between selecting a drink in the fridge (to see its description) and  adding the drink to their glass (by pressing a button) for making a cocktail. 
+   If more people are confused by this, I could remove the button altogether and make it so if you selected a drink
    its added to the glass tab immediately.
+   
+R: The persistence makes sense, but for some reason, after removing the clamato, orange juice and tonic from my fridge, they reappear every time I open the program.
+A: Yes great observation! Since my app is using mock data for the non alcoholic beverages, I am loading in the information when the application starts up. Hence removing a non alcoholic beverage
+   from the fridge during runtime affects only the currently running application. If you would like to remove a non alcoholic beverage all together, feel free to update the mock data located at
+   data/mock/nonalcoholic.csv
