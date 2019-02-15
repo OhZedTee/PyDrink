@@ -70,8 +70,13 @@ class PyDrinkController:
 
         if self.inventory.page == 1:
             prev.configure(state=tk.DISABLED)
+        else:
+            prev.configure(state=tk.NORMAL)
+
         if self.inventory.final_page:
             next.configure(state=tk.DISABLED)
+        else:
+            next.configure(state=tk.NORMAL)
 
         text = "Page %g of %g" % (self.inventory.page, self.inventory.num_pages)
         page_message.configure(text=text)
