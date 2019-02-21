@@ -313,7 +313,8 @@ class PyDrink:
                                                                                        self.stv_list_cocktails,
                                                                                        self.txtbx_glass_selected,
                                                                                        self.stv_list_fridge,
-                                                                                       "Added To Glass"))
+                                                                                       "Added To Glass",
+                                                                                   self.cmbx_translation_language))
 
         self.style.configure('Treeview.Heading', font="TkDefaultFont")
         self.stv_list_cocktails = ScrolledTreeView.ScrolledTreeView(self.frame_list_glass)
@@ -342,15 +343,28 @@ class PyDrink:
         self.lbl_glass_description.pack(side="top")
 
         self.txtbx_glass_selected = ROText.ROText(self.frm_select_glass)
-        self.txtbx_glass_selected.place(relx=0.107, rely=0.081, relheight=0.905, relwidth=0.784)
+        self.txtbx_glass_selected.place(relx=0.107, rely=0.081, relheight=0.500, relwidth=0.784)
         self.txtbx_glass_selected.configure(background="white", font="TkTextFont", foreground="black",
                                             highlightbackground="#d9d9d9", highlightcolor="black",
                                             insertbackground="black", selectbackground="#c4c4c4",
                                             selectforeground="black", width=294, wrap='word')
 
+        self.cmbx_translation_language = ttk.Combobox(self.frm_select_glass, state="readonly")
+        self.cmbx_translation_language.place(relx=0.500, rely=0.620, relheight=0.05, width=294, anchor="center")
+        self.cmbx_translation_language.bind('<<ComboboxSelected>>', lambda e:
+                                                                controller.translate_text(e, self.txtbx_glass_selected,
+                                                                                        self.cmbx_translation_language))
+
+        self.btn_translation_sound = tk.Button(self.frm_select_glass, command=lambda:
+                                                controller.btn_translation_sound_lclick(self.txtbx_glass_selected,
+                                                                                        self.cmbx_translation_language))
+        self.btn_translation_sound.place(relx=0.107, rely=0.700, relheight=0.05, width=294)
+        self.btn_translation_sound.configure(activebackground="#ececec", activeforeground="#000000", background="#d9d9d9",
+                                      disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
+                                      highlightcolor="black", pady="0", text='Text To Speech')
 
 if __name__ == '__main__':
-    vp_start_gui()
+   vp_start_gui()
 
 
 

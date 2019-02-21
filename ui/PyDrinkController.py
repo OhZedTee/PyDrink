@@ -5,12 +5,14 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 11, 2019 12:32:59 PM EST  platform: Windows NT
 
-import sys
+import sys, os
 from src.Fridge import Fridge
 from src.Alcoholic import Alcoholic
 from src.Glass import Glass
 from src.Inventory import Inventory
-
+from src.Translate import Translator
+from pygame import mixer
+from pygame import time as timer
 
 try:
     import Tkinter as tk
@@ -24,13 +26,13 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-
 class PyDrinkController:
 
     def __init__(self):
         self._fridge = Fridge()
         self._glass = Glass()
         self._inventory = Inventory()
+        self._translator = Translator()
 
     @property
     def fridge(self):
@@ -55,6 +57,14 @@ class PyDrinkController:
     @inventory.setter
     def inventory(self, value):
         self._inventory = value
+
+    @property
+    def translator(self):
+        return self._translator
+
+    @translator.setter
+    def translator(self, value):
+        self._translator = value
 
     def search(self, text, prev, next, inventory_list, textbox_selected, success_message, page_message):
         print('PyDrink_support.search: %s' % text)
@@ -81,31 +91,6 @@ class PyDrinkController:
         text = "Page %g of %g" % (self.inventory.page, self.inventory.num_pages)
         page_message.configure(text=text)
 
-        sys.stdout.flush()
-
-    @staticmethod
-    def btn_add_glass_lclick(p1, tree, glass_list, selection_message, success_message):
-        print('PyDrink_support.btn_add_glass_lclick')
-        print('p1 = {0}'.format(p1))
-
-        """Event triggered when add to glass button is pressed
-        1. Empties the Glass TreeView in Glass tab
-        2. Repopulates it with all selected Beverages in the Fridge tab"""
-        try:
-            for child in glass_list.get_children():
-                glass_list.delete(child)
-
-            # Iterate through all items in TreeView adding all selected items to Glass
-            count = 0
-            for child in tree.get_children():
-                if tree.item(child, "values")[0] == selection_message:
-                    count += 1
-                    glass_list.insert('', 'end', text=tree.item(child, "text"), values=tree.item(child, "values"))
-
-            if count > 0:
-                success_message.configure(state=tk.NORMAL)
-        except:
-            pass
         sys.stdout.flush()
 
     def btn_add_fridge_lclick(self, inventory_list, success_message, page_message, selection_message):
@@ -229,7 +214,7 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
-    def ntb_open_glass(self, p1, tree, cocktail_tree, textbox_selected, fridge_list, selection_message):
+    def ntb_open_glass(self, p1, tree, cocktail_tree, textbox_selected, fridge_list, selection_message, translation_box):
         print('PyDrink_support.ntb_open_glass')
         print('p1 = {0}'.format(p1))
 
@@ -264,11 +249,15 @@ class PyDrinkController:
 
             cocktail_categories["Alcoholic"] = alcoholic
             cocktail_categories["NonAlcoholic"] = non_alcoholic
-            PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, cocktail_categories, textbox_selected)
+            PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, cocktail_categories, textbox_selected,
+                                                   translation_box)
 
 
         except:
             pass
+
+        translation_box.configure(values=list(self.translator.languages.keys()))
+        translation_box.current(0)
         sys.stdout.flush()
 
     @staticmethod
@@ -305,7 +294,7 @@ class PyDrinkController:
                                                                                          textbox_selected))
 
     @staticmethod
-    def insert_cocktail_tree(tree, obj, categories, textbox_selected):
+    def insert_cocktail_tree(tree, obj, categories, textbox_selected, combobox_language):
         """Insertion method."""
         # Clears TreeView
         for child in tree.get_children():
@@ -315,7 +304,8 @@ class PyDrinkController:
             tree.insert('', 'end', text=str(cocktail.name),
                         values='No')
             tree.bind("<ButtonRelease-1>", lambda e: PyDrinkController.stv_cocktail_selected(e, tree, obj,
-                                                                                             textbox_selected))
+                                                                                             textbox_selected,
+                                                                                             combobox_language))
 
     @staticmethod
     def stv_select_lclick(p1, tree, obj, textbox_selected):
@@ -336,7 +326,7 @@ class PyDrinkController:
             textbox_selected.insert('1.0', str(drink))
 
     @staticmethod
-    def stv_cocktail_selected(p1, tree, obj, textbox_selected):
+    def stv_cocktail_selected(p1, tree, obj, textbox_selected, combobox_language):
         """Update Description of selected frame"""
         print('PyDrink_support.stv_cocktail_selected')
         print('p1 = {0}'.format(p1))
@@ -351,6 +341,7 @@ class PyDrinkController:
             # 1 - line 0 - coloumn
             textbox_selected.delete('1.0', tk.END)
             textbox_selected.insert('1.0', str(cocktail))
+            combobox_language.current(0)
 
     @staticmethod
     def stv_list_selected_rclick(p1, tree, obj, selection_message, success_message):
@@ -387,6 +378,51 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+
+    def translate_text(self, p1, textbox_cocktail, combobox_language):
+        """Translate Cocktail Recipe"""
+        print('PyDrink_support.translate_text')
+        print('p1 = {0}'.format(p1))
+
+        try:
+            if textbox_cocktail.get("1.0", tk.END) != "\n":
+                translated_text = self.translator.translate(self.translator.languages[combobox_language.get()],
+                                                            textbox_cocktail.get("1.0", tk.END))
+                print("TRANSLATED TEXT: %s" % translated_text)
+                textbox_cocktail.delete('1.0', tk.END)
+                textbox_cocktail.insert('1.0', str(translated_text))
+            else:
+                print("Nothing to translate")
+        except:
+            print("Unable to translate, please try again")
+            combobox_language.current(0)
+            self.translate_text(p1, textbox_cocktail, combobox_language)
+
+        sys.stdout.flush()
+
+    def btn_translation_sound_lclick(self, textbox_cocktail, combobox_language):
+        """Play text to speech of cocktail recipe"""
+        print('PyDrink_support.btn_translation_sound_lclick')
+
+        try:
+            if textbox_cocktail.get("1.0", tk.END) != "\n":
+                self.translator.text_to_speech(self.translator.languages[combobox_language.get()],
+                                               textbox_cocktail.get("1.0", tk.END))
+
+                filename = "data/audio/speech%s.wav" % (self.translator.speech_num - 1)
+                mixer.init(frequency=16000, size=-16, channels=1, buffer=1024)
+                mixer.music.load(filename)
+                mixer.music.play(0)
+                while mixer.music.get_busy():
+                    timer.Clock().tick(10)
+                mixer.stop()
+                mixer.quit()
+            else:
+                print("Nothing to convert to speech")
+        except:
+            print("Unable to perform text to speech, please try again")
+
+        sys.stdout.flush()
 
 if __name__ == '__main__':
     import PyDrink

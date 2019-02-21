@@ -91,6 +91,8 @@ All of the user stories have been implemented in the application.
 Which ever --version command gives you 3.7 ('python' or 'python3', please use that
 command for the rest of the setup instructions)
 
+TOADD: pip install yml, pip install pyglet, pip install requests
+
 Linux
   1. On linux, installing python-tk package or python3-tk package should do the trick
     (sudo apt-get install python3-tk) 
