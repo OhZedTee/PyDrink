@@ -12,7 +12,7 @@ from src.Glass import Glass
 from src.Inventory import Inventory
 from src.Translate import Translator
 from pygame import mixer
-from pygame import time as timer
+from pygame import time
 
 try:
     import Tkinter as tk
@@ -414,7 +414,7 @@ class PyDrinkController:
                 mixer.music.load(filename)
                 mixer.music.play(0)
                 while mixer.music.get_busy():
-                    timer.Clock().tick(10)
+                    time.Clock().tick(10)
                 mixer.stop()
                 mixer.quit()
             else:
