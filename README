@@ -91,7 +91,7 @@ All of the user stories have been implemented in the application.
 Which ever --version command gives you 3.7 ('python' or 'python3', please use that
 command for the rest of the setup instructions)
 
-TOADD: pip install yml, pip install pygame, pip install requests
+TOADD: pip install pyyaml, pip install pygame, pip install requests, pip install beautifulsoup4
 
 Linux
   1. On linux, installing python-tk package or python3-tk package should do the trick
