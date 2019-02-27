@@ -120,4 +120,5 @@ class Translator:
             file.write(resp4texttospeech.content)
 
         print ("Speech saved to %s" % filename)
+        sys.stdout.flush()
 
