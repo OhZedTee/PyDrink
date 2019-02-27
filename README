@@ -91,18 +91,21 @@ All of the user stories have been implemented in the application.
 Which ever --version command gives you 3.7 ('python' or 'python3', please use that
 command for the rest of the setup instructions)
 
-TOADD: pip install pyyaml, pip install pygame, pip install requests, pip install beautifulsoup4
-
 Linux
   1. On linux, installing python-tk package or python3-tk package should do the trick
     (sudo apt-get install python3-tk) 
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
-  5. Run command on terminal: make run 
+  5. Do the same as 4 for the following packages:
+     - pygame
+	 - requests
+	 - beautifulsoup4
+	 - lxml
+  6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
-  6. If make doesnt work, type python3 || python PyDrink.py
-  7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+  7. If make doesnt work, type python3 || python PyDrink.py
+  8. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
         reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
         doesn't work, please see README in lcbo-api folder to set up the API locally.
         Once the API is running locally. Go to data/ folder and edit
@@ -113,10 +116,15 @@ Mac
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
-  5. Run command on terminal: make run 
+  5. Do the same as 4 for the following packages:
+     - pygame
+	 - requests
+	 - beautifulsoup4
+	 - lxml
+  6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
-  6. If make doesnt work, type python3 || python PyDrink.py
-  7. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+  7. If make doesnt work, type python3 || python PyDrink.py
+  8. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
         reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
         doesn't work, please see README in lcbo-api folder to set up the API locally.
         Once the API is running locally. Go to data/ folder and edit
@@ -130,14 +138,19 @@ Windows
   2. Follow the following tutorial if the above fails: https://tkdocs.com/tutorial/install.html
   3. Run command python -m pip install --upgrade pip setuptools wheel (to update wheel projects)
   4. Run command pip install pyyaml, if this doesnt work try pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
-  5. Run command on terminal: make run 
+  5. Do the same as 4 for the following packages:
+     - pygame
+	 - requests
+	 - beautifulsoup4
+	 - lxml
+  6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
-  6. If make doesnt exist install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
+  7. If make doesnt exist install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
         The above step installs the manager, then select mingw32-make-bin package and install it. Go to the install directory and copy the
         file mingw32-make.exe calling it make.exe. Then add the directory to make to your path variable (system environment variables)
         Restart your terminal and you should now be able to run command 'make run'
-  7. If make still doesnt work, type python3 || python PyDrink.py
-  8. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
+  8. If make still doesnt work, type python3 || python PyDrink.py
+  9. This application uses an external API running on cis4450.socs.uoguelph.ca server. If it doesnt work for some
         reason (If the inventory page is empty), make sure you are connected with Cisco AnyConnect, if it still
         doesn't work, please see README in lcbo-api folder to set up the API locally.
         Once the API is running locally. Go to data/ folder and edit

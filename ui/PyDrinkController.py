@@ -13,6 +13,7 @@ from src.Inventory import Inventory
 from src.Translate import Translator
 from pygame import mixer
 from pygame import time
+import traceback
 
 try:
     import Tkinter as tk
@@ -388,13 +389,20 @@ class PyDrinkController:
             if textbox_cocktail.get("1.0", tk.END) != "\n":
                 translated_text = self.translator.translate(self.translator.languages[combobox_language.get()],
                                                             textbox_cocktail.get("1.0", tk.END))
-                print("TRANSLATED TEXT: %s" % translated_text)
+
+                with open(1, 'w', encoding='utf-8', closefd=False) as stdout:
+                    print("TRANSLATED TEXT: %s" % translated_text, file=stdout)
                 textbox_cocktail.delete('1.0', tk.END)
                 textbox_cocktail.insert('1.0', str(translated_text))
             else:
                 print("Nothing to translate")
+        except Exception as ex:
+            print("Unable to translate, please try again. Trace: ")
+            traceback.print_exception(type(ex), ex, ex.__traceback__)
+            combobox_language.current(0)
+            self.translate_text(p1, textbox_cocktail, combobox_language)
         except:
-            print("Unable to translate, please try again")
+            print("Unable to translate, please try again.")
             combobox_language.current(0)
             self.translate_text(p1, textbox_cocktail, combobox_language)
 
@@ -419,8 +427,11 @@ class PyDrinkController:
                 mixer.quit()
             else:
                 print("Nothing to convert to speech")
+        except Exception as ex:
+            print("Unable to perform text to speech, please try again. Trace: ")
+            traceback.print_exception(type(ex), ex, ex.__traceback__)
         except:
-            print("Unable to perform text to speech, please try again")
+            print("Unable to perform text to speech, please try again.")
 
         sys.stdout.flush()
 

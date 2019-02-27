@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import yaml, os, requests
 
 try:
@@ -98,9 +100,9 @@ class Translator:
     def translate(self, to, text, come=None):
         url4translate = 'https://api.microsofttranslator.com/v2/http.svc/Translate'
         if come != None:
-            params = {'appid': self._token, 'text': text, 'from': come, 'to': to, 'toScript': 'Latn'}
+            params = {'appid': self._token, 'text': text, 'from': come, 'to': to}
         else:
-            params = {'appid': self._token, 'text': text, 'to': to, 'toScript': 'Latn'}
+            params = {'appid': self._token, 'text': text, 'to': to}
         headers4translate = {'Accept': 'application/xml'}
         resp4translate = requests.get(url4translate, params=params, headers=headers4translate)
         parsed_html = BeautifulSoup(resp4translate.text, features="lxml")
@@ -109,7 +111,6 @@ class Translator:
     def text_to_speech(self, language, text):
         url4texttospeech = 'https://api.microsofttranslator.com/v2/http.svc/Speak'
         headers4translate = {'Accept': 'application/xml'}
-        print("Language: %s Token: %s" % (language, str(self._token)))
         params = {'appid': self._token, 'text': text, 'language': language, 'format': 'audio/wav'}
         resp4texttospeech = requests.get(url4texttospeech, params=params, headers=headers4translate)
 
@@ -117,4 +118,6 @@ class Translator:
         self.speech_num += 1
         with open(filename, "wb") as file:
             file.write(resp4texttospeech.content)
+
+        print ("Speech saved to %s" % filename)
 
