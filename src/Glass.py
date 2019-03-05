@@ -18,6 +18,13 @@ class Glass(Manager):
             fp = csv.reader(file)
             self.parse(fp)
 
+    @property
+    def cocktails(self):
+        """Get list of all cocktails parsed from data"""
+        return self._cocktails
+
+    # Pre: File must be a valid file location
+    # Post: Stores cocktails in list of cocktails
     def parse(self, fp):
         """Parse cocktail file trying to grab elements
            (csv not made very well some aspects missing,
@@ -58,19 +65,18 @@ class Glass(Manager):
 
             self.cocktails[c_id] = c
             c_id += 1
-        pass
 
-    @property
-    def cocktails(self):
-        """Get list of all cocktails parsed from data"""
-        return self._cocktails
-
+    # Pre: name must be valid string
+    # Post: Returns parameter from dictionary if found
     def get_cocktail(self, name):
         """Find cocktail by name and return cocktail object"""
         for cocktail in self.cocktails.values():
             if getattr(cocktail, 'name', False) == name:
                 return cocktail
 
+    # Pre: categories must be valid list of categories from drinks selected
+    # Post: Returns list of cocktails that can be made satisfying all requirements of each cocktail with the categories
+    #       provided
     def find_cocktails(self, categories):
         """Find cocktails that meet all category requirements -
                only cocktails whose main_alcohol, other_alcohols, and mixes
@@ -230,6 +236,8 @@ class Cocktail:
         """Set garnish needed for cocktail"""
         self._garnish = garnish
 
+    # Pre: None
+    # Post: Returns string of Vital information from Cocktail object instance
     def __str__(self):
         return "Glass: %s\nMain Alcohol: %s\nOther Alcohols: %s\nMixes: %s\nGarnish: %s\n" % \
                (self.glass, self.main_alcohol, self.other_alcohols, self.mixes, self.garnish)

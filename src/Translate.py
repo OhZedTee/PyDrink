@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import yaml, os, requests
+import yaml, os, requests, sys
 
 try:
     from BeautifulSoup import BeautifulSoup
@@ -91,12 +91,16 @@ class Translator:
     def speech_num(self, value):
         self._speech_num = value
 
+    #Pre: Config file must exist
+    #Post: API key for translator loaded from config file
     def config(self):
         with open("data/config.yml", 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
 
         self.key = cfg['API'][self.key]
 
+    #Pre: to must be a valid language, text must be non-empty, come doesnt need to be provided since the API can predict
+    #Post: translated text in 'to' language is returned
     def translate(self, to, text, come=None):
         url4translate = 'https://api.microsofttranslator.com/v2/http.svc/Translate'
         if come != None:
@@ -108,6 +112,8 @@ class Translator:
         parsed_html = BeautifulSoup(resp4translate.text, features="lxml")
         return parsed_html.find('string').text
 
+    #Pre: language must be defined and be a valid language
+    #Post: Speech file is saved to ./data/audio folder as a wav file
     def text_to_speech(self, language, text):
         url4texttospeech = 'https://api.microsofttranslator.com/v2/http.svc/Speak'
         headers4translate = {'Accept': 'application/xml'}

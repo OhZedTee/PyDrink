@@ -83,6 +83,8 @@ class Inventory(Manager):
     def search_params(self, value):
         self._search_params = value
 
+    # Pre: Config file must exist
+    # Post: API host and port for LCBO API loaded from config file
     def config(self):
         with open("data/config.yml", 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
@@ -90,6 +92,8 @@ class Inventory(Manager):
         self.host = cfg['API']['host']
         self.port = cfg['API']['port']
 
+    # Pre: fp must be a valid file pointer
+    # Post: Parses data from LCBO API and add drinks to dictionary of drinks
     def parse(self, fp):
         """Method to parse JSON data from API into dictionary"""
         self.final_page = fp['pager']['is_final_page']
@@ -130,6 +134,8 @@ class Inventory(Manager):
             if self.find_drink('name', d.name) is None:
                 self.add_drink(d)
 
+    # Pre: if category is provided, must be valid string
+    # Post: Parses drink data returned from API in JSON format and stores in dictionary of drinks
     def get_products(self, category=None):
         self.clear_drinks()
         if category is not None:

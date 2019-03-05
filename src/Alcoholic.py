@@ -44,10 +44,14 @@ class Alcoholic (Drink):
         """Set category of drink"""
         self._category = category
 
+    #Pre: None
+    #Post: Returns string in JSON format of entire object using Encoder Class
     def dumps(self):
         """Dump JSON data of object"""
         return json.dumps(self, ensure_ascii=True, cls=JSONEncoder, indent=4)
 
+    #Pre: None
+    #Post: Returns string of Vital information from Alcoholic object instance
     def __str__(self):
         s = "Name: %s\nCost: %s\nAlcohol: %g%%\nPackaging: %s\nCategory: %s\nDescription: %s\n" % \
                (self.name, '${:,.2f}'.format(float(self.cost)/100.), self.apv / 10, self.package, self.category,

@@ -67,6 +67,9 @@ class PyDrinkController:
     def translator(self, value):
         self._translator = value
 
+    #Pre: text to search must be a valid string to search. prev, next, inventory_list, textbox_selected, success_message,
+    #     page_message must all be valid view objects used to display to screen
+    #Post: Searched text is queried from API and returned Drinks are outputted to screen
     def search(self, text, prev, next, inventory_list, textbox_selected, success_message, page_message):
         print('PyDrink_support.search: %s' % text)
         if text == "":
@@ -94,6 +97,9 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    #Pre: inventory_list, success_message, page_message, selection_message must be valid view objects
+    #     used to display to screen
+    #Post: Selected drinks are added to the fridge
     def btn_add_fridge_lclick(self, inventory_list, success_message, page_message, selection_message):
         print('PyDrink_support.btn_add_fridge_lclick')
         """Event triggered when add to fridge button is pressed
@@ -103,7 +109,6 @@ class PyDrinkController:
             for child in inventory_list.get_children():
                 if inventory_list.item(child, "values")[0] == selection_message:
                     if not self.fridge.find_drink('name', inventory_list.item(child, "text")):
-                        print("Adding %s" % inventory_list.item(child, "text"))
                         count += 1
                         d = self.inventory.find_drink('name', inventory_list.item(child, "text"))
                         d.selected = False
@@ -119,10 +124,13 @@ class PyDrinkController:
             text = "Page %g of %g" % (self.inventory.page, self.inventory.num_pages)
             page_message.configure(text=text)
 
-            sys.stdout.flush()
         except:
-            pass
+            print("No Drinks Selected")
 
+        sys.stdout.flush()
+
+    #Pre: tree, description must be valid view objects used to display to screen
+    #Post: Selected Drinks are removed from the fridge
     def btn_remove_fridge_lclick(self, tree, description):
         print('PyDrink_support.btn_remove_fridge_lclick')
         """Event triggered when remove from fridge button is pressed
@@ -132,7 +140,6 @@ class PyDrinkController:
             drink = self.fridge.find_drink('name', tree.item(item, "text"))
         except IndexError:
             drink = None
-            pass
 
         if drink is not None:
             tree.delete(item)
@@ -142,6 +149,9 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    # Pre: prev, next, inventory_list, textbox_selected, success_message, page_message must be valid view objects
+    #      used to display to screen
+    # Post: API queried for previous page and displays to inventory page.
     def btn_inv_prev_lclick(self, prev, next, inventory_list, textbox_selected, success_message, page_message):
         print('PyDrink_support.btn_inv_prev_lclick')
 
@@ -166,6 +176,9 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    # Pre: prev, next, inventory_list, textbox_selected, success_message, page_message must be valid view objects
+    #      used to display to screen
+    # Post: API queried for next page and displays to inventory page.
     def btn_inv_next_lclick(self, prev, next, inventory_list, textbox_selected, success_message, page_message):
         print('PyDrink_support.btn_inv_next_lclick')
 
@@ -190,6 +203,9 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    # Pre: p1 is a valid event object, tree, textbox_selected, success_message, page_message must be valid view objects
+    #      used to display to screen
+    # Post: Inventory page is opened and API data is loaded to the screen
     def ntb_open_inventory(self, p1, tree, textbox_selected, success_message, page_message):
         print('PyDrink_support.ntb_open_inventory')
         print('p1 = {0}'.format(p1))
@@ -203,6 +219,9 @@ class PyDrinkController:
         page_message.configure(text=text)
         sys.stdout.flush()
 
+    # Pre: p1 is a valid event object, tree, textbox_selected, success_message must be valid view objects
+    #      used to display to screen
+    # Post: Fridge page is opened and Fridge Drink data is loaded to the screen
     def ntb_open_fridge(self, p1, tree, textbox_selected, success_message):
         print('PyDrink_support.ntb_open_fridge')
         print('p1 = {0}'.format(p1))
@@ -215,6 +234,9 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    # Pre: p1 is a valid event object, tree, cocktail_tree, textbox_selected, fridge_list, selection_message,
+    #      translation_box must be valid view objects used to display to screen
+    # Post: Glass page is opened and Fridge + Cocktail dictionary objects are loaded to the screen
     def ntb_open_glass(self, p1, tree, cocktail_tree, textbox_selected, fridge_list, selection_message, translation_box):
         print('PyDrink_support.ntb_open_glass')
         print('p1 = {0}'.format(p1))
@@ -255,12 +277,14 @@ class PyDrinkController:
 
 
         except:
-            pass
+            print("Drinks and Cocktails not added to Glass Tab properly. Please try again")
 
         translation_box.configure(values=list(self.translator.languages.keys()))
         translation_box.current(0)
         sys.stdout.flush()
 
+    #Pre: TKinter window must have been created and passed to Controller from the view.
+    #Post: Controller is initialized
     @staticmethod
     def init(top, gui, *args, **kwargs):
         global w, top_level, root
@@ -268,6 +292,8 @@ class PyDrinkController:
         top_level = top
         root = top
 
+    #Pre: None
+    #Post: GUI window is destroyed
     @staticmethod
     def destroy_window():
         # Function which closes the window.
@@ -275,6 +301,10 @@ class PyDrinkController:
         top_level.destroy()
         top_level = None
 
+    # Pre: Manager child obj must be valid Manager Class object, tree, textbox_selected, selection_message,
+    #      success_message must be valid view objects used to display to screen
+    # Post: Dictionary of Drinks from Manager child class is displayed in ScrolledTreeView and events for
+    #       selection are created for each item in the ScrolledTreeView.
     @staticmethod
     def insert_manager_tree(tree, textbox_selected, obj, selection_message, success_message=None):
         """Insertion method."""
@@ -294,6 +324,10 @@ class PyDrinkController:
             tree.bind("<ButtonRelease-1>", lambda e: PyDrinkController.stv_select_lclick(e, tree, obj,
                                                                                          textbox_selected))
 
+    # Pre: Manager child obj must be a valid Manager Class object, tree, textbox_selected, combobox_language
+    #      must be valid view objects used to display to screen
+    # Post: Dictionary of Cocktails from Cocktail class is displayed in ScrolledTreeView and events for selection
+    #       are created for each item in the ScrolledTreeView.
     @staticmethod
     def insert_cocktail_tree(tree, obj, categories, textbox_selected, combobox_language):
         """Insertion method."""
@@ -308,6 +342,9 @@ class PyDrinkController:
                                                                                              textbox_selected,
                                                                                              combobox_language))
 
+    # Pre: p1 is a valid event object, Drink obj must be a valid drink object, tree, textbox_selected
+    #      must be valid view objects used to display to screen
+    # Post: Event triggered from ScrolledTreeView Drink selection caused selected object to be printed on the GUI
     @staticmethod
     def stv_select_lclick(p1, tree, obj, textbox_selected):
         """Update Description of selected frame"""
@@ -319,13 +356,15 @@ class PyDrinkController:
             drink = obj.find_drink('name', tree.item(item, "text"))
         except IndexError:
             drink = None
-            pass
 
         if drink is not None:
             # 1 - line 0 - coloumn
             textbox_selected.delete('1.0', tk.END)
             textbox_selected.insert('1.0', str(drink))
 
+    # Pre: p1 is a valid event object, Cocktail obj must be a valid Cocktail object, tree, textbox_selected,
+    #      combobox_language must be valid view objects used to display to screen
+    # Post: Event triggered from ScrolledTreeView Cocktail selection caused selected object to be printed on the GUI
     @staticmethod
     def stv_cocktail_selected(p1, tree, obj, textbox_selected, combobox_language):
         """Update Description of selected frame"""
@@ -336,7 +375,6 @@ class PyDrinkController:
             cocktail = obj.get_cocktail(tree.item(item, "text"))
         except IndexError:
             cocktail = None
-            pass
 
         if cocktail is not None:
             # 1 - line 0 - coloumn
@@ -344,9 +382,13 @@ class PyDrinkController:
             textbox_selected.insert('1.0', str(cocktail))
             combobox_language.current(0)
 
+    # Pre: p1 is a valid event object, Drink obj must be a valid Drink object, tree, selection_message,
+    #      success_message must be valid view objects used to display to screen
+    # Post: Event triggered from ScrolledTreeView Drink selection caused selected object to be
+    #       "Added to Cart"/"Added To Glass" (selection_message)
     @staticmethod
     def stv_list_selected_rclick(p1, tree, obj, selection_message, success_message):
-        """Update Selection of drink in fridge"""
+        """Update Selection of drink in fridge/Inventory"""
         print('PyDrink_support.stv_list_selected_rclick')
         print('p1 = {0}'.format(p1))
         sys.stdout.flush()
@@ -374,12 +416,13 @@ class PyDrinkController:
             if type(obj) is Fridge:
                 obj.save()
         except:
-            pass
-
+            print("No Drinks Selected")
 
         sys.stdout.flush()
 
-
+    # Pre: p1 is a valid event object, textbox_cocktail, combobox_language must be valid view objects
+    #      used to display to screen
+    # Post: Cocktail textbox text is translated to combobox_language and displayed in GUI
     def translate_text(self, p1, textbox_cocktail, combobox_language):
         """Translate Cocktail Recipe"""
         print('PyDrink_support.translate_text')
@@ -408,6 +451,10 @@ class PyDrinkController:
 
         sys.stdout.flush()
 
+    # Pre: textbox_cocktail, combobox_language must be valid view objects
+    #      used to display to screen
+    # Post: Event triggered when button clicked, Cocktail description is converted to speech in the
+    #       combobox_language and played on the GUI
     def btn_translation_sound_lclick(self, textbox_cocktail, combobox_language):
         """Play text to speech of cocktail recipe"""
         print('PyDrink_support.btn_translation_sound_lclick')

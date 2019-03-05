@@ -57,19 +57,13 @@ other cocktails you never knew existed!
 
 
 ##User Stories:##
-1. As a user I want to be able to select from a slew of drinks that I may have at home so
-   that I can add them to my fridge and use them for cocktails
-2. As a user I want to be able to get specific information about any drink I have at home
-   so that I can make informed decisions about what I consume and the cost of consuming
-3. As a user I want to be able to store the information from my fridge so that I can
-   reload all the information back on application startup
-4. As a user I want to be able to see cocktails that can be made only from the
-   Drinks I've selected so that I'm not required to buy anything else to make
-   them (other than garnishes). (In A1, it was any drink selected is enough for a cocktail,
-   i.e. if I select just Vodka, I can make Sex on the Beach which requires Vodka and Peach Schnapps,
-   now it needs every requirement for a drink to be made, harder to implement than it sounds with my bad data)
-5. As a system administrator I want to be able to see JSON data about each Drink as part of
-   the description so that I can display it on the web (will be used in A3)
+1. As a user I want to be able to get updated specific information from the LCBO store
+   so that I can make informed decisions about what I want to drink
+2. As a user I want to be able to read the recipe in multiple languages so that I can
+   can translate it to friends and family who don't speak english
+3. As a user I want to be able to hear the recipe spoken to me so that as a seeing 
+   impaired individual I can hear the recipe instead of reading small text
+
 
 All of the user stories have been implemented in the application.
 
@@ -83,7 +77,9 @@ All of the user stories have been implemented in the application.
   tkinter
   PyYaml
   ABC (Abstract Base Class, requires Python 3.x, if the program complains about this, its because you aren't using Python 3.x)
-
+  PyGame
+  BeautifulSoup4
+  lxml
   
 
 ##Instructions for Running:##
@@ -188,7 +184,7 @@ Windows
   So as to not bog down the application, I have made every inventory page distinct. What does this mean?
   If you select a drink in the inventory page, and shuffle through the pages, the dictionary that holds the
   drink objects is cleared and new drinks are added to it. Meaning the data as to which drinks you selected don't
-  persist. A way around this is to add drinks to your fridge from the inventory internitently before changing pages
+  persist. A way around this is to add drinks to your fridge from the inventory intermitently before changing pages
   (or making queries).
 - NonAlcoholic Beverages are difficult to create without user input. Due to the complexity of this Application, I did
   not have time to include more forms for user input. Please use the mock data file found at "data/mock/nonalcoholic.csv".
@@ -197,6 +193,26 @@ Windows
   and remove non alcoholic beverages. Thus, when removing a non alcoholic drink from the fridge in the app, it will
   only remove the drink from the current session. When reopening the application, the original mock data will show up
   again. Simple to fix, but for testing and usability purposes I did not.
+  
+  
+##SOAP vs. REST##
+When compared to REST, SOAP has the following advantages:
+- Language, platform, and transport independent (REST requires HTTP)
+- Works well in distributed environments (REST assumes direct point-to-point communication)]
+- Standardized
+- Provides pre-built extensibility in the form of WS standards
+- Built-in error handling
+- Automation when used with certain language products
+
+REST is easier to use for the most part and is more flexible. It has the following advantages:
+- Uses easy to understand standards like swagger and OpenAPI Specification 3.0
+- Smaller learning curve
+- Efficient (SOAP uses XML for all messages, REST mostly uses smaller message formats like JSON)
+- Fast (no extensive processing required)
+- Greater variety of data formats
+
+In the context of OOP?*
+
 
 ------------------------------------------------------------------------------------------------------------------------
     1   |   Demonstrate best practices for OO development in the language of your choice

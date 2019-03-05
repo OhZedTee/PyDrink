@@ -55,10 +55,14 @@ class NonAlcoholic (Drink):
         """Set Caffeine content of drink"""
         self._caffeine_content = caffeine_content
 
+    # Pre: None
+    # Post: Returns string in JSON format of entire object using Encoder Class
     def dumps(self):
         """Dump JSON data of object"""
         return json.dumps(self, ensure_ascii=True, cls=JSONEncoder, indent=4)
 
+    # Pre: None
+    # Post: Returns string of Vital information from NonAlcoholic object instance
     def __str__(self):
         str_carbonated = 'Yes' if self.is_carbonated else 'No'
         return "Name: %s\nCost: %s\nCarbonated: %s\nSugar Content: %s\nPackage: %s\nCaffeine Content: %s\n" \

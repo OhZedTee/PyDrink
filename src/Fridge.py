@@ -31,6 +31,8 @@ class Fridge(Manager):
         except:
             print("Non Alcoholic Mock Import failed")
 
+    #Pre: File must be a valid file location
+    #Post: Loads binary object information from file and saves into dictionary of drinks object if not NonAlcoholic beverage
     def parse(self, file):
         """Parses Fridge data from serialized object using pickle."""
         self.drinks = pickle.load(file)
@@ -38,13 +40,16 @@ class Fridge(Manager):
             if isinstance(drink, NonAlcoholic) and drink.selected == False:
                 self.remove_drink(drink.id)
 
-
+    #Pre: None
+    #Post: Saves dictionary of drinks to binary file
     def save(self):
         bin = open('data/fridge.bin', mode="wb")
         pickle.dump(self.drinks, bin)
         bin.close()
 
 
+    #Pre: File must be a valid file location and must contain only NonAlcoholic Beverages in correct format (Mock Data)
+    #Post: Adds NonAlcoholic drinks to dictionary of drinks
     def add(self, file):
         d_id = -1
         next(file)
