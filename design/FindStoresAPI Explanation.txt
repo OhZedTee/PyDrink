@@ -1,0 +1,74 @@
+User Story:
+
+As a user, I want to be able to find LCBO stores that carry a specific Alcoholic beverage 
+so that if I want to go and buy it I can easily locate the nearest store to me.
+
+
+##Justification for Endpoint being only 1 POST request##
+The API includes only one request. There is no need to update nor delete information from
+the RESTful API since Finding information on a drink doesn't require any information
+to be updated by the API, nor delete any information about the drink. Get is also not
+preferred since the request requires information from the user in order to orchestrate more
+information from other APIs and operate successfully.
+
+A POST request is all that is needed with a body that contains a drink name.
+An example Post Request will look like the following:
+
+POST PyDrink.com/find
+Headers: None
+Body (JSON):
+{
+	"drink_name": "Smirnoff Vodka"
+}
+
+The Response will look something like this:
+{
+    "status":200,
+    "message": Found 637 LCBO stores that carry Smirnoff Vodka.
+    "result": [
+        {     
+             "name": "Mississauga Rd & William Pkwy",
+             "address_line_1": "9445 Mississauga Rd.,",
+             "city": "Brampton",
+             "postal_code": "L6X0Z8",
+             "telephone": "(905) 456-8145",
+        },
+        {          
+             "name": "Main & Bay Street",
+             "address_line_1": "35 First Street",
+             "address_line_2": "P.O. Box 310",
+             "city": "Moosonee",
+             "postal_code": "P0L1Y0",
+             "telephone": "(705) 336-2301",
+        },
+        {
+             "name": "Portage Rd & Colborne E",
+             "address_line_1": "3714 Portage Road",
+             "city": "Niagara Falls",
+             "postal_code": "L2J2K9",
+             "telephone": "(905) 356-3972",
+        },
+        … (more results will appear)
+    ]
+}
+
+##API + Object-Oriented Design##
+My API allows transportation of information about Drink object's inventory
+and gives room for a modular approach to finding information about
+a drink's availability without highly coupling a Drink to a large
+amount of parameters that are required to find stores that carry
+a given drink. This way it preserves the low coupling that I maintained
+between objects and enhances the OO design by requiring less Models
+to get the same results (no need to maintain an Inventory, Product, or Store
+model).
+This would also help enhance cohesion since the data relevant to the program
+will relate to a single model that will handle the methods of the API.
+The REST API only provides information that is relevant and hides information 
+that has no relation to the methods and attributes of the model nor the rest 
+of the application. This will make the design of the system less complex,
+and decrease code reuse since only one model is needed to maintain the API and be
+used by other models to get information from the API rather than every model 
+contacting the API directly and doing the same operations with the API.
+
+
+Please take a look at the PDF attached for a deeper explanation of how to API works.

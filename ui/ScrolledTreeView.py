@@ -24,20 +24,20 @@ class AutoScroll(object):
         #  scrolling is not supported. 5/7/14.
         try:
             vsb = ttk.Scrollbar(master, orient='vertical', command=self.yview)
-        except:
+        except BaseException: #tkinter exception throws BaseException here nothing can be done about it
             pass
         hsb = ttk.Scrollbar(master, orient='horizontal', command=self.xview)
 
         try:
             self.configure(yscrollcommand=self._autoscroll(vsb))
-        except:
+        except BaseException: #tkinter exception throws BaseException here nothing can be done about it
             pass
         self.configure(xscrollcommand=self._autoscroll(hsb))
 
         self.grid(column=0, row=0, sticky='nsew')
         try:
             vsb.grid(column=1, row=0, sticky='ns')
-        except:
+        except: #tkinter exception throws BaseException here nothing can be done about it
             pass
         hsb.grid(column=0, row=1, sticky='ew')
 

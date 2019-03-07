@@ -124,7 +124,7 @@ class PyDrinkController:
             text = "Page %g of %g" % (self.inventory.page, self.inventory.num_pages)
             page_message.configure(text=text)
 
-        except:
+        except IndexError:
             print("No Drinks Selected")
 
         sys.stdout.flush()
@@ -276,7 +276,7 @@ class PyDrinkController:
                                                    translation_box)
 
 
-        except:
+        except IndexError:
             print("Drinks and Cocktails not added to Glass Tab properly. Please try again")
 
         translation_box.configure(values=list(self.translator.languages.keys()))
@@ -415,7 +415,7 @@ class PyDrinkController:
 
             if type(obj) is Fridge:
                 obj.save()
-        except:
+        except IndexError:
             print("No Drinks Selected")
 
         sys.stdout.flush()
@@ -439,12 +439,7 @@ class PyDrinkController:
                 textbox_cocktail.insert('1.0', str(translated_text))
             else:
                 print("Nothing to translate")
-        except Exception as ex:
-            print("Unable to translate, please try again. Trace: ")
-            traceback.print_exception(type(ex), ex, ex.__traceback__)
-            combobox_language.current(0)
-            self.translate_text(p1, textbox_cocktail, combobox_language)
-        except:
+        except BaseException:
             print("Unable to translate, please try again.")
             combobox_language.current(0)
             self.translate_text(p1, textbox_cocktail, combobox_language)
@@ -474,11 +469,8 @@ class PyDrinkController:
                 mixer.quit()
             else:
                 print("Nothing to convert to speech")
-        except Exception as ex:
-            print("Unable to perform text to speech, please try again. Trace: ")
-            traceback.print_exception(type(ex), ex, ex.__traceback__)
-        except:
-            print("Unable to perform text to speech, please try again.")
+        except BaseException: #Pygame.error (throws general exception)
+            print("Unable to perform text to speech, language unavailable.")
 
         sys.stdout.flush()
 

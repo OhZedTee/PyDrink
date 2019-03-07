@@ -211,7 +211,17 @@ REST is easier to use for the most part and is more flexible. It has the followi
 - Fast (no extensive processing required)
 - Greater variety of data formats
 
-In the context of OOP?*
+#In the context of OOP#
+REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
+On the other hand SOAP API platforms are built between a client and server, requiring the use of
+standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
+because once a service is defined any changes to it could affect the client and server very heavily.
+
+However, REST is reliant on CRUD operations (Create, Retrieve, Update, Delete)
+while SOAP is more fluid in that the functions are defined in a service. It becomes an
+expectation therefore making it more cohesive. SOAP performs one function for one objective,
+it is by definitiion idempotent unlike REST which can perform multiple operations with different
+results for the same endpoint therefore having potential to being loosely cohesive.
 
 
 ------------------------------------------------------------------------------------------------------------------------

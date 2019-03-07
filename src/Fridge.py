@@ -16,7 +16,7 @@ class Fridge(Manager):
         try:
             with open('data/fridge.bin', mode="rb") as file:
                 self.parse(file)
-        except:
+        except FileNotFoundError:
             print("State of Fridge not found")
 
         try:
@@ -28,7 +28,9 @@ class Fridge(Manager):
                 ...
                 """
                 self.add(file)
-        except:
+        except FileNotFoundError:
+            print("Non Alcoholic Mock File missing")
+        except IndexError:
             print("Non Alcoholic Mock Import failed")
 
     #Pre: File must be a valid file location
