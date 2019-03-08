@@ -195,33 +195,37 @@ Windows
   again. Simple to fix, but for testing and usability purposes I did not.
   
   
-##SOAP vs. REST##
-When compared to REST, SOAP has the following advantages:
-- Language, platform, and transport independent (REST requires HTTP)
-- Works well in distributed environments (REST assumes direct point-to-point communication)]
-- Standardized
-- Provides pre-built extensibility in the form of WS standards
-- Built-in error handling
-- Automation when used with certain language products
+##SOAP vs. REST in OOP##
+In OOP there are 3 core questions we ask, Why we do it? How we do it? and What tools do we use.
+Why - For code reuse and maintainability
+How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
+Tools - Inheritance, Composition.
 
-REST is easier to use for the most part and is more flexible. It has the following advantages:
-- Uses easy to understand standards like swagger and OpenAPI Specification 3.0
-- Smaller learning curve
-- Efficient (SOAP uses XML for all messages, REST mostly uses smaller message formats like JSON)
-- Fast (no extensive processing required)
-- Greater variety of data formats
+When it comes to REST vs. SOAP each have their advantanges and disadvantages to achieving our Why.
 
-#In the context of OOP#
 REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
 On the other hand SOAP API platforms are built between a client and server, requiring the use of
 standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
 because once a service is defined any changes to it could affect the client and server very heavily.
 
-However, REST is reliant on CRUD operations (Create, Retrieve, Update, Delete)
-while SOAP is more fluid in that the functions are defined in a service. It becomes an
-expectation therefore making it more cohesive. SOAP performs one function for one objective,
-it is by definitiion idempotent unlike REST which can perform multiple operations with different
-results for the same endpoint therefore having potential to being loosely cohesive.
+In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
+which favors extensibility and evolvability.
+
+In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
+kits are often misused to convert existing software components into services. 
+Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
+
+On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
+that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
+where it happens rather than letting it spill down the call stack. This makes the design of the API 
+more maintainable and helpds in the design of OOP. 
+
+REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
+performed on the same resource or endpoint allowing for code reuse.
+
+In the end of the day, there is an argument that can be made for either as they both have their advantages
+and disadvantages when it comes to designing OOP applications and these should be heavily considered
+on a case by case basis depending on what your application needs to perform.
 
 
 ------------------------------------------------------------------------------------------------------------------------
