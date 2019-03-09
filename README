@@ -170,13 +170,13 @@ Windows
                         *There is one controller that handles all the models
                          since some of the event handlers require multiple models
                          in order to function properly
-    src/Encoder: Encoder for the JSON format to use public variables instead of private
-    ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
-               (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
-    ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
-                         to allow for multipaged display with a convenient scroll bar
-    ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
-                         the purposes of this app.
+        src/Encoder: Encoder for the JSON format to use public variables instead of private
+        ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
+                (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
+        ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
+                to allow for multipaged display with a convenient scroll bar
+        ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
+                the purposes of this app.
 
 
 
