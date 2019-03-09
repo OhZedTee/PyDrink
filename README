@@ -95,9 +95,9 @@ Linux
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Do the same as 4 for the following packages:
      - pygame
-	 - requests
-	 - beautifulsoup4
-	 - lxml
+     - requests
+     - beautifulsoup4
+     - lxml
   6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   7. If make doesnt work, type python3 || python PyDrink.py
@@ -114,9 +114,9 @@ Mac
   4. Run command sudo pip install pyyaml, if this doesnt work try sudo pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Do the same as 4 for the following packages:
      - pygame
-	 - requests
-	 - beautifulsoup4
-	 - lxml
+     - requests
+     - beautifulsoup4
+     - lxml
   6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   7. If make doesnt work, type python3 || python PyDrink.py
@@ -136,9 +136,9 @@ Windows
   4. Run command pip install pyyaml, if this doesnt work try pip3 install pyyaml. If that doesnt work, I'm sure google has another way.
   5. Do the same as 4 for the following packages:
      - pygame
-	 - requests
-	 - beautifulsoup4
-	 - lxml
+     - requests
+     - beautifulsoup4
+     - lxml
   6. Run command on terminal: make run 
         this will attempt both python and python3 command, so ignore command not found error if it appears for one or the other
   7. If make doesnt exist install MinGW: https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/
@@ -162,7 +162,7 @@ Windows
         src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
         src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
         src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
-		src/Translate: Microsoft Translate Text SOAP API handler. Attributes: languages, key (Authorization), token, Speech Number (Iterating through audio files)
+        src/Translate: Microsoft Translate Text SOAP API handler. Attributes: languages, key (Authorization), token, Speech Number (Iterating through audio files)
     View: 
         PyDrink: GUI class
     Controller:
@@ -265,29 +265,29 @@ Windows
         |
   ------------------------------------------------------------------------------------------------------------------------
     2   |   OO Showcase - src/Glass.py (My other classes are explained above, this Class just has the most best practices
-	    |                               for a given class. But it is still missing practices like polymorphism
-		|								and overloading.)
-        |	
-	    |    Inheritance, Composition
-		|   - Line 8             - Glass class inherits from Manager class, since the glass class has to manage
-		|                          drinks and cocktails, parse mock data, and handle API data.
+        |                               for a given class. But it is still missing practices like polymorphism
+        |                                and overloading.)
+        |    
+        |    Inheritance, Composition
+        |   - Line 8             - Glass class inherits from Manager class, since the glass class has to manage
+        |                          drinks and cocktails, parse mock data, and handle API data.
         |   - Lines 11, 173-249  - Glass class is composed of cocktails that can be made with certain
-		|                           drinks.
+        |                           drinks.
         |
         |    Encapsulation, Constructors, Accessors, Mutators, Instance Variables
         |
         |   - Lines 8 - 29        - Glass Class shows encapsulation by having its own private variables, mutators/
         |                           accessors, and inheritance since it inherits from my Manager abstract class.
-		|   - Lines 173 - 249     - Cocktail class is only used by the Glass class. In order to hide information
-		|                           to other classes, and because of the direct relationship between a glass being used
-		|                           to make different kind of cocktails the Cocktail class was implemented as part 
+        |   - Lines 173 - 249     - Cocktail class is only used by the Glass class. In order to hide information
+        |                           to other classes, and because of the direct relationship between a glass being used
+        |                           to make different kind of cocktails the Cocktail class was implemented as part 
         |                           of the Glass file. 
-		|
-		|    Overriding
-		|	 
-		|	- Lines 33 - 72       - Parse Method originally created in Manager class is overridden here to perform the
-        |                           basic parsing of cocktail information needed to make a glass.					
-		|	
+        |
+        |    Overriding
+        |     
+        |   - Lines 33 - 72       - Parse Method originally created in Manager class is overridden here to perform the
+        |                           basic parsing of cocktail information needed to make a glass.                    
+        |    
         |
         |    Exception Handling
         |     
@@ -296,8 +296,8 @@ Windows
         |           51 - 54,        letting it propogate up the call stack. 
         |           56 - 59,
         |           61 - 64,
-        |           66 - 69					
-		|
+        |           66 - 69                    
+        |
 ---------------------------------------------------------------------------------------------------------------------
     3   |   Rest/SOAP compare contrast
         |
@@ -305,46 +305,46 @@ Windows
         |   Why - For code reuse and maintainability
         |   How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
         |   Tools - Inheritance, Composition.
-	    |
+        |
         |   When it comes to REST vs. SOAP each have their advantanges and disadvantages to achieving our Why.
         |
         |   REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
         |   On the other hand SOAP API platforms are built between a client and server, requiring the use of
         |   standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
         |   because once a service is defined any changes to it could affect the client and server very heavily.
-		|    
+        |    
         |
         |   In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
         |   which favors extensibility and evolvability.
-		|	
-		|	For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
-		|	any number of parameters in the resource request to customize my queries. This way I can search
-		|	for pages of information or even provide queries for specific words I'm looking for in products.
-		|	Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
-		|	the resource name changed (if returns were updated, or the request requirements were updated).
+        |    
+        |    For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
+        |    any number of parameters in the resource request to customize my queries. This way I can search
+        |    for pages of information or even provide queries for specific words I'm looking for in products.
+        |    Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
+        |    the resource name changed (if returns were updated, or the request requirements were updated).
         |
         |   In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
         |   kits are often misused to convert existing software components into services. 
         |   Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
-		|
-		|	To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
-		|	to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
-		|	made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
-		|	request. The API had to create multiple versions in order to make any changes because if they changed
-		|	the API, anyone who uses the API would have to change their implementation. The current version for
-		|	Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
-		|	pass to the API are extremely specific and there was no room for interpretation here.
-		|
+        |
+        |    To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
+        |    to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
+        |    made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
+        |    request. The API had to create multiple versions in order to make any changes because if they changed
+        |    the API, anyone who uses the API would have to change their implementation. The current version for
+        |    Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
+        |    pass to the API are extremely specific and there was no room for interpretation here.
+        |
         |   On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
         |   that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
         |   where it happens rather than letting it spill down the call stack. This makes the design of the API 
         |   more maintainable and helps in the design of OOP. 
-		|
-		|	In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
-		|	surronded by try catch blocks since the error handling done with SOAP can cause my application to
-		|	crash if I don't handle the error that is returned properly. This for me was a good thing because it
-		|	forced me to handle the cases where text couldn't be translated instead of trying to figure out
-		|	if the return was successful or not like I would do in REST.
+        |
+        |    In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
+        |    surronded by try catch blocks since the error handling done with SOAP can cause my application to
+        |    crash if I don't handle the error that is returned properly. This for me was a good thing because it
+        |    forced me to handle the cases where text couldn't be translated instead of trying to figure out
+        |    if the return was successful or not like I would do in REST.
         |
         |   REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
         |   performed on the same resource or endpoint allowing for code reuse.
@@ -353,11 +353,11 @@ Windows
         |   and disadvantages when it comes to designing OOP applications and these should be heavily considered
         |   on a case by case basis depending on what your application needs to perform.
         |
-		|   Sources:
-		|   https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4
-		|   Myself
-		|   Professor Judi McCuaig
-		|   
+        |   Sources:
+        |   https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4
+        |   Myself
+        |   Professor Judi McCuaig
+        |   
 ------------------------------------------------------------------------------------------------------------------------
 
 ##Sources:##
