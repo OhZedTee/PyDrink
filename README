@@ -162,6 +162,7 @@ Windows
         src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
         src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
         src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
+		src/Translate: Microsoft Translate Text SOAP API handler. Attributes: languages, key (Authorization), token, Speech Number (Iterating through audio files)
     View: 
         PyDrink: GUI class
     Controller:
@@ -193,43 +194,12 @@ Windows
   and remove non alcoholic beverages. Thus, when removing a non alcoholic drink from the fridge in the app, it will
   only remove the drink from the current session. When reopening the application, the original mock data will show up
   again. Simple to fix, but for testing and usability purposes I did not.
+- Microsoft Text Translator API is limited in the number of "character conversions" per month. So please use the functionality
+  sparingly. This API is meant to be a proof of concept, so keep it to small number of translations and text-to-speech calls.
   
   
-##SOAP vs. REST in OOP##
-In OOP there are 3 core questions we ask, Why we do it? How we do it? and What tools do we use.
-Why - For code reuse and maintainability
-How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
-Tools - Inheritance, Composition.
-
-When it comes to REST vs. SOAP each have their advantanges and disadvantages to achieving our Why.
-
-REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
-On the other hand SOAP API platforms are built between a client and server, requiring the use of
-standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
-because once a service is defined any changes to it could affect the client and server very heavily.
-
-In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
-which favors extensibility and evolvability.
-
-In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
-kits are often misused to convert existing software components into services. 
-Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
-
-On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
-that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
-where it happens rather than letting it spill down the call stack. This makes the design of the API 
-more maintainable and helpds in the design of OOP. 
-
-REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
-performed on the same resource or endpoint allowing for code reuse.
-
-In the end of the day, there is an argument that can be made for either as they both have their advantages
-and disadvantages when it comes to designing OOP applications and these should be heavily considered
-on a case by case basis depending on what your application needs to perform.
-
-
 ------------------------------------------------------------------------------------------------------------------------
-    1   |   Demonstrate best practices for OO development in the language of your choice
+    1   |   General OO
         |
         |   Controller + Model + View Design
         |
@@ -257,7 +227,7 @@ on a case by case basis depending on what your application needs to perform.
         |
         |    Code Reuse
         |
-        |    - ui/PyDrinkController.py      - Lines 271 - 287   - Method insert_manager_tree() shows code reuse, 
+        |    - ui/PyDrinkController.py      - Lines 309 - 325   - Method insert_manager_tree() shows code reuse, 
         |                                                         since multiple events call this method to handle
         |                                                         similar tasks with different models. This allows
         |                                                         me to load data into tree views with different models.
@@ -265,95 +235,130 @@ on a case by case basis depending on what your application needs to perform.
         |
         |    Polymorphism
         |
-        |    - src/Inventory.py            - Line 131 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
-        |    - src/Fridge.py               - Lines 58-60             in the Manager class, however I am adding Alcoholic and NonAlcoholic
+        |    - src/Inventory.py            - Line 135 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
+        |    - src/Fridge.py               - Lines 65-67             in the Manager class, however I am adding Alcoholic and NonAlcoholic
         |                                                            drinks to it. This is where polymorphism plays a part in my project.
         |
         |
         |   Class Hierarchies and Method Overriding
         |
-        |   - src/Drink.py                - Line 106            - src/Alcoholic.py and src/NonAlcoholic.py depend
-        |   - src/Alcoholic.py            - Line 51               on src/Drinks.py and override the __str__  
-        |   - src/NonAlcoholic.py         - Line 62               method to print according to their attributes.
+        |   - src/Drink.py                - Line 122            - src/Alcoholic.py and src/NonAlcoholic.py depend
+        |   - src/Alcoholic.py            - Line 55               on src/Drinks.py and override the __str__  
+        |   - src/NonAlcoholic.py         - Line 66               method to print according to their attributes.
         |                                                         
-        |   - src/Manager.py              - Line 56             - Similar to the __str__ method above, the parse method
-        |   - src/Fridge.py               - Line 47               in src/Manager.py is overriden to accommodate the 
-        |   - src/Glass.py                - Line 34               differences between src/Fridge.py, src/Glass.py and
-        |   - src/Inventory.py            - Line 93               src/Inventory.py
+        |   - src/Manager.py              - Line 23             - Similar to the __str__ method above, the parse method
+        |   - src/Fridge.py               - Line 38               in src/Manager.py is overriden to accommodate the 
+        |   - src/Glass.py                - Line 28               differences between src/Fridge.py, src/Glass.py and
+        |   - src/Inventory.py            - Line 97               src/Inventory.py
         |
         |
         |    Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
         |
-        |   - src/Manager.py              - Line 4              - This is an abstract class that contains 
+        |   - src/Manager.py              - Line 7              - This is an abstract class that contains 
         |                                                         behaviours and attributes common to 
         |                                                         src/Inventory.py, src/Glass.py and
         |                                                          src/Fridge.py
         |
-        |   - src/Drink.py                - Line 6              - This is an parent class that contains
+        |   - src/Drink.py                - Line 5              - This is an parent class that contains
         |                                                         behaviours and attributes common to 
         |                                                         src/Alcoholic.py and src/NonAlcoholic.py
         |
-        |   
+  ------------------------------------------------------------------------------------------------------------------------
+    2   |   OO Showcase - src/Glass.py (My other classes are explained above, this Class just has the most best practices
+	    |                               for a given class. But it is still missing practices like polymorphism
+		|								and overloading.)
+        |	
+	    |    Inheritance, Composition
+		|   - Line 8             - Glass class inherits from Manager class, since the glass class has to manage
+		|                          drinks and cocktails, parse mock data, and handle API data.
+        |   - Lines 11, 173-249  - Glass class is composed of cocktails that can be made with certain
+		|                           drinks.
         |
-  -------------------------------------------------------------------------------------------------------------------
-    2   |   Utilize persistence effectively to realize a user story that could not be realized without persistence
+        |    Encapsulation, Constructors, Accessors, Mutators, Instance Variables
         |
-        |   - src/Fridge.py               - Line 30 + 38        - In order to persist the fridge for the user
-        |                                                         I used the pickle library in Python. Whenever
-        |                                                         fridge is updated by the user I serialized the entire
-        |                                                         fridge object to data/fridge.bin. This allows for the
-        |                                                         Fridge state to be stored and loaded on application 
-        |                                                         closure and startup. See method parse() and save()
-        |                                                         in the Fridge class on the lines specified respectively.
+        |   - Lines 8 - 29        - Glass Class shows encapsulation by having its own private variables, mutators/
+        |                           accessors, and inheritance since it inherits from my Manager abstract class.
+		|   - Lines 173 - 249     - Cocktail class is only used by the Glass class. In order to hide information
+		|                           to other classes, and because of the direct relationship between a glass being used
+		|                           to make different kind of cocktails the Cocktail class was implemented as part 
+        |                           of the Glass file. 
+		|
+		|    Overriding
+		|	 
+		|	- Lines 33 - 72       - Parse Method originally created in Manager class is overridden here to perform the
+        |                           basic parsing of cocktail information needed to make a glass.					
+		|	
         |
-        |                                                       - I chose serialization over persistant storage due to
-        |                                                         its light weight capacity.
-        |                                                        
-        |                                                       - Furthermore a database would be to heavily coupled 
-        |                                                         with my program which can be used with and without
-        |                                                         the persistent storage. I am using the persistence 
-        |                                                         for my Fridge object so that the state of the fridge 
-        |                                                         can be stored between application use. This lightweight
-        |                                                         effect makes it easier integrating web and server in 
-        |                                                         the next assignment. Serialization also works because 
-        |                                                         my Fridge object's functionality will not change, 
-        |                                                         as its only purpose is to store Drinks from the inventory
-        |                                                         and let you chose drinks for your glass - the schema 
-        |
+        |    Exception Handling
+        |     
+        |   - Lines 41 - 44,      - Exception handling implemented in parsing to handle wrong mock file input while hiding
+        |           46 - 49,        information about what went wrong and dealing with it at the source rather than
+        |           51 - 54,        letting it propogate up the call stack. 
+        |           56 - 59,
+        |           61 - 64,
+        |           66 - 69					
+		|
 ---------------------------------------------------------------------------------------------------------------------
-    3   |   Facilitate the addition of portability to your program via the definition and creation of portable objects
+    3   |   Rest/SOAP compare contrast
         |
-        |   - src/Drinks.py               - Line 102            - Added JSON portability to the Drink object and its 
-        |   - src/Alcoholic.py            - Line 47               child classes Alcoholic and NonAlcoholic.
-        |   - src/NonAlcoholic.py         - Line 58               This will allow me to easily send and receive drink 
-        |                                                         objects on the web.
+        |   In OOP there are 3 core questions we ask, Why we do it? How we do it? and What tools do we use.
+        |   Why - For code reuse and maintainability
+        |   How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
+        |   Tools - Inheritance, Composition.
+	    |
+        |   When it comes to REST vs. SOAP each have their advantanges and disadvantages to achieving our Why.
         |
-        |                                                        - I chose JSON to parse and transmit Drink objects since
-        |                                                          I am already getting JSON data from my API, so storing
-        |                                                          it from JSON also helped me in displaying it by JSON. 
-        |                                                          I found JSON easier to read, so to understand the large
-        |                                                          sums of data I'm sending and manipulating is easier
-        |                                                          with JSON. Also, in the future when I implement a web
-        |                                                          server, parsing large amounts of XML data is costly and 
-        |                                                          slow compared to JSON, expecially since I'm parsing tens
-        |                                                          of thousands of Drink objects from JSON elements in the
-        |                                                          inventory.
+        |   REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
+        |   On the other hand SOAP API platforms are built between a client and server, requiring the use of
+        |   standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
+        |   because once a service is defined any changes to it could affect the client and server very heavily.
+		|    
         |
-        |                                                        - I chose to make the Drink object portable to help facilitate
-        |                                                          my future use of Drinks on the web and transmitting them back
-        |                                                          and forth with the server will be more easily done with
-        |                                                          portable Drink objects.
+        |   In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
+        |   which favors extensibility and evolvability.
+		|	
+		|	For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
+		|	any number of parameters in the resource request to customize my queries. This way I can search
+		|	for pages of information or even provide queries for specific words I'm looking for in products.
+		|	Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
+		|	the resource name changed (if returns were updated, or the request requirements were updated).
         |
-        |    - src/Encoder.py              - (Whole Class)       - This implements a custom JSONEncoder for the json.dumps
-        |                                                          method to retrieve the public equivalent of private variables.    
-        |                                                          
-        |                                                        NOTE* The json strings can be found in the description on
-        |                                                        each drink on the bottom. They can be copied from there.
-        |                                                        Keep in mind however those boxes are Read only, so pasting, 
-        |                                                        nor editting can be performed.
+        |   In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
+        |   kits are often misused to convert existing software components into services. 
+        |   Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
+		|
+		|	To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
+		|	to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
+		|	made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
+		|	request. The API had to create multiple versions in order to make any changes because if they changed
+		|	the API, anyone who uses the API would have to change their implementation. The current version for
+		|	Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
+		|	pass to the API are extremely specific and there was no room for interpretation here.
+		|
+        |   On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
+        |   that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
+        |   where it happens rather than letting it spill down the call stack. This makes the design of the API 
+        |   more maintainable and helps in the design of OOP. 
+		|
+		|	In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
+		|	surronded by try catch blocks since the error handling done with SOAP can cause my application to
+		|	crash if I don't handle the error that is returned properly. This for me was a good thing because it
+		|	forced me to handle the cases where text couldn't be translated instead of trying to figure out
+		|	if the return was successful or not like I would do in REST.
+        |
+        |   REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
+        |   performed on the same resource or endpoint allowing for code reuse.
+        |
+        |   In the end of the day, there is an argument that can be made for either as they both have their advantages
+        |   and disadvantages when it comes to designing OOP applications and these should be heavily considered
+        |   on a case by case basis depending on what your application needs to perform.
+        |
+		|   Sources:
+		|   https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4
+		|   Myself
+		|   Professor Judi McCuaig
+		|   
 ------------------------------------------------------------------------------------------------------------------------
-
-
 
 ##Sources:##
 - https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html

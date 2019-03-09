@@ -23,6 +23,11 @@ class Glass(Manager):
         """Get list of all cocktails parsed from data"""
         return self._cocktails
 
+    @cocktails.setter
+    def cocktails(self, value):
+        """Set list of all cocktails parsed from data"""
+        self._cocktails = value
+
     # Pre: File must be a valid file location
     # Post: Stores cocktails in list of cocktails
     def parse(self, fp):

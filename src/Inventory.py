@@ -72,7 +72,7 @@ class Inventory(Manager):
         return self._is_search
 
     @is_search.setter
-    def final_page(self, value):
+    def is_search(self, value):
         self._is_search = value
 
     @property
@@ -149,5 +149,7 @@ class Inventory(Manager):
             with urllib.request.urlopen(req) as jsonobj:
                 contents = json.loads(jsonobj.read().decode('utf-8'))
                 self.parse(contents)
-        except:
+        except TimeoutError:
+            print("LCBO API NOT CONNECTED")
+        except urllib.error.URLError:
             print("LCBO API NOT CONNECTED")
