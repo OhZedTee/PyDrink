@@ -269,9 +269,9 @@ Windows
         |                                and overloading.)
         |    
         |    Inheritance, Composition
-        |   - Line 8             - Glass class inherits from Manager class, since the glass class has to manage
-        |                          drinks and cocktails, parse mock data, and handle API data.
-        |   - Lines 11, 173-249  - Glass class is composed of cocktails that can be made with certain
+        |   - Line 8              - Glass class inherits from Manager class, since the glass class has to manage
+        |                           drinks and cocktails, parse mock data, and handle API data.
+        |   - Lines 11, 173-249   - Glass class is composed of cocktails that can be made with certain
         |                           drinks.
         |
         |    Encapsulation, Constructors, Accessors, Mutators, Instance Variables
@@ -296,7 +296,30 @@ Windows
         |           51 - 54,        letting it propogate up the call stack. 
         |           56 - 59,
         |           61 - 64,
-        |           66 - 69                    
+        |           66 - 69     
+        |
+        |    Why is this above-average example?
+		|	 - This class shows good encapsulation and composition since no Models (other than Glass) need access 
+		|	   to the Cocktail class directly, so by hiding it from every class except the Glass class I have 
+		|	   effictively made the Glass class the handler of all Cocktails. By providing the Glass class with
+		|	   Drink categories, the glass can return cocktails that can be made. No other class should be able
+		|	   to compute cocktail decisions since they simply don't have enough information or the ability to parse
+		|	   Cocktail data that the glass class does. I could have included the Cocktail class within the Glass class
+		|	   but in order to increase cohesion splitting them was the obvious choice so that each class 
+		|	   handles its functionality pertaining to its own attributes. It is important to note though, that there is
+		|      a fair bit of coupling between Cocktail and Glass classes, but this is required because the Glass class
+		|	   can't exist without the Cocktail class.
+		|	 - In terms of Inheritance, this class is a subclass of the Manager Abstract class. This was a good design
+		|	   decision since it allows for modularity of my code. If I decide to update the algorithm for picking 
+		|	   cocktails or if I let the user create custom cocktails, then the Glass will have access to Drinks
+		|	   to let the user choose between what is available in the glass. By doing this, it will allow the 
+		|	   user to add, find, remove, or retrieve information from a specific drink. 
+		|	 - By enforcing the Model to parse the Cocktail data (due to Manager Abstract class), I make sure
+        |      that the glass class handles parsing exceptions/errors with the cocktail data that it is composed of
+		|	   at the source rather than letting it propogate up the call stack and overflow into the controller.
+		|	 - This Cocktail class also overrides the __str__ protocol to print information specific to a cocktail
+		|	   rather than a bunch of data that may be irrelevant to the glass (but most of my classes do this
+		|      so this overriding isn't necessarily above-average).
         |
 ---------------------------------------------------------------------------------------------------------------------
     3   |   Rest/SOAP compare contrast
@@ -317,34 +340,34 @@ Windows
         |   In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
         |   which favors extensibility and evolvability.
         |    
-        |    For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
-        |    any number of parameters in the resource request to customize my queries. This way I can search
-        |    for pages of information or even provide queries for specific words I'm looking for in products.
-        |    Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
-        |    the resource name changed (if returns were updated, or the request requirements were updated).
+        |   For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
+        |   any number of parameters in the resource request to customize my queries. This way I can search
+        |   for pages of information or even provide queries for specific words I'm looking for in products.
+        |   Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
+        |   the resource name changed (if returns were updated, or the request requirements were updated).
         |
         |   In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
         |   kits are often misused to convert existing software components into services. 
         |   Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
         |
-        |    To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
-        |    to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
-        |    made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
-        |    request. The API had to create multiple versions in order to make any changes because if they changed
-        |    the API, anyone who uses the API would have to change their implementation. The current version for
-        |    Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
-        |    pass to the API are extremely specific and there was no room for interpretation here.
+        |   To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
+        |   to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
+        |   made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
+        |   request. The API had to create multiple versions in order to make any changes because if they changed
+        |   the API, anyone who uses the API would have to change their implementation. The current version for
+        |   Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
+        |   pass to the API are extremely specific and there was no room for interpretation here.
         |
         |   On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
         |   that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
         |   where it happens rather than letting it spill down the call stack. This makes the design of the API 
         |   more maintainable and helps in the design of OOP. 
         |
-        |    In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
-        |    surronded by try catch blocks since the error handling done with SOAP can cause my application to
-        |    crash if I don't handle the error that is returned properly. This for me was a good thing because it
-        |    forced me to handle the cases where text couldn't be translated instead of trying to figure out
-        |    if the return was successful or not like I would do in REST.
+        |   In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
+        |   surronded by try catch blocks since the error handling done with SOAP can cause my application to
+        |   crash if I don't handle the error that is returned properly. This for me was a good thing because it
+        |   forced me to handle the cases where text couldn't be translated instead of trying to figure out
+        |   if the return was successful or not like I would do in REST.
         |
         |   REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
         |   performed on the same resource or endpoint allowing for code reuse.
