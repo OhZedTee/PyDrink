@@ -363,7 +363,7 @@ Windows
         |   where it happens rather than letting it spill down the call stack. This makes the design of the API 
         |   more maintainable and helps in the design of OOP. 
         |
-        |   In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the API is 
+        |   In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the SOAP API is 
         |   surronded by try catch blocks since the error handling done with SOAP can cause my application to
         |   crash if I don't handle the error that is returned properly. This for me was a good thing because it
         |   forced me to handle the cases where text couldn't be translated instead of trying to figure out
