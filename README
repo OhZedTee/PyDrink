@@ -177,6 +177,7 @@ Windows
                 to allow for multipaged display with a convenient scroll bar
         ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
                 the purposes of this app.
+        ui/GUI: Custom GUI Model that maintains the Tkinter view and controller.
 
 
 
