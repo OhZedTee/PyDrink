@@ -263,17 +263,17 @@ Windows
         |   - src/Drink.py                - Line 6              - This is an parent class that contains
         |                                                         behaviours and attributes common to 
         |                                                         src/Alcoholic.py and src/NonAlcoholic.py
-		|
-		|    SOAP and REST
-		|	 
-		|	- src/Inventory.py            - Entire class        - This class handles REST requests and responses from
+        |
+        |    SOAP and REST
+        |     
+        |   - src/Inventory.py            - Entire class        - This class handles REST requests and responses from
         |                                                         the LCBO API, makes special queries to get product
         |                                                         information from the LCBO store.
         |
         |   - src/Translate.py            - Entire class        - This class handles SOAP requests and responses from
         |                                                         the Microsoft Translator API to translate text
         |                                                         to and from specific languages, as well as convert
-        |                                                         text to speech.																  
+        |                                                         text to speech.                                                                  
         |
   ------------------------------------------------------------------------------------------------------------------------
     2   |   OO Showcase - src/Glass.py
@@ -384,7 +384,7 @@ Windows
         |      
         |    Security
         |    - In security there are 3 fundamental requirements, Confidentiality, Integrity, and Authenticity 
-		|      (CIA; Coincidence? I think not).
+        |      (CIA; Coincidence? I think not).
         |    - SOAP has built-in support for WS-Security which is a protocol specifying how integrity and confidentiality
         |      can be enforced on messages and allows the communication of various security token formats.
         |    - Both SOAP and REST are able to perform Authenticity through Non-repudiation by writing transactions
