@@ -283,7 +283,9 @@ Windows
         |      a unified interface that uses sub-systems, in this case the Cocktail class and the DrinkStorage class, to
         |      provide meaningful information to other interfaces. The Glass class has a collection of Cocktails
         |      and a collection of drinks which are used in the find_cocktail method (line 78) to generate meaningful
-        |      information to the controller as well as the view. In the future this can be extended to provide meaningful
+        |      information to the controller as well as the view (other methods exist as well for handling and maintaining
+               cocktails). In the future this can be extended to provide meaningful statistics information about what a
+               user typically drinks and possibly other sub-components to provide the user with purposeful data.
         |    - Worded differently, the Glass class offers its clients (the controller, view, or future models) a single,
         |      simple interface to the Glass subsystem (Cocktails and Drinks) by gluing together the classes that implement
         |      the parsing and processing of user information (what they want to drink) without completely hiding them.
