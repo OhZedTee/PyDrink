@@ -174,7 +174,7 @@ Windows
         ui/ROText: Custom GUI Textbox that disables common functionality to work as a READ-ONLY Text box
                 (i.e. Disabled: paste, editing, deleting, Undoing, Redoing, etc.)
         ui/ScrolledTreeView: Custom GUI TreeView (the tables you see in the UI) that are scrollable
-                to allow for multipaged display with a convenient scroll bar
+                to allow for multi-paged display with a convenient scroll bar
         ui/SearchBox: Custom GUI Searchbox taken from Tkinter's public recipes and adapted for 
                 the purposes of this app.
         ui/GUI: Custom GUI Model that maintains the Tkinter view and controller.
@@ -186,7 +186,7 @@ Windows
   So as to not bog down the application, I have made every inventory page distinct. What does this mean?
   If you select a drink in the inventory page, and shuffle through the pages, the dictionary that holds the
   drink objects is cleared and new drinks are added to it. Meaning the data as to which drinks you selected don't
-  persist. A way around this is to add drinks to your fridge from the inventory intermitently before changing pages
+  persist. A way around this is to add drinks to your fridge from the inventory intermittently before changing pages
   (or making queries).
 - NonAlcoholic Beverages are difficult to create without user input. Due to the complexity of this Application, I did
   not have time to include more forms for user input. Please use the mock data file found at "data/mock/nonalcoholic.csv".
@@ -220,7 +220,7 @@ Windows
         |                                                         mutators/accessors, and inheritance since it
         |                                                         inherits from my DrinkStorage abstract class.
         |    
-        |    - src/Drink.py                 - Lines 8 - 69      - Encapsulation is everywhere in my program, but
+        |    - src/Drink.py                 - Lines 9 - 70      - Encapsulation is everywhere in my program, but
         |                                                         here is another example that shows were I use
         |                                                         private instance variables, constructors, and 
         |                                                         mutators/accessors.
@@ -228,7 +228,7 @@ Windows
         |
         |    Code Reuse
         |
-        |    - ui/PyDrinkController.py      - Lines 309 - 325   - Method insert_manager_tree() shows code reuse, 
+        |    - ui/PyDrinkController.py      - Lines 296 - 311   - Method insert_manager_tree() shows code reuse,
         |                                                         since multiple events call this method to handle
         |                                                         similar tasks with different models. This allows
         |                                                         me to load data into tree views with different models.
@@ -236,31 +236,31 @@ Windows
         |
         |    Polymorphism
         |
-        |    - src/Inventory.py            - Line 135 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
-        |    - src/Fridge.py               - Lines 65-67             in the DrinkStorage class, however I am adding Alcoholic and NonAlcoholic
+        |    - src/Inventory.py            - Line 134 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
+        |    - src/Fridge.py               - Lines 66-68             in the DrinkStorage class, however I am adding Alcoholic and NonAlcoholic
         |                                                            drinks to it. This is where polymorphism plays a part in my project.
         |
         |
         |   Class Hierarchies and Method Overriding
         |
-        |   - src/Drink.py                - Line 122            - src/Alcoholic.py and src/NonAlcoholic.py depend
+        |   - src/Drink.py                - Line 123            - src/Alcoholic.py and src/NonAlcoholic.py depend
         |   - src/Alcoholic.py            - Line 55               on src/Drinks.py and override the __str__  
         |   - src/NonAlcoholic.py         - Line 66               method to print according to their attributes.
         |                                                         
-        |   - src/DrinkStorage.py              - Line 23             - Similar to the __str__ method above, the parse method
-        |   - src/Fridge.py               - Line 38               in src/DrinkStorage.py is overriden to accommodate the
-        |   - src/Glass.py                - Line 28               differences between src/Fridge.py, src/Glass.py and
+        |   - src/DrinkStorage.py         - Line 23             - Similar to the __str__ method above, the parse method
+        |   - src/Fridge.py               - Line 38               in src/DrinkStorage.py is overridden to accommodate the
+        |   - src/Glass.py                - Line 34               differences between src/Fridge.py, src/Glass.py and
         |   - src/Inventory.py            - Line 97               src/Inventory.py
         |
         |
         |    Class Relationships: Abstract DrinkStorage Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
         |
-        |   - src/DrinkStorage.py              - Line 7              - This is an abstract class that contains
+        |   - src/DrinkStorage.py         - Line 7              - This is an abstract class that contains
         |                                                         behaviours and attributes common to 
         |                                                         src/Inventory.py, src/Glass.py and
         |                                                          src/Fridge.py
         |
-        |   - src/Drink.py                - Line 5              - This is an parent class that contains
+        |   - src/Drink.py                - Line 6              - This is an parent class that contains
         |                                                         behaviours and attributes common to 
         |                                                         src/Alcoholic.py and src/NonAlcoholic.py
         |
@@ -269,8 +269,8 @@ Windows
         |
         |    Exception Handling + Encapsulation (ish)
         |     
-        |   - Lines 55 - 64,      - Exception handling implemented in parsing to handle wrong mock file input while hiding
-        |           33 - 48,        information about what went wrong and dealing with it at the source rather than
+        |   - Lines 56 - 65,      - Exception handling implemented in parsing to handle wrong mock file input while hiding
+        |           34 - 49,        information about what went wrong and dealing with it at the source rather than
         |                           letting it propagate up the call stack. The data file used (cocktail.csv) is missing
         |                           fields and information and parsing it like a normal csv file doesn't work. A function
         |                           was written (parse_row) to take each csv row of fields and attempt to extract the
@@ -314,7 +314,7 @@ Windows
         |    - SOAP makes data available as services.
         |    
         |    Encapsulation + Error Handling:
-        |    - An interface between more than one pieces of software that allows data transfer to perform tasks. It
+        |    - An API is an interface between more than one pieces of software that allows data transfer to perform tasks. It
         |      allows information sharing without exposing an entire system (Encapsulation)
         |      
         |      For example, the LCBO API I use gathers a large collection of information from LCBO about different
@@ -372,12 +372,13 @@ Windows
         |      cost.
         |      
         |    Security
-        |    - In security there are 3 fundamental requirements, Confidentiality, Integrity, and Authenticity.
+        |    - In security there are 3 fundamental requirements, Confidentiality, Integrity, and Authenticity 
+		|      (CIA; Coincidence? I think not).
         |    - SOAP has built-in support for WS-Security which is a protocol specifying how integrity and confidentiality
         |      can be enforced on messages and allows the communication of various security token formats.
-        |    - Both SOAP and REST are able to perform Authenticity through Non-repudiation by writing transations
-        |      to electronic journals or audit trails that are subject to security safegaurds. WS-Security also provides
-        |      Digital Security which is a more direct and verifiable non-repudiaton proof used for Authenticity.
+        |    - Both SOAP and REST are able to perform Authenticity through Non-repudiation by writing transactions
+        |      to electronic journals or audit trails that are subject to security safeguards. WS-Security also provides
+        |      Digital Signatures which is a more direct and verifiable non-repudiation proof used for Authenticity.
         |      
         |    - Due to RESTs lack of ability to provide Integrity and Confidentiality however, SOAP provides
         |      a secure communication that cannot be afforded by REST, rather REST relies on the programmer to add
@@ -401,9 +402,9 @@ Windows
         |        XML Payloads
         |        Adherence to SOAP standards
         |    
-        |    They both imploy OO practices such as Encapsulation, Code Reuse, Maintainability, Cohesion, and
-        |    coupling, with SOAPs added benifit of Exception Handling. One isn't necessarily better than the other,
-        |    rather they are inheritly different but because of this each apply to different use cases. 
+        |    They both employ OO practices such as Encapsulation, Code Reuse, Maintainability, Cohesion, and
+        |    coupling, with SOAPs added benefit of Exception Handling. One isn't necessarily better than the other,
+        |    rather they are inherently different, but because of this each apply to different use cases.
         |
         |    Sources:
         |    https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4

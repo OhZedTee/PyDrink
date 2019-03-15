@@ -2,6 +2,7 @@
 from .Encoder import JSONEncoder
 import json
 
+
 class Drink:
     """Common base class for all beverages
         All Drinks have a drink ID (did), a name, cost, and description"""
