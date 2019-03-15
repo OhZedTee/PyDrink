@@ -7,7 +7,7 @@ Please make sure you are connected to the school VPN before running this applica
 
 Non Alcoholic Beverages are mocked in data/mock/nonalcoholic.csv. Feel free to add your own to the mock data to use
 in making drinks. These Non Alcoholic drinks will appear straight in your fridge (not in the inventory) and can not
-be removed permanetly without removing them from nonalcoholic.csv. You can remove them for a session, but the next
+be removed permanently without removing them from nonalcoholic.csv. You can remove them for a session, but the next
 time you open the app, they will be there.
 
 The inventory is where the API is connected and allows you to view the LCBO products. You can search based off any parameter and can
@@ -155,10 +155,10 @@ Windows
 
 ##Explanation of All Classes##
     Models:
-        src/Manager: List of Drinks, required methods for child classes
-        src/Fridge: Implementation of Manager required methods
-        src/Glass: Implementation of Manager required methods
-        src/Inventory: Implementation of Manager required methods + Parses API data + Parses mock data
+        src/DrinkStorage: List of Drinks, required methods for child classes
+        src/Fridge: Implementation of DrinkStorage required methods
+        src/Glass: Implementation of DrinkStorage required methods
+        src/Inventory: Implementation of DrinkStorage required methods + Parses API data + Parses mock data
         src/Drink: Base drink class which all drinks inherit from. Attributes: ID, Name, Cost, Description
         src/Alcoholic: Child class of Drink. Attributes: APV (alcohol per volume), Package, Category
         src/NonAlcoholic: Child class of drink. Attributes: Carbonation (True, False), Sugar Content, Package, Caffeine Content
@@ -217,7 +217,7 @@ Windows
         |   - src/Inventory.py            - Lines 12 - 84       - Inventory Class added that shows encapsulation
         |                                                         by having its own private variables and 
         |                                                         mutators/accessors, and inheritance since it
-        |                                                         inherits from my Manager abstract class.
+        |                                                         inherits from my DrinkStorage abstract class.
         |    
         |    - src/Drink.py                 - Lines 8 - 69      - Encapsulation is everywhere in my program, but
         |                                                         here is another example that shows were I use
@@ -236,7 +236,7 @@ Windows
         |    Polymorphism
         |
         |    - src/Inventory.py            - Line 135 (Alcoholic)  - I am currently maintaining a dictionary of Drinks
-        |    - src/Fridge.py               - Lines 65-67             in the Manager class, however I am adding Alcoholic and NonAlcoholic
+        |    - src/Fridge.py               - Lines 65-67             in the DrinkStorage class, however I am adding Alcoholic and NonAlcoholic
         |                                                            drinks to it. This is where polymorphism plays a part in my project.
         |
         |
@@ -246,15 +246,15 @@ Windows
         |   - src/Alcoholic.py            - Line 55               on src/Drinks.py and override the __str__  
         |   - src/NonAlcoholic.py         - Line 66               method to print according to their attributes.
         |                                                         
-        |   - src/Manager.py              - Line 23             - Similar to the __str__ method above, the parse method
-        |   - src/Fridge.py               - Line 38               in src/Manager.py is overriden to accommodate the 
+        |   - src/DrinkStorage.py              - Line 23             - Similar to the __str__ method above, the parse method
+        |   - src/Fridge.py               - Line 38               in src/DrinkStorage.py is overriden to accommodate the
         |   - src/Glass.py                - Line 28               differences between src/Fridge.py, src/Glass.py and
         |   - src/Inventory.py            - Line 97               src/Inventory.py
         |
         |
-        |    Class Relationships: Abstract Manager Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
+        |    Class Relationships: Abstract DrinkStorage Class -> Fridge, Glass, and Inventory classes, Drink class -> NonAlcoholic and Alcoholic classes
         |
-        |   - src/Manager.py              - Line 7              - This is an abstract class that contains 
+        |   - src/DrinkStorage.py              - Line 7              - This is an abstract class that contains
         |                                                         behaviours and attributes common to 
         |                                                         src/Inventory.py, src/Glass.py and
         |                                                          src/Fridge.py
@@ -264,62 +264,38 @@ Windows
         |                                                         src/Alcoholic.py and src/NonAlcoholic.py
         |
   ------------------------------------------------------------------------------------------------------------------------
-    2   |   OO Showcase - src/Glass.py (My other classes are explained above, this Class just has the most best practices
-        |                               for a given class. But it is still missing practices like polymorphism
-        |                                and overloading.)
-        |    
-        |    Inheritance, Composition
-        |   - Line 8              - Glass class inherits from Manager class, since the glass class has to manage
-        |                           drinks and cocktails, parse mock data, and handle API data.
-        |   - Lines 11, 173-249   - Glass class is composed of cocktails that can be made with certain
-        |                           drinks.
+    2   |   OO Showcase - src/Glass.py
         |
-        |    Encapsulation, Constructors, Accessors, Mutators, Instance Variables
-        |
-        |   - Lines 8 - 29        - Glass Class shows encapsulation by having its own private variables, mutators/
-        |                           accessors, and inheritance since it inherits from my Manager abstract class.
-        |   - Lines 173 - 249     - Cocktail class is only used by the Glass class. In order to hide information
-        |                           to other classes, and because of the direct relationship between a glass being used
-        |                           to make different kind of cocktails the Cocktail class was implemented as part 
-        |                           of the Glass file. 
-        |
-        |    Overriding
+        |    Exception Handling + Encapsulation (ish)
         |     
-        |   - Lines 33 - 72       - Parse Method originally created in Manager class is overridden here to perform the
-        |                           basic parsing of cocktail information needed to make a glass.                    
-        |    
+        |   - Lines 55 - 64,      - Exception handling implemented in parsing to handle wrong mock file input while hiding
+        |           33 - 48,        information about what went wrong and dealing with it at the source rather than
+        |                           letting it propagate up the call stack. The data file used (cocktail.csv) is missing
+        |                           fields and information and parsing it like a normal csv file doesn't work. A function
+        |                           was written (parse_row) to take each csv row of fields and attempt to extract the
+        |                           information. Originally this was done field by field (try catch for each
+        |                           field), but thought it was a lot of duplicate code, so it was made into a function
+        |                           that could handle it more modular way.
         |
-        |    Exception Handling
-        |     
-        |   - Lines 41 - 44,      - Exception handling implemented in parsing to handle wrong mock file input while hiding
-        |           46 - 49,        information about what went wrong and dealing with it at the source rather than
-        |           51 - 54,        letting it propogate up the call stack. 
-        |           56 - 59,
-        |           61 - 64,
-        |           66 - 69     
-        |
-        |    Why is this above-average example?
-		|	 - This class shows good encapsulation and composition since no Models (other than Glass) need access 
-		|	   to the Cocktail class directly, so by hiding it from every class except the Glass class I have 
-		|	   effictively made the Glass class the handler of all Cocktails. By providing the Glass class with
-		|	   Drink categories, the glass can return cocktails that can be made. No other class should be able
-		|	   to compute cocktail decisions since they simply don't have enough information or the ability to parse
-		|	   Cocktail data that the glass class does. I could have included the Cocktail class within the Glass class
-		|	   but in order to increase cohesion splitting them was the obvious choice so that each class 
-		|	   handles its functionality pertaining to its own attributes. It is important to note though, that there is
-		|      a fair bit of coupling between Cocktail and Glass classes, but this is required because the Glass class
-		|	   can't exist without the Cocktail class.
-		|	 - In terms of Inheritance, this class is a subclass of the Manager Abstract class. This was a good design
-		|	   decision since it allows for modularity of my code. If I decide to update the algorithm for picking 
-		|	   cocktails or if I let the user create custom cocktails, then the Glass will have access to Drinks
-		|	   to let the user choose between what is available in the glass. By doing this, it will allow the 
-		|	   user to add, find, remove, or retrieve information from a specific drink. 
-		|	 - By enforcing the Model to parse the Cocktail data (due to Manager Abstract class), I make sure
-        |      that the glass class handles parsing exceptions/errors with the cocktail data that it is composed of
-		|	   at the source rather than letting it propogate up the call stack and overflow into the controller.
-		|	 - This Cocktail class also overrides the __str__ protocol to print information specific to a cocktail
-		|	   rather than a bunch of data that may be irrelevant to the glass (but most of my classes do this
-		|      so this overriding isn't necessarily above-average).
+        |    Facade Design Pattern (Entire File)
+        |    - This class is very similar in its design to a typical Facade Design pattern in that the Glass class is
+        |      a unified interface that uses sub-systems, in this case the Cocktail class and the DrinkStorage class, to
+        |      provide meaningful information to other interfaces. The Glass class has a collection of Cocktails
+        |      and a collection of drinks which are used in the find_cocktail method (line 78) to generate meaningful
+        |      information to the controller as well as the view. In the future this can be extended to provide meaningful
+        |    - Worded differently, the Glass class offers its clients (the controller, view, or future models) a single,
+        |      simple interface to the Glass subsystem (Cocktails and Drinks) by gluing together the classes that implement
+        |      the parsing and processing of user information (what they want to drink) without completely hiding them.
+        |      This provides meaningful data from a simple interface rather than from complex subsystems that will only
+        |      get more complex as they evolve. The facade provides a simple default view of the subsystems that is good
+        |      enough for most functionality, where only controllers that need more customizability will look beyond.
+        |      Benefits:
+        |      - Shields controller from subsystem components reducing the number of models the controller deals with
+        |        and makes the subsystem easier to use.
+        |      - Reduces coupling between controller and subsystem which allows for varying the components of the subsystem
+        |        without affecting the controller using the facade.
+        |      - Important to note that it doesnt prevent the controller from using the subsystem classes if it wants but
+        |        allows for choice between ease of use and generality.
         |
 ---------------------------------------------------------------------------------------------------------------------
     3   |   Rest/SOAP compare contrast
@@ -329,7 +305,7 @@ Windows
         |   How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
         |   Tools - Inheritance, Composition.
         |
-        |   When it comes to REST vs. SOAP each have their advantanges and disadvantages to achieving our Why.
+        |   When it comes to REST vs. SOAP each have their advantages and disadvantages to achieving our Why.
         |
         |   REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
         |   On the other hand SOAP API platforms are built between a client and server, requiring the use of
@@ -364,7 +340,7 @@ Windows
         |   more maintainable and helps in the design of OOP. 
         |
         |   In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the SOAP API is 
-        |   surronded by try catch blocks since the error handling done with SOAP can cause my application to
+        |   surrounded by try catch blocks since the error handling done with SOAP can cause my application to
         |   crash if I don't handle the error that is returned properly. This for me was a good thing because it
         |   forced me to handle the cases where text couldn't be translated instead of trying to figure out
         |   if the return was successful or not like I would do in REST.

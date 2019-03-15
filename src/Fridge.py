@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-from .Manager import Manager
+from .DrinkStorage import DrinkStorage
 from .Alcoholic import Alcoholic
 from .NonAlcoholic import NonAlcoholic
 import csv
 import pickle
 
 
-class Fridge(Manager):
+class Fridge(DrinkStorage):
     """Implementation of Abstract management class for all Drinks.
        This class manages all drinks a user has available (not necessarily planning to use for cocktails"""
 
@@ -53,11 +53,12 @@ class Fridge(Manager):
     #Pre: File must be a valid file location and must contain only NonAlcoholic Beverages in correct format (Mock Data)
     #Post: Adds NonAlcoholic drinks to dictionary of drinks
     def add(self, file):
-        d_id = -1
+        d_id = 0
         next(file)
         fp = csv.reader(file)
 
         for row in fp:
+            d_id -= 1
             is_carbonated = True
             if row[3] == 'False':
                 is_carbonated = False
@@ -65,5 +66,3 @@ class Fridge(Manager):
             drink = NonAlcoholic(d_id, row[0], int(row[1]), row[2], is_carbonated, row[4], row[5], row[6])
             if not self.has_drink(drink.id):
                 self.add_drink(drink)
-
-            d_id -= 1

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from .Manager import Manager
+from .DrinkStorage import DrinkStorage
 from .Alcoholic import Alcoholic
 from .NonAlcoholic import NonAlcoholic
 import urllib.request
@@ -9,7 +9,7 @@ import re
 import yaml
 
 
-class Inventory(Manager):
+class Inventory(DrinkStorage):
     """Implementation of Abstract management class for all Drinks.
        This class manages all drinks a user has available (not necessarily planning to use for cocktails"""
 
@@ -92,13 +92,13 @@ class Inventory(Manager):
         self.host = cfg['API']['host']
         self.port = cfg['API']['port']
 
-    # Pre: fp must be a valid file pointer
+    # Pre: api_return must be a valid JSON dictionary response from LCBO API
     # Post: Parses data from LCBO API and add drinks to dictionary of drinks
-    def parse(self, fp):
+    def parse(self, api_return):
         """Method to parse JSON data from API into dictionary"""
-        self.final_page = fp['pager']['is_final_page']
-        self.num_pages =  fp['pager']['total_pages']
-        results = fp['result']
+        self.final_page = api_return['pager']['is_final_page']
+        self.num_pages =  api_return['pager']['total_pages']
+        results = api_return['result']
         for item in results:
             category = []
             for attribute in item:

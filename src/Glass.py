@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
-from .Manager import Manager
+from .DrinkStorage import DrinkStorage
+from .Alcoholic import Alcoholic
 import csv
 import re
 
 
-class Glass(Manager):
+class Glass(DrinkStorage):
     """Implementation of Abstract management class for all Drinks.
        This class manages all drinks a user is planning on using for cocktails"""
     _cocktails = {}
@@ -37,39 +38,31 @@ class Glass(Manager):
         c_id = 0
         for row in fp:
             c = Cocktail()
-            # name
-            try:
-                c.name = row[0]
-            except IndexError:
-                c.name = ''
-            # glass
-            try:
-                c.glass = row[1]
-            except IndexError:
-                c.glass = ''
-            # main
-            try:
-                c.main_alcohol = row[2]
-            except IndexError:
-                c.main_alcohol = ''
-            # other
-            try:
-                c.other_alcohols = row[3]
-            except IndexError:
-                c.other_alcohols = ''
-            # mixes
-            try:
-                c.mixes = row[4]
-            except IndexError:
-                c.mixes = ''
-            # garnish
-            try:
-                c.garnish = row[5]
-            except IndexError:
-                c.garnish = ''
-
+            fields = Glass.parse_row(row)
+            c.name = fields[0]
+            c.glass = fields[1]
+            c.main_alcohol = fields[2]
+            c.other_alcohols = fields[3]
+            c.mixes = fields[4]
+            c.garnish = fields[5]
             self.cocktails[c_id] = c
             c_id += 1
+
+    # Pre: row must be a valid list of strings from csv data
+    #      row should have 6 elements
+    # Post: Returns a list of string fields that were
+    #       successfully extracted from the row list
+    @staticmethod
+    def parse_row(row):
+        CONST_MAX_ROWS = 6
+        fields = []
+        for i in range(0,CONST_MAX_ROWS):
+            try:
+                attr = row[i]
+                fields.append(attr)
+            except IndexError:
+                fields.append('')
+        return fields
 
     # Pre: name must be valid string
     # Post: Returns parameter from dictionary if found
@@ -79,19 +72,27 @@ class Glass(Manager):
             if getattr(cocktail, 'name', False) == name:
                 return cocktail
 
-    # Pre: categories must be valid list of categories from drinks selected
+    # Pre: N/A (suggested use requires drinks to be in Glass
     # Post: Returns list of cocktails that can be made satisfying all requirements of each cocktail with the categories
     #       provided
-    def find_cocktails(self, categories):
+    def find_cocktails(self):
         """Find cocktails that meet all category requirements -
                only cocktails whose main_alcohol, other_alcohols, and mixes
                are in the categories list (list of drinks in fridge)"""
+
+        alcoholic = []
+        non_alcoholic = []
+        for drink in self.drinks.values():
+            if isinstance(drink, Alcoholic):
+                alcoholic.append(drink.category)
+            else:
+                non_alcoholic.append(drink.desc)
+
         result = []
         for cocktail in self.cocktails.values():
             has_main_alcohol = False
             has_other_alcohol = False
             has_mix = False
-            is_test = False
             main_alcohol = getattr(cocktail, 'main_alcohol', False).lower()
             other_alcohol = getattr(cocktail, 'other_alcohols', False).lower()
             mixes = getattr(cocktail, 'mixes', False).lower()
@@ -104,7 +105,7 @@ class Glass(Manager):
                 requirement_list = re.findall(r"[\w']+|[.,!?;]", main_requirement)
                 if len(requirement_list) != 0:
                     found = False
-                    for categoryList in categories["Alcoholic"]:
+                    for categoryList in alcoholic:
                         for attribute in categoryList:
                             if str(attribute).lower() != "none":
                                 if any(x in str(attribute).lower() for x in requirement_list):
@@ -125,7 +126,7 @@ class Glass(Manager):
                 requirement_list = re.findall(r"[\w']+|[.,!?;]", other_requirements)
                 if len(requirement_list) != 0:
                     found = False
-                    for categoryList in categories["Alcoholic"]:
+                    for categoryList in alcoholic:
                         for attribute in categoryList:
                             if str(attribute).lower() != "none":
                                 if "vermouth" in str(attribute).lower() and any("vermouth" for x in requirement_list):
@@ -151,7 +152,7 @@ class Glass(Manager):
             for mix_requirements in mixes_list:
                 if len(mix_requirements) != 0:
                     found = False
-                    for attribute in categories["NonAlcoholic"]:
+                    for attribute in non_alcoholic:
                         if str(attribute).lower() != "none":
                             if str(attribute).lower() in mix_requirements or mix_requirements in str(attribute).lower():
                                 found = True

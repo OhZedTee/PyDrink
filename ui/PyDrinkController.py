@@ -5,15 +5,14 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 11, 2019 12:32:59 PM EST  platform: Windows NT
 
-import sys, os
+import sys
 from src.Fridge import Fridge
-from src.Alcoholic import Alcoholic
 from src.Glass import Glass
 from src.Inventory import Inventory
 from src.Translate import Translator
 from pygame import mixer
 from pygame import time
-import traceback
+from pygame import error as pygame_error
 
 try:
     import Tkinter as tk
@@ -245,10 +244,6 @@ class PyDrinkController:
             Call method to add drinks from the glass object to the TreeView,
             Call method to add cocktails to the TreeView"""
 
-        cocktail_categories = {}
-        alcoholic = []
-        non_alcoholic = []
-
         try:
             for child in tree.get_children():
                 tree.delete(child)
@@ -265,16 +260,9 @@ class PyDrinkController:
                 drink = self.fridge.find_drink('name', tree.item(child, "text"))
                 if not self.glass.has_drink(drink.id):
                     self.glass.add_drink(drink)
-                if isinstance(drink, Alcoholic):
-                    alcoholic.append(drink.category)
-                else:
-                    non_alcoholic.append(drink.desc)
 
-            cocktail_categories["Alcoholic"] = alcoholic
-            cocktail_categories["NonAlcoholic"] = non_alcoholic
-            PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, cocktail_categories, textbox_selected,
+            PyDrinkController.insert_cocktail_tree(cocktail_tree, self.glass, textbox_selected,
                                                    translation_box)
-
 
         except IndexError:
             print("Drinks and Cocktails not added to Glass Tab properly. Please try again")
@@ -283,8 +271,8 @@ class PyDrinkController:
         translation_box.current(0)
         sys.stdout.flush()
 
-    #Pre: TKinter window must have been created and passed to Controller from the view.
-    #Post: Controller is initialized
+    # Pre: TKinter window must have been created and passed to Controller from the view.
+    # Post: Controller is initialized
     @staticmethod
     def init(top, gui, *args, **kwargs):
         global w, top_level, root
@@ -301,9 +289,9 @@ class PyDrinkController:
         top_level.destroy()
         top_level = None
 
-    # Pre: Manager child obj must be valid Manager Class object, tree, textbox_selected, selection_message,
+    # Pre: DrinkStorage child obj must be valid DrinkStorage Class object, tree, textbox_selected, selection_message,
     #      success_message must be valid view objects used to display to screen
-    # Post: Dictionary of Drinks from Manager child class is displayed in ScrolledTreeView and events for
+    # Post: Dictionary of Drinks from DrinkStorage child class is displayed in ScrolledTreeView and events for
     #       selection are created for each item in the ScrolledTreeView.
     @staticmethod
     def insert_manager_tree(tree, textbox_selected, obj, selection_message, success_message=None):
@@ -324,18 +312,18 @@ class PyDrinkController:
             tree.bind("<ButtonRelease-1>", lambda e: PyDrinkController.stv_select_lclick(e, tree, obj,
                                                                                          textbox_selected))
 
-    # Pre: Manager child obj must be a valid Manager Class object, tree, textbox_selected, combobox_language
+    # Pre: DrinkStorage child obj must be a valid DrinkStorage Class object, tree, textbox_selected, combobox_language
     #      must be valid view objects used to display to screen
-    # Post: Dictionary of Cocktails from Cocktail class is displayed in ScrolledTreeView and events for selection
+    # Post: Dictionary of Cocktails from Glass class is displayed in ScrolledTreeView and events for selection
     #       are created for each item in the ScrolledTreeView.
     @staticmethod
-    def insert_cocktail_tree(tree, obj, categories, textbox_selected, combobox_language):
+    def insert_cocktail_tree(tree, obj, textbox_selected, combobox_language):
         """Insertion method."""
         # Clears TreeView
         for child in tree.get_children():
             tree.delete(child)
 
-        for cocktail in obj.find_cocktails(categories):
+        for cocktail in obj.find_cocktails():
             tree.insert('', 'end', text=str(cocktail.name),
                         values='No')
             tree.bind("<ButtonRelease-1>", lambda e: PyDrinkController.stv_cocktail_selected(e, tree, obj,
@@ -439,7 +427,7 @@ class PyDrinkController:
                 textbox_cocktail.insert('1.0', str(translated_text))
             else:
                 print("Nothing to translate")
-        except BaseException:
+        except AttributeError:
             print("Unable to translate, please try again.")
             combobox_language.current(0)
             self.translate_text(p1, textbox_cocktail, combobox_language)
@@ -469,7 +457,7 @@ class PyDrinkController:
                 mixer.quit()
             else:
                 print("Nothing to convert to speech")
-        except BaseException: #Pygame.error (throws general exception)
+        except pygame_error:
             print("Unable to perform text to speech, language unavailable.")
 
         sys.stdout.flush()

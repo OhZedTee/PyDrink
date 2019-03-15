@@ -1,10 +1,10 @@
-#!/usr/bin/python
+ #!/usr/bin/python
 
 from abc import ABC, abstractmethod
 from .Drink import Drink
 
 
-class Manager(ABC):
+class DrinkStorage(ABC):
     """Abstract management class for all Drinks and method prototypes for maintaining drinks and drink information"""
 
     def __init__(self):
@@ -22,7 +22,7 @@ class Manager(ABC):
     @abstractmethod
     def parse(self, fp):
         """Parses data to use in children classes
-           i.e. Fridge will parse drinks for Manager's
+           i.e. Fridge will parse drinks for DrinkStorage's
            drink dictionary.
            Glass will parse cocktails for its dictionary"""
         pass
@@ -69,5 +69,5 @@ class Manager(ABC):
     # Pre: None
     # Post: Clears the dictionary of drinks
     def clear_drinks(self):
-        """Removes all drinks from the Manager dictionary"""
+        """Removes all drinks from the DrinkStorage dictionary"""
         self.drinks.clear()
