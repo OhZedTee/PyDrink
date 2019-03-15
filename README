@@ -284,8 +284,8 @@ Windows
         |      provide meaningful information to other interfaces. The Glass class has a collection of Cocktails
         |      and a collection of drinks which are used in the find_cocktail method (line 78) to generate meaningful
         |      information to the controller as well as the view (other methods exist as well for handling and maintaining
-               cocktails). In the future this can be extended to provide meaningful statistics information about what a
-               user typically drinks and possibly other sub-components to provide the user with purposeful data.
+        |      cocktails). In the future this can be extended to provide meaningful statistics information about what a
+        |      user typically drinks and possibly other sub-components to provide the user with purposeful data.
         |    - Worded differently, the Glass class offers its clients (the controller, view, or future models) a single,
         |      simple interface to the Glass subsystem (Cocktails and Drinks) by gluing together the classes that implement
         |      the parsing and processing of user information (what they want to drink) without completely hiding them.
@@ -303,62 +303,120 @@ Windows
 ---------------------------------------------------------------------------------------------------------------------
     3   |   Rest/SOAP compare contrast
         |
-        |   In OOP there are 3 core questions we ask, Why we do it? How we do it? and What tools do we use.
-        |   Why - For code reuse and maintainability
-        |   How - Encapsulation/Information hiding, Cohesion, Coupling, Modularity, Error Handling, etc.
-        |   Tools - Inheritance, Composition.
-        |
-        |   When it comes to REST vs. SOAP each have their advantages and disadvantages to achieving our Why.
-        |
-        |   REST API platforms are built to be used and reused in a flexible manner this is what makes them loosely coupled.
-        |   On the other hand SOAP API platforms are built between a client and server, requiring the use of
-        |   standard SOAP libraries, XML payloads, and adherence to the SOAP standards. This makes it highly-coupled
-        |   because once a service is defined any changes to it could affect the client and server very heavily.
+        |   Origins:
+        |    - REST was created in 2000 by Roy Fielding in UC Irvine with the purpose of creating a protocol that embraces
+        |      the philosophy of an open Web.
+        |    - SOAP was created in 1998 by Dave Winer et al in collaboration with Microsoft, with the purpose of addressing
+        |      the needs of the enterprise market.
         |    
-        |
-        |   In REST, The constraint of generality of interface forces developers to build services with high cohesion and low coupling
-        |   which favors extensibility and evolvability.
+        |    Concept:
+        |    - REST makes data available as resources.
+        |    - SOAP makes data available as services.
         |    
-        |   For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
-        |   any number of parameters in the resource request to customize my queries. This way I can search
-        |   for pages of information or even provide queries for specific words I'm looking for in products.
-        |   Also, if the API itself were to change it is very unlikely that my implementation would be affected unless
-        |   the resource name changed (if returns were updated, or the request requirements were updated).
+        |    Encapsulation + Error Handling:
+        |    - An interface between more than one pieces of software that allows data transfer to perform tasks. It
+        |      allows information sharing without exposing an entire system (Encapsulation)
+        |      
+        |      For example, the LCBO API I use gathers a large collection of information from LCBO about different
+        |      drinks, processes the data, and provides only important information to the clients of the API. It
+        |      hides irrelevant information and also information that shouldn't be public like authentication keys,
+        |      and other pieces of information that isn't relevant to a specific resource (if I'm getting product data,
+        |      I shouldn't be receiving inventory data).
+        |      
+        |      Both REST and SOAP provide Object-like structures in formats such as JSON, XML, HTML, and YAML (SOAP only
+        |      uses XML). This ties in with Object Oriented programming since both SOAP/REST and OO use 
+        |      structures to communicate and share information without exposing implementation details, and rely on
+        |      attributes and methods to do so. 
+        |      
+        |    - From an architectural standpoint, an author of an OO program is tasked with designing software that
+        |      adheres to concepts like high cohesion and low coupling, Modularity, and code reuse.
+        |      The same applies to SOAP and REST. An API designer needs to keep all the above concepts in mind when
+        |      designing an API in order to create something maintainable and reusable.
+        |      
+        |      For example, the LCBO API I use in src/Inventory.py Lines 139-153 is flexible in that it can take
+        |      any number of parameters in the resource request to customize my queries. This way I can search
+        |      for pages of information or even provide queries for specific words I'm looking for in products.
+        |      This flexibility allows for more code reuse and modularity which plays to the strengths of OO.
+        |      
+        |    
+        |    - They both conceptually use Contract by Design, and because of this both are able to handle incorrect
+        |      input very well. SOAP has built in exception handling which allows for exceptions to be caught at
+        |      the source rather than propagate up the call stack, and REST uses HTTP status codes (so does SOAP)
+        |      to convey that something has gone wrong.
+        |      It is generally understood that exception handling is better than a simple status code since:
+        |      1. Exceptions leave your code clean of necessary checks of status returns on every call.
+        |      2. Exceptions can carry more information than a status return
+        |      3. Exceptions cannot be ignored through inaction, while status codes can.
+        |      So from this standpoint, SOAP has a leg up, but regardless of the exception the SOAP response
+        |      can return, the status codes (if using HTTP) should be evaluated regardless. In regards to
+        |      #2 above, REST can still return information with most status codes (some exceptions like 204)
+        |      so with all this being said, both REST and SOAP handle errors pretty well and in different ways.
+        |      Depending on the use case, one might be preferred over the other.
+        |      
+        |      For example in src/PyDrinkController.py Line 433, you'll notice the call to translate text with 
+        |      the SOAP API is surrounded by try catch blocks since the error handling done with SOAP can cause
+        |      my application to crash if I don't handle the error that is returned properly. 
+        |      This for me was a good thing because it forced me to handle the cases where text couldn't be 
+        |      translated instead of trying to figure out if the return was successful or not like I would 
+        |      do in REST. This makes the API itself, and my use of it more maintainable and helped me 
+        |      in my OO design in terms of encapsulation and extensibility when translating text.
         |
-        |   In SOAP, Cohesion of services (as seen in the SOAP-style design) is often low as software development
-        |   kits are often misused to convert existing software components into services. 
-        |   Low cohesion leads to tight coupling and hence to limited extensibility and evolvability
+        |    Performance
+        |    - Due to the flexibility of REST, many different formats can be used to send messages, 
+        |      plaintext, HTML, XML, JSON, YAML are some of them, and because REST can use 
+        |      some of these simple data formats (XML not being one of them) performance is generally better
+        |      since there is little overhead.
+        |    - SOAP requires the use of XML, and the cost that comes with it. XML is known to be more computationally
+        |      expensive to format and parse, and due to the requirements of SOAP objects being encoded with an
+        |      envelope, body, and optional header and fault (for error handling) there is a much higher overhead
+        |      cost.
+        |      
+        |    Security
+        |    - In security there are 3 fundamental requirements, Confidentiality, Integrity, and Authenticity.
+        |    - SOAP has built-in support for WS-Security which is a protocol specifying how integrity and confidentiality
+        |      can be enforced on messages and allows the communication of various security token formats.
+        |    - Both SOAP and REST are able to perform Authenticity through Non-repudiation by writing transations
+        |      to electronic journals or audit trails that are subject to security safegaurds. WS-Security also provides
+        |      Digital Security which is a more direct and verifiable non-repudiaton proof used for Authenticity.
+        |      
+        |    - Due to RESTs lack of ability to provide Integrity and Confidentiality however, SOAP provides
+        |      a secure communication that cannot be afforded by REST, rather REST relies on the programmer to add
+        |      security features on top of the REST implementation.
+        |      
+        |    
+        |    With all of the above in mind, the constraints of REST and SOAP are listed below:
+        |      
+        |    Constraints of REST:
+        |    - Uniform interface
+        |    - Stateless
+        |    - Cacheable
+        |    - Client-Server
+        |    - Layered System
+        |    
+        |    Constraints of SOAP:
+        |    - Stateful
+        |    - Client-Server
+        |    - Requires use of
+        |        Standard SOAP libraries
+        |        XML Payloads
+        |        Adherence to SOAP standards
+        |    
+        |    They both imploy OO practices such as Encapsulation, Code Reuse, Maintainability, Cohesion, and
+        |    coupling, with SOAPs added benifit of Exception Handling. One isn't necessarily better than the other,
+        |    rather they are inheritly different but because of this each apply to different use cases. 
         |
-        |   To drive my point home, in my SOAP API, at src/Translate.py Lines 104-113, 117-129, the calls I make
-        |   to the Microsoft Translator API service is highly dependent on the service requirements, and any changes
-        |   made to the API would break my implementation. This is why you'll notice my call uses /v2/ in the
-        |   request. The API had to create multiple versions in order to make any changes because if they changed
-        |   the API, anyone who uses the API would have to change their implementation. The current version for
-        |   Microsoft Translator is v3, but v2 was the most compatible with my use case. Also the parameters I
-        |   pass to the API are extremely specific and there was no room for interpretation here.
-        |
-        |   On the other hand, in SOAP there is a layer of standards and error handling that helps with Encapsulation
-        |   that just doesn't exist in REST. By letting SOAP handle errors we hide information and deal with the error
-        |   where it happens rather than letting it spill down the call stack. This makes the design of the API 
-        |   more maintainable and helps in the design of OOP. 
-        |
-        |   In src/PyDrinkController.py Line 433, you'll notice the call to translate text with the SOAP API is 
-        |   surrounded by try catch blocks since the error handling done with SOAP can cause my application to
-        |   crash if I don't handle the error that is returned properly. This for me was a good thing because it
-        |   forced me to handle the cases where text couldn't be translated instead of trying to figure out
-        |   if the return was successful or not like I would do in REST.
-        |
-        |   REST is also more modular in that there can be many CRUD (CREATE, RETRIEVE, UPDATE, DELETE) operations
-        |   performed on the same resource or endpoint allowing for code reuse.
-        |
-        |   In the end of the day, there is an argument that can be made for either as they both have their advantages
-        |   and disadvantages when it comes to designing OOP applications and these should be heavily considered
-        |   on a case by case basis depending on what your application needs to perform.
-        |
-        |   Sources:
-        |   https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4
-        |   Myself
-        |   Professor Judi McCuaig
+        |    Sources:
+        |    https://nordicapis.com/rest-vs-soap-nordic-apis-infographic-comparison/?fbclid=IwAR33VFaDALsAV7ftTIW2yxjZZIB0BpyRJK61DHSkKCp5YSPZA4ChmMBJRF4
+        |    https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf
+        |    https://www.mulesoft.com/resources/api/what-is-an-api
+        |    https://raygun.com/blog/soap-vs-rest-vs-json/
+        |    https://www.restapitutorial.com/lessons/whatisrest.html
+        |    https://www.quora.com/What-are-RESTful-APIs-and-how-do-they-work
+        |    https://en.wikipedia.org/wiki/WS-Security
+        |    https://stackoverflow.com/questions/4670987/why-is-it-better-to-throw-an-exception-rather-than-return-an-error-code#4671023
+        |    https://nordicapis.com/defining-stateful-vs-stateless-web-services/
+        |    https://www.openqm-zumasys.com/wp-content/uploads/2015/02/International-Spectrum-2014-Object-Oriented-Programming-and-Exception-Handling.pdf
+        |    Professor Judi McCuaig
         |   
 ------------------------------------------------------------------------------------------------------------------------
 
