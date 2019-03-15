@@ -1,8 +1,6 @@
 REVIEW 1
 
 	**Fix REST vs SOAP Comparison
-	**Figure out Global variables why tkinter needs it for Judi so that you dont lose marks.
-	**	Not required for A3 submission, but get it for her asap
 	
 	MVC seems to be a bit mixed. (-1)
 	Code Duplication with the DrinkStorage and the Glass as to parsing files seems to be happening. (-1)

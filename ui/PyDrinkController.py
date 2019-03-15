@@ -26,7 +26,24 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 class PyDrinkController:
+
+    gui = None
+
+    # Pre: TKinter window must have been created and passed to Controller from the view.
+    # Post: Controller is initialized
+    @staticmethod
+    def init(gui, *args, **kwargs):
+        PyDrinkController.gui = gui
+
+    # Pre: None
+    # Post: GUI window is destroyed
+    @staticmethod
+    def destroy_window():
+        # Function which closes the window.
+        PyDrinkController.gui.window.destroy()
+        PyDrinkController.gui.window = None
 
     def __init__(self):
         self._fridge = Fridge()
@@ -271,24 +288,6 @@ class PyDrinkController:
         translation_box.current(0)
         sys.stdout.flush()
 
-    # Pre: TKinter window must have been created and passed to Controller from the view.
-    # Post: Controller is initialized
-    @staticmethod
-    def init(top, gui, *args, **kwargs):
-        global w, top_level, root
-        w = gui
-        top_level = top
-        root = top
-
-    #Pre: None
-    #Post: GUI window is destroyed
-    @staticmethod
-    def destroy_window():
-        # Function which closes the window.
-        global top_level
-        top_level.destroy()
-        top_level = None
-
     # Pre: DrinkStorage child obj must be valid DrinkStorage Class object, tree, textbox_selected, selection_message,
     #      success_message must be valid view objects used to display to screen
     # Post: Dictionary of Drinks from DrinkStorage child class is displayed in ScrolledTreeView and events for
@@ -461,6 +460,7 @@ class PyDrinkController:
             print("Unable to perform text to speech, language unavailable.")
 
         sys.stdout.flush()
+
 
 if __name__ == '__main__':
     import PyDrink

@@ -5,9 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 11, 2019 12:32:53 PM EST  platform: Windows NT
 
-import sys
-import platform
-
 try:
     import Tkinter as tk
 except ImportError:
@@ -21,6 +18,7 @@ except ImportError:
     py3 = True
 
 from ui.PyDrinkController import PyDrinkController
+from ui.GUI import GUI
 from ui import ScrolledTreeView
 from ui import ROText
 from ui import SearchBox
@@ -28,36 +26,29 @@ from ui import SearchBox
 
 def vp_start_gui():
     """Starting point when module is the main routine."""
-    global val, w, root
-    root = tk.Tk()
     controller = PyDrinkController()
-    top = PyDrink(controller, root)
-    controller.init(root, top)
-    root.mainloop()
+    gui = GUI(controller)
+    PyDrink(gui.controller, gui.window)
+    gui.controller.init(gui.window)
+    gui.window.mainloop()
 
 
-w = None
-
-
-def create_PyDrink(root, *args, **kwargs):
+def create_PyDrink(*args, **kwargs):
     """Starting point when module is imported by another program."""
-    global w, w_win, rt
-    rt = root
-    w = tk.Toplevel(root)
     controller = PyDrinkController()
-    top = PyDrink(controller, w)
-    controller.init(w, top, *args, **kwargs)
-    return w, top
+    gui = GUI(controller)
+    PyDrink(gui.controller, gui.window)
+    gui.controller.init(gui, *args, **kwargs)
+    return gui.window
 
 
-def destroy_PyDrink():
-    global w
-    w.destroy()
-    w = None
+def destroy_PyDrink(gui):
+    gui.window.destroy()
+    gui.window = None
 
 
 class PyDrink:
-    def __init__(self, controller, top=None):
+    def __init__(self, controller, window):
         """This class configures and populates the toplevel window.
            top is the toplevel containing window."""
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -75,9 +66,9 @@ class PyDrink:
         self.style.map('.', background=
             [('selected', _compcolor), ('active',_ana2color)])
 
-        top.geometry("1080x720+225+19")
-        top.title("PyDrink")
-        top.configure(background="#d9d9d9")
+        window.geometry("1080x720+225+19")
+        window.title("PyDrink")
+        window.configure(background="#d9d9d9")
 
         self.images = (
 
@@ -109,9 +100,9 @@ class PyDrink:
                                      {"sticky": "nswe"})])
 
         self.style.configure('TNotebook.Tab', background=_bgcolor, foreground=_fgcolor, tabposition="center",
-                             width=root.winfo_screenwidth())
+                             width=window.winfo_screenwidth())
         self.style.map('TNotebook.Tab', background=[('selected', _compcolor), ('active', _ana2color)])
-        self.notebook = ttk.Notebook(top)
+        self.notebook = ttk.Notebook(window)
         self.notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
         self.notebook.configure(takefocus="")
         self.notebook_t0 = tk.Frame(self.notebook)
@@ -363,8 +354,9 @@ class PyDrink:
                                       disabledforeground="#a3a3a3", foreground="#000000", highlightbackground="#d9d9d9",
                                       highlightcolor="black", pady="0", text='Text To Speech')
 
+
 if __name__ == '__main__':
-   vp_start_gui()
+    vp_start_gui()
 
 
 
