@@ -54,7 +54,7 @@ class Glass(DrinkStorage):
     #       successfully extracted from the row list
     @staticmethod
     def parse_row(row):
-        CONST_MAX_ROWS = 6
+        CONST_MAX_ROWS = 6  # Constant Number of rows that doesn't change in mock data
         fields = []
         for i in range(0,CONST_MAX_ROWS):
             try:
